@@ -17,7 +17,6 @@
                 description: 'Complete protocol from cells to cDNA using TRIzol and High-Capacity cDNA RT Kit',
                 category: 'molecular',
                 duration: '~4 hours',
-                difficulty: 'intermediate',
                 link: 'rna-isolation-cdna-synthesis.html',
                 icon: '🧬',
                 tags: ['RNA', 'cDNA', 'TRIzol', 'Reverse Transcription', 'qPCR prep']
@@ -27,7 +26,6 @@
                 description: 'Complete immunoblotting protocol from cell lysis to band visualization',
                 category: 'protein',
                 duration: '2-3 days',
-                difficulty: 'advanced',
                 link: 'western-blot.html',
                 icon: '🔬',
                 tags: ['Protein', 'Antibody', 'RIPA', 'SDS-PAGE', 'Immunoblot']
@@ -51,14 +49,6 @@
             };
             return colors[category] || 'bg-gray-100 text-gray-800';
         },
-        getDifficultyColor(difficulty) {
-            const colors = {
-                'beginner': 'bg-green-500',
-                'intermediate': 'bg-yellow-500',
-                'advanced': 'bg-red-500'
-            };
-            return colors[difficulty] || 'bg-gray-500';
-        }
     }">
 
         <!-- Header -->
