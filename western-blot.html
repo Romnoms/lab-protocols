@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Western Blot Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        activeDay: 'prep',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-purple-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Western Blot Protocol</h1>
+                <p class="text-purple-100 mt-2">Complete Protocol from Cell Lysis to Band Visualization</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                    <button @click="activeSection = 'quick-ref'"
+                            :class="activeSection === 'quick-ref' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Quick Reference
+                    </button>
+                    <button @click="activeSection = 'recipes'"
+                            :class="activeSection === 'recipes' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-purple-500 hover:text-white transition">
+                        Recipes
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+                    <p class="text-gray-700 mb-4">
+                        Western blotting (immunoblotting) detects specific proteins in cell or tissue lysates through protein
+                        separation by size, transfer to membrane, and antibody-based detection. The complete procedure takes
+                        approximately 2-3 days.
+                    </p>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                        <p class="font-semibold text-red-800">SAFETY</p>
+                        <p class="text-red-700 text-sm">
+                            RIPA buffer contains SDS and detergents. β-mercaptoethanol is toxic with strong odor. Acrylamide
+                            is a neurotoxin. Always wear gloves, lab coat, and safety glasses. Work in fume hood when handling
+                            β-ME. Consult Safety Data Sheets before use.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">Day 0: Preparation</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Prepare inhibitor stocks</li>
+                                <li>• Make base RIPA buffer</li>
+                                <li>• Prepare working buffers</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Day 1: Lysis & Transfer</h3>
+                            <ul class="text-sm text-green-800 space-y-1">
+                                <li>• Cell lysis & BCA assay</li>
+                                <li>• Cast and run gels</li>
+                                <li>• Overnight protein transfer</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Day 2: Antibodies & Detection</h3>
+                            <ul class="text-sm text-purple-800 space-y-1">
+                                <li>• Block membrane</li>
+                                <li>• Primary & secondary antibodies</li>
+                                <li>• Detection and imaging</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <h3 class="text-lg font-semibold bg-gray-100 px-4 py-3">Sample Requirements</h3>
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-sm">Sample Type</th>
+                                    <th class="px-4 py-2 text-left text-sm">RIPA Buffer Volume</th>
+                                    <th class="px-4 py-2 text-left text-sm">Expected Yield</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">6-well plate (1 well, 80-100% confluent)</td>
+                                    <td class="px-4 py-2 text-sm">60-80 μL</td>
+                                    <td class="px-4 py-2 text-sm">100-300 μg</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">60 mm dish (80-100% confluent)</td>
+                                    <td class="px-4 py-2 text-sm">100-200 μL</td>
+                                    <td class="px-4 py-2 text-sm">200-500 μg</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">100 mm dish (80-100% confluent)</td>
+                                    <td class="px-4 py-2 text-sm">300-500 μL</td>
+                                    <td class="px-4 py-2 text-sm">500-1500 μg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Refrigerated microcentrifuge (4°C)</li>
+                                <li>Cell scrapers</li>
+                                <li>37°C incubator (for BCA)</li>
+                                <li>Plate reader (for BCA assay)</li>
+                                <li>Gel casting apparatus</li>
+                                <li>Electrophoresis power supply and tank</li>
+                                <li>95°C heat block</li>
+                                <li>Transfer apparatus and power supply</li>
+                                <li>Rocker/shaker platform</li>
+                                <li>Dark room or gel imaging system</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">RIPA Buffer Components</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Tris-HCl pH 7.6 (1 M stock)</li>
+                                <li>NaCl (5 M stock)</li>
+                                <li>Sodium Deoxycholate powder</li>
+                                <li>SDS powder (10% stock available)</li>
+                                <li>NP-40 (Igepal CA-630)</li>
+                                <li>cOmplete™ EDTA-free Protease Inhibitor tablets</li>
+                                <li>PhosSTOP™ Phosphatase Inhibitor tablets</li>
+                                <li>DTT (optional)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Gel Electrophoresis Reagents</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>40% Acrylamide mix</li>
+                                <li>1.5M Tris-HCl pH 8.8</li>
+                                <li>0.5M Tris-HCl pH 6.8</li>
+                                <li>10% SDS</li>
+                                <li>10% APS (fresh weekly)</li>
+                                <li>TEMED</li>
+                                <li>n-Butanol</li>
+                                <li>10X Tris/Glycine/SDS running buffer</li>
+                                <li>5X Loading dye</li>
+                                <li>β-mercaptoethanol</li>
+                                <li>Precision Plus Protein Ladder</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Antibody Reagents</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>10X TBS-T buffer</li>
+                                <li>Ponceau S stain</li>
+                                <li>Evaporated milk powder</li>
+                                <li>BSA crystals</li>
+                                <li>Primary antibodies (-20°C)</li>
+                                <li>Secondary antibodies (-20°C)</li>
+                                <li>HRP Peroxide Solution</li>
+                                <li>HRP Luminol Reagent</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="space-y-6">
+                <!-- Day Navigation -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="activeDay = 'prep'"
+                                :class="activeDay === 'prep' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-purple-500 hover:text-white transition">
+                            Day 0: Preparation
+                        </button>
+                        <button @click="activeDay = 'day1'"
+                                :class="activeDay === 'day1' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-purple-500 hover:text-white transition">
+                            Day 1: Lysis & Gel
+                        </button>
+                        <button @click="activeDay = 'transfer'"
+                                :class="activeDay === 'transfer' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-purple-500 hover:text-white transition">
+                            Day 1 Evening: Transfer
+                        </button>
+                        <button @click="activeDay = 'day2'"
+                                :class="activeDay === 'day2' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-purple-500 hover:text-white transition">
+                            Day 2: Antibodies
+                        </button>
+                        <button @click="activeDay = 'detection'"
+                                :class="activeDay === 'detection' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-purple-500 hover:text-white transition">
+                            Day 2-3: Detection
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Day 0: Preparation -->
+                <div x-show="activeDay === 'prep'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Day 0: Preparation</h2>
+
+                    <div class="space-y-6">
+                        <!-- Inhibitor Stocks -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Prepare Protease/Phosphatase Inhibitor Stocks</h3>
+                                <button @click="toggleStep('prep-inhibitors')"
+                                        :class="isCompleted('prep-inhibitors') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('prep-inhibitors') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-blue-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-blue-900 mb-2">25X Protease Inhibitor Stock</p>
+                                    <ol class="list-decimal list-inside space-y-1 text-sm text-blue-800">
+                                        <li>Make 4-8 mL at a time</li>
+                                        <li>Add 1 cOmplete™ tablet per 2 mL autoclaved water
+                                            <ul class="list-disc list-inside ml-4">
+                                                <li>For 4 mL: 2 tablets + 4 mL water</li>
+                                                <li>For 8 mL: 4 tablets + 8 mL water</li>
+                                            </ul>
+                                        </li>
+                                        <li>Vortex vigorously until fully dissolved</li>
+                                        <li>Aliquot 200-400 μL into 1.5 mL tubes</li>
+                                        <li>Label: "25x Protease Inhibitor" + date</li>
+                                        <li>Store at -20°C</li>
+                                        <li><strong>Use one aliquot per experiment, discard after thawing</strong></li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-green-900 mb-2">20X Phosphatase Inhibitor Stock</p>
+                                    <ol class="list-decimal list-inside space-y-1 text-sm text-green-800">
+                                        <li>Make 4-8 mL at a time</li>
+                                        <li>Add 1 PhosSTOP™ tablet per 2 mL autoclaved water
+                                            <ul class="list-disc list-inside ml-4">
+                                                <li>For 4 mL: 2 tablets + 4 mL water</li>
+                                                <li>For 8 mL: 4 tablets + 8 mL water</li>
+                                            </ul>
+                                        </li>
+                                        <li>Vortex vigorously until fully dissolved</li>
+                                        <li>Aliquot 200-400 μL into 1.5 mL tubes</li>
+                                        <li>Label: "20x Phosphatase Inhibitor" + date</li>
+                                        <li>Store at -20°C</li>
+                                        <li><strong>Use one aliquot per experiment, discard after thawing</strong></li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">CRITICAL: Inhibitor aliquots are stable at -20°C for 1 year. Always use fresh aliquots - do not refreeze after thawing!</p>
+                            </div>
+                        </div>
+
+                        <!-- Base RIPA Buffer -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Prepare Base RIPA Buffer (100 mL)</h3>
+                                <button @click="toggleStep('prep-ripa')"
+                                        :class="isCompleted('prep-ripa') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('prep-ripa') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Component</th>
+                                            <th class="px-3 py-2 text-left">Final Concentration</th>
+                                            <th class="px-3 py-2 text-left">Amount for 100 mL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-3 py-2">Tris-HCl pH 7.6</td>
+                                            <td class="px-3 py-2">25 mM</td>
+                                            <td class="px-3 py-2">2.5 mL of 1 M stock</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">NaCl</td>
+                                            <td class="px-3 py-2">150 mM</td>
+                                            <td class="px-3 py-2">3 mL of 5 M stock</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">Sodium Deoxycholate</td>
+                                            <td class="px-3 py-2">1% (w/v)</td>
+                                            <td class="px-3 py-2">1 g</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">SDS</td>
+                                            <td class="px-3 py-2">0.1% (w/v)</td>
+                                            <td class="px-3 py-2">0.1 g</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">NP-40</td>
+                                            <td class="px-3 py-2">1% (v/v)</td>
+                                            <td class="px-3 py-2">1 mL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">ddH₂O</td>
+                                            <td class="px-3 py-2">-</td>
+                                            <td class="px-3 py-2">to 100 mL</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                <li>Add ~80 mL ddH₂O to beaker with stir bar</li>
+                                <li>Add Tris-HCl and NaCl stock solutions</li>
+                                <li>Add sodium deoxycholate powder, stir until dissolved</li>
+                                <li>Add SDS powder, stir until dissolved (will foam - this is normal)</li>
+                                <li>Add NP-40, mix well</li>
+                                <li>Adjust pH to 7.6 if needed</li>
+                                <li>Bring to 100 mL final volume with ddH₂O</li>
+                                <li>Store at 4°C for up to 6 months</li>
+                                <li><strong>Do NOT add inhibitors until day of use</strong></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 1: Lysis & Gel -->
+                <div x-show="activeDay === 'day1'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Day 1: Cell Lysis, BCA, and Gel Running</h2>
+
+                    <div class="space-y-6">
+                        <!-- Working RIPA -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Prepare Working RIPA Buffer</h3>
+                                <button @click="toggleStep('working-ripa')"
+                                        :class="isCompleted('working-ripa') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('working-ripa') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="font-semibold text-blue-900 mb-2">For 1 mL working RIPA:</p>
+                                <table class="w-full text-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-1">Base RIPA buffer (from 4°C)</td>
+                                            <td class="py-1 font-semibold">900 μL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-1">25X Protease Inhibitor</td>
+                                            <td class="py-1 font-semibold">40 μL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-1">20X Phosphatase Inhibitor</td>
+                                            <td class="py-1 font-semibold">50 μL</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-1">1 M DTT (optional)</td>
+                                            <td class="py-1 font-semibold">1 μL</td>
+                                        </tr>
+                                        <tr class="border-t-2 border-blue-200">
+                                            <td class="py-1 font-semibold">Total</td>
+                                            <td class="py-1 font-semibold">~1 mL</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-xs text-blue-700 mt-2">Keep on ice, use within 2-4 hours</p>
+                            </div>
+                        </div>
+
+                        <!-- Cell Lysis -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Lyse Cells</h3>
+                                <button @click="toggleStep('lyse-cells')"
+                                        :class="isCompleted('lyse-cells') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('lyse-cells') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold mb-2">RIPA Volumes by Plate Size:</p>
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Plate/Flask Size</th>
+                                            <th class="px-3 py-2 text-left">RIPA Volume</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr><td class="px-3 py-2">6-well (1 well)</td><td class="px-3 py-2">60-80 μL</td></tr>
+                                        <tr><td class="px-3 py-2">60 mm dish</td><td class="px-3 py-2">100-200 μL</td></tr>
+                                        <tr><td class="px-3 py-2">100 mm dish</td><td class="px-3 py-2">300-500 μL</td></tr>
+                                        <tr><td class="px-3 py-2">T-75 flask</td><td class="px-3 py-2">750-1000 μL</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li><strong>Pre-chill centrifuge to 4°C</strong></li>
+                                <li>Place culture dish on ice</li>
+                                <li>Remove media and wash 2x with ice-cold PBS</li>
+                                <li>Remove all PBS (residual PBS dilutes buffer)</li>
+                                <li>Add appropriate volume of RIPA buffer</li>
+                                <li>Scrape cells thoroughly in multiple directions</li>
+                                <li>Transfer lysate to pre-labeled 1.5 mL tube on ice</li>
+                                <li>Incubate for lysis:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Option A (Preferred): Rotating wheel at 4°C for 30 min</li>
+                                        <li>Option B: On ice for 30 min, vortex every 10 minutes</li>
+                                    </ul>
+                                </li>
+                                <li>Centrifuge at 14,000 × g for 20 min at 4°C</li>
+                                <li>Transfer supernatant to fresh pre-chilled tube on ice</li>
+                                <li>Discard pellet (cell debris, nuclei)</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-yellow-900">NOTE: Can store lysate at -80°C at this point or proceed immediately to BCA assay</p>
+                            </div>
+                        </div>
+
+                        <!-- BCA Assay -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">BCA Protein Quantification</h3>
+                                <button @click="toggleStep('bca')"
+                                        :class="isCompleted('bca') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('bca') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Dilute samples 1:100 in PBS (4 μL sample + 396 μL PBS)</li>
+                                <li>Prepare BSA standards according to kit instructions</li>
+                                <li>Add 25 μL standards/samples to wells in duplicate</li>
+                                <li>Prepare BCA working reagent (Reagent A + B at 50:1)</li>
+                                <li>Add 200 μL working reagent to each well</li>
+                                <li>Incubate at 37°C for 30 minutes</li>
+                                <li>Read absorbance at 562 nm</li>
+                                <li>Calculate concentrations from standard curve</li>
+                                <li>Divide reading by 10 to get actual μg/μL (accounts for 1:100 dilution)</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mt-3">
+                                <p class="font-semibold text-blue-900 mb-2">Example Calculation:</p>
+                                <p class="text-sm text-blue-800">BCA reading: 200 μg/mL → Actual concentration: 200 ÷ 10 = <strong>20 μg/μL</strong></p>
+                                <p class="text-sm text-blue-800 mt-2">Target 20 μg protein per lane in 20 μL total volume:</p>
+                                <p class="text-sm text-blue-800">Sample needed: 20 μg ÷ 2 μg/μL = 10 μL sample + 10 μL H₂O</p>
+                            </div>
+                        </div>
+
+                        <!-- Gel Casting -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Cast and Run Gel</h3>
+                                <button @click="toggleStep('gel-run')"
+                                        :class="isCompleted('gel-run') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('gel-run') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-purple-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold text-purple-900 mb-2">Choose gel percentage based on protein size:</p>
+                                <table class="w-full text-sm">
+                                    <thead class="bg-purple-100">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Protein Size</th>
+                                            <th class="px-3 py-2 text-left">Gel %</th>
+                                            <th class="px-3 py-2 text-left">Examples</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-purple-200">
+                                        <tr><td class="px-3 py-2">10-40 kDa</td><td class="px-3 py-2">15%</td><td class="px-3 py-2">Small peptides</td></tr>
+                                        <tr><td class="px-3 py-2">20-80 kDa</td><td class="px-3 py-2">12%</td><td class="px-3 py-2">Most proteins</td></tr>
+                                        <tr><td class="px-3 py-2">40-120 kDa</td><td class="px-3 py-2">10%</td><td class="px-3 py-2">β-actin (45 kDa)</td></tr>
+                                        <tr><td class="px-3 py-2">60-200 kDa</td><td class="px-3 py-2">8%</td><td class="px-3 py-2">Vinculin (116 kDa)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="text-sm text-gray-700 mb-2"><strong>Running conditions:</strong></p>
+                            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                <li>Load samples (25 μL total: 20 μL sample/water + 5 μL loading dye)</li>
+                                <li>Load 5 μL ladder + 5 μL loading dye in lane 1</li>
+                                <li>Run at 60V for ~30 minutes (stacking gel)</li>
+                                <li>Increase to 110V for 2-4 hours (separating gel)</li>
+                                <li>Stop when blue dye reaches bottom</li>
+                            </ol>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-red-900">CRITICAL: Add TEMED last when making gels - it initiates polymerization!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfer Section -->
+                <div x-show="activeDay === 'transfer'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Day 1 Evening: Protein Transfer</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Prepare Transfer Sandwich</h3>
+                                <button @click="toggleStep('transfer')"
+                                        :class="isCompleted('transfer') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('transfer') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                                <p class="text-sm font-semibold text-yellow-900">Timing: 16 hours overnight (no more than 16 hours)</p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Fill container with cold transfer buffer (4°C)</li>
+                                <li>Activate PVDF membrane:
+                                    <ul class="list-disc list-inside ml-5">
+                                        <li>Cut membrane to size of gel</li>
+                                        <li>DO NOT TOUCH MEMBRANE WITH BARE HANDS</li>
+                                        <li>Submerge in methanol, shake 2 min (until translucent)</li>
+                                        <li>Transfer to transfer buffer, equilibrate 2-5 min</li>
+                                    </ul>
+                                </li>
+                                <li>Remove gel from cassette and cut away stacking gel</li>
+                                <li>Assemble sandwich in transfer buffer (all submerged):
+                                    <div class="bg-gray-100 p-3 rounded mt-2 mb-2">
+                                        <p class="font-mono text-sm text-center">
+                                            <strong>Black Sponge → Filter → Gel → Membrane → Filter → Black Sponge</strong>
+                                        </p>
+                                    </div>
+                                </li>
+                                <li><strong>ROLL OUT AIR BUBBLES</strong> after each layer</li>
+                                <li>Close clamshell firmly</li>
+                                <li>Place in transfer box with cold buffer</li>
+                                <li>Red side faces toward positive electrode</li>
+                                <li>Run at <strong>25V for 16 hours</strong> (overnight)</li>
+                            </ol>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-red-900">CRITICAL: No air bubbles between gel and membrane! Air bubbles prevent transfer. Do not exceed 16 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2: Antibodies -->
+                <div x-show="activeDay === 'day2'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Day 2: Blocking and Antibodies</h2>
+
+                    <div class="space-y-6">
+                        <!-- Ponceau & Cutting -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Visualize and Cut Membrane</h3>
+                                <button @click="toggleStep('ponceau')"
+                                        :class="isCompleted('ponceau') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('ponceau') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Remove membrane from transfer apparatus</li>
+                                <li>Stain with Ponceau S for 5 minutes with gentle rocking</li>
+                                <li>Remove excess Ponceau S stain by rinsing with DI water</li>
+                                <li>Verify ladder transferred and check for even transfer</li>
+                                <li>Take photo for reference</li>
+                                <li>Cut horizontal strips for each protein of interest</li>
+                                <li>Cut notch in upper right corner (track orientation)</li>
+                                <li>Wash away Ponceau with TBS-T (5 min × 2)</li>
+                            </ol>
+                        </div>
+
+                        <!-- Blocking -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Block Membrane</h3>
+                                <button @click="toggleStep('block')"
+                                        :class="isCompleted('block') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('block') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="font-semibold text-blue-900 mb-2">4% Milk Blocking Solution (50 mL):</p>
+                                <ul class="text-sm text-blue-800">
+                                    <li>• 2 g evaporated milk powder</li>
+                                    <li>• 50 mL TBS-T</li>
+                                    <li>• Mix well until dissolved</li>
+                                    <li>• Incubate 1 hour at RT on rocker</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Primary Antibody -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Primary Antibody Incubation</h3>
+                                <button @click="toggleStep('primary')"
+                                        :class="isCompleted('primary') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('primary') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold text-green-900 mb-2">4% BSA Solution (50 mL):</p>
+                                <ul class="text-sm text-green-800">
+                                    <li>• 2 g BSA crystals (from 4°C fridge, western shelf)</li>
+                                    <li>• 50 mL TBS-T</li>
+                                    <li>• Vortex until dissolved</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold mb-2">Common Lab Dilutions:</p>
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-200">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Antibody</th>
+                                            <th class="px-3 py-2 text-left">Dilution</th>
+                                            <th class="px-3 py-2 text-left">Incubation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr><td class="px-3 py-2">OCT1</td><td class="px-3 py-2">1:3000</td><td class="px-3 py-2">16 hr, 4°C</td></tr>
+                                        <tr><td class="px-3 py-2">β-actin</td><td class="px-3 py-2">1:10,000</td><td class="px-3 py-2">16 hr, 4°C</td></tr>
+                                        <tr><td class="px-3 py-2">Vinculin</td><td class="px-3 py-2">1:10,000</td><td class="px-3 py-2">16 hr, 4°C</td></tr>
+                                        <tr><td class="px-3 py-2">Most others</td><td class="px-3 py-2">1:1000</td><td class="px-3 py-2">1-2 hr RT or 16 hr 4°C</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                <li>Dilute primary antibody in 4% BSA</li>
+                                <li>Rinse membranes briefly with TBS-T (5 min)</li>
+                                <li>Add primary antibody solution to strips</li>
+                                <li>Incubate with gentle rocking (1-2 hr RT OR 16 hr at 4°C)</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-yellow-900">NOTE: Can save and reuse primary antibody if needed. Store at 4°C with 0.02% sodium azide.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detection Section -->
+                <div x-show="activeDay === 'detection'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Day 2-3: Detection and Imaging</h2>
+
+                    <div class="space-y-6">
+                        <!-- Secondary Antibody -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Secondary Antibody</h3>
+                                <button @click="toggleStep('secondary')"
+                                        :class="isCompleted('secondary') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('secondary') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Wash after primary antibody with TBS-T (5 min × 2)</li>
+                                <li>Prepare 4% milk solution (2 g milk + 50 mL TBS-T)</li>
+                                <li>Dilute secondary antibody in 4% milk (typically 1:5000)</li>
+                                <li>Add secondary antibody solution to strips</li>
+                                <li>Incubate 1 hour at RT on rocker</li>
+                                <li>Wash with TBS-T (5 min × 3)</li>
+                            </ol>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mt-3">
+                                <p class="font-semibold mb-2">Common Secondary Dilutions:</p>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• Anti-rabbit HRP: 1:5000 (most proteins)</li>
+                                    <li>• Anti-rabbit HRP: 1:10,000 (vinculin, β-actin)</li>
+                                    <li>• Anti-rabbit HRP: 1:3000 (OCT1)</li>
+                                    <li>• Anti-mouse HRP: 1:5000 (adjust as needed)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Detection -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">ECL Detection and Imaging</h3>
+                                <button @click="toggleStep('detection')"
+                                        :class="isCompleted('detection') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('detection') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Prepare ECL reagent: Mix HRP Peroxide + HRP Luminol 1:1 (fresh!)</li>
+                                <li>Lightly dry strips on Kimtech wipes</li>
+                                <li>Arrange on plastic sheet (protein side up)</li>
+                                <li>Add ECL reagent evenly over strips (~1-2 mL per strip)</li>
+                                <li>Incubate 1-2 minutes at RT</li>
+                                <li>Drain off excess reagent</li>
+                                <li>Image with gel imaging system:
+                                    <ul class="list-disc list-inside ml-5">
+                                        <li>Short exposure (10-30 sec): High abundance proteins</li>
+                                        <li>Medium exposure (1-5 min): Most proteins</li>
+                                        <li>Long exposure (10+ min): Low abundance proteins</li>
+                                    </ul>
+                                </li>
+                                <li>Save images with sample info and exposure time</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mt-3">
+                                <p class="font-semibold text-blue-900 mb-2">Which ECL reagent to use:</p>
+                                <ul class="text-sm text-blue-800 space-y-1">
+                                    <li>• OCT1: Use refrigerated reagent (4°C)</li>
+                                    <li>• β-actin/Vinculin: Use room temperature reagent</li>
+                                    <li>• Low abundance: Use enhanced/SuperSignal reagents</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-green-50 border-l-4 border-green-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-green-900">Verify results: Correct MW? Single band? Signal in all samples? Even loading?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Protein Extraction Issues</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">Low protein yield</td>
+                                            <td class="px-4 py-2">Insufficient lysis time<br>Too much buffer</td>
+                                            <td class="px-4 py-2">Increase to 30-45 min<br>Reduce RIPA volume</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">High background</td>
+                                            <td class="px-4 py-2">Incomplete clearing</td>
+                                            <td class="px-4 py-2">Centrifuge longer, higher speed</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Protein degradation</td>
+                                            <td class="px-4 py-2">No protease inhibitors</td>
+                                            <td class="px-4 py-2">Add fresh inhibitors, work on ice</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Transfer Issues</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">No transfer</td>
+                                            <td class="px-4 py-2">Wrong polarity<br>Air bubbles</td>
+                                            <td class="px-4 py-2">Check red to red, black to black<br>Roll out all bubbles</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Incomplete transfer</td>
+                                            <td class="px-4 py-2">Transfer time too short</td>
+                                            <td class="px-4 py-2">Use full 16 hours at 25V</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Uneven transfer</td>
+                                            <td class="px-4 py-2">Air bubbles<br>Dried regions</td>
+                                            <td class="px-4 py-2">Roll thoroughly<br>Keep everything wet</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Detection Issues</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">High background</td>
+                                            <td class="px-4 py-2">Insufficient blocking<br>Too much secondary</td>
+                                            <td class="px-4 py-2">Block longer<br>Lower secondary concentration</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">No signal</td>
+                                            <td class="px-4 py-2">Wrong dilution<br>Expired antibody</td>
+                                            <td class="px-4 py-2">Optimize dilution<br>Use fresh antibody</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Weak signal</td>
+                                            <td class="px-4 py-2">Antibody too dilute<br>Short exposure</td>
+                                            <td class="px-4 py-2">Increase antibody concentration<br>Increase exposure time</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference Section -->
+            <div x-show="activeSection === 'quick-ref'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Reference</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-3">RIPA Working Buffer (per 1 mL)</h3>
+                            <ul class="space-y-1 text-sm text-blue-800">
+                                <li>• 900 μL Base RIPA</li>
+                                <li>• 40 μL 25X Protease Inhibitor</li>
+                                <li>• 50 μL 20X Phosphatase Inhibitor</li>
+                                <li>• 1 μL 1M DTT (optional)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-green-900 mb-3">Sample Loading (per lane)</h3>
+                            <ul class="space-y-1 text-sm text-green-800">
+                                <li>• 20 μL sample/water mix (10-20 μg protein)</li>
+                                <li>• 5 μL 5X loading dye + βME</li>
+                                <li>• = <strong>25 μL total</strong></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-purple-900 mb-3">Gel Running</h3>
+                            <ul class="space-y-1 text-sm text-purple-800">
+                                <li>1. 60V for 30 min (stacking)</li>
+                                <li>2. 110V for 2-4 hours (separating)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-yellow-900 mb-3">Transfer</h3>
+                            <ul class="space-y-1 text-sm text-yellow-800">
+                                <li>• 25V for 16 hours (no more!)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-red-900 mb-3">Primary Antibody (Standard)</h3>
+                            <ul class="space-y-1 text-sm text-red-800">
+                                <li>• 1:1000 in 4% BSA</li>
+                                <li>• 16 hours at 4°C (or 1-2 hr at RT)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-pink-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-pink-900 mb-3">Secondary Antibody (Standard)</h3>
+                            <ul class="space-y-1 text-sm text-pink-800">
+                                <li>• 1:5000 in 4% milk</li>
+                                <li>• 1 hour at RT</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-indigo-900 mb-3">Washes</h3>
+                            <ul class="space-y-1 text-sm text-indigo-800">
+                                <li>• After primary: 5 min × 2 with TBS-T</li>
+                                <li>• After secondary: 5 min × 3 with TBS-T</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Common Housekeeping Proteins</h3>
+                            <ul class="space-y-1 text-sm text-gray-700">
+                                <li>• β-actin: 45 kDa</li>
+                                <li>• Vinculin: 116-124 kDa</li>
+                                <li>• GAPDH: 37 kDa</li>
+                                <li>• α-tubulin: 50 kDa</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recipes Section -->
+            <div x-show="activeSection === 'recipes'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Buffer and Gel Recipes</h2>
+
+                                        <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">8% Resolving Gel (for two mini gels)</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Autoclaved H₂O</td><td class="py-2 font-semibold">5.5 mL</td></tr>
+                                    <tr><td class="py-2">40% Acrylamide</td><td class="py-2 font-semibold">2 mL</td></tr>
+                                    <tr><td class="py-2">1.5 M Tris-HCl pH 8.8</td><td class="py-2 font-semibold">2.5 mL</td></tr>
+                                    <tr><td class="py-2">10% SDS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">10% APS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">TEMED</td><td class="py-2 font-semibold">6 μL (add last!)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">10% Resolving Gel (for two mini gels)</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Autoclaved H₂O</td><td class="py-2 font-semibold">5 mL</td></tr>
+                                    <tr><td class="py-2">40% Acrylamide</td><td class="py-2 font-semibold">2.5 mL</td></tr>
+                                    <tr><td class="py-2">1.5 M Tris-HCl pH 8.8</td><td class="py-2 font-semibold">2.5 mL</td></tr>
+                                    <tr><td class="py-2">10% SDS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">10% APS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">TEMED</td><td class="py-2 font-semibold">6 μL (add last!)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                                            <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">12% Resolving Gel (for two mini gels)</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Autoclaved H₂O</td><td class="py-2 font-semibold">4.5 mL</td></tr>
+                                    <tr><td class="py-2">40% Acrylamide</td><td class="py-2 font-semibold">3 mL</td></tr>
+                                    <tr><td class="py-2">1.5 M Tris-HCl pH 8.8</td><td class="py-2 font-semibold">2.5 mL</td></tr>
+                                    <tr><td class="py-2">10% SDS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">10% APS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">TEMED</td><td class="py-2 font-semibold">6 μL (add last!)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">Stacking Gel (for two mini gels)</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Autoclaved H₂O</td><td class="py-2 font-semibold">7.4 mL</td></tr>
+                                    <tr><td class="py-2">40% Acrylamide</td><td class="py-2 font-semibold">1.3 mL</td></tr>
+                                    <tr><td class="py-2">0.5 M Tris-HCl pH 6.8</td><td class="py-2 font-semibold">1.3 mL</td></tr>
+                                    <tr><td class="py-2">10% SDS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">10% APS</td><td class="py-2 font-semibold">100 μL</td></tr>
+                                    <tr><td class="py-2">TEMED</td><td class="py-2 font-semibold">10 μL (add last!)</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">1X Running Buffer (1 L)</h3>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 100 mL 10X Tris/Glycine/SDS buffer</li>
+                                <li>• 900 mL Millipore H₂O</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">1X Transfer Buffer (2 L)</h3>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 200 mL 10X Transfer buffer</li>
+                                <li>• 200 mL ethanol (or 400 mL methanol)</li>
+                                <li>• 1600 mL Millipore H₂O</li>
+                                <li>• Store at 4°C (must be cold for transfer)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3">1X TBS-T Wash Buffer (1 L)</h3>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• 100 mL 10X TBS-T</li>
+                                <li>• 900 mL Millipore H₂O</li>
+                                <li>• You'll need ~500 mL per membrane</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm mt-2">For Research Use Only | Last updated: October 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
