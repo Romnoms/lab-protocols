@@ -2,10 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>RNA Isolation and cDNA Synthesis Protocol</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        /* Mobile table improvements */
+        @media (max-width: 640px) {
+            table {
+                font-size: 0.875rem;
+            }
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
     <div x-data="{
