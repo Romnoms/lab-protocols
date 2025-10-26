@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratory Protocols</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div x-data="{
+        searchQuery: '',
+        selectedCategory: 'all',
+        protocols: [
+            {
+                title: 'RNA Isolation and cDNA Synthesis',
+                description: 'Complete protocol from cells to cDNA using TRIzol and High-Capacity cDNA RT Kit',
+                category: 'molecular',
+                duration: '~4 hours',
+                difficulty: 'intermediate',
+                link: 'rna-isolation-cdna-synthesis.html',
+                icon: '🧬',
+                tags: ['RNA', 'cDNA', 'TRIzol', 'Reverse Transcription', 'qPCR prep']
+            },
+            {
+                title: 'Western Blot',
+                description: 'Complete immunoblotting protocol from cell lysis to band visualization',
+                category: 'protein',
+                duration: '2-3 days',
+                difficulty: 'advanced',
+                link: 'western-blot.html',
+                icon: '🔬',
+                tags: ['Protein', 'Antibody', 'RIPA', 'SDS-PAGE', 'Immunoblot']
+            }
+        ],
+        get filteredProtocols() {
+            return this.protocols.filter(protocol => {
+                const matchesSearch = protocol.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                    protocol.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                    protocol.tags.some(tag => tag.toLowerCase().includes(this.searchQuery.toLowerCase()));
+                const matchesCategory = this.selectedCategory === 'all' || protocol.category === this.selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+        },
+        getCategoryColor(category) {
+            const colors = {
+                'molecular': 'bg-blue-100 text-blue-800',
+                'protein': 'bg-purple-100 text-purple-800',
+                'cell': 'bg-green-100 text-green-800',
+                'imaging': 'bg-yellow-100 text-yellow-800'
+            };
+            return colors[category] || 'bg-gray-100 text-gray-800';
+        },
+        getDifficultyColor(difficulty) {
+            const colors = {
+                'beginner': 'bg-green-500',
+                'intermediate': 'bg-yellow-500',
+                'advanced': 'bg-red-500'
+            };
+            return colors[difficulty] || 'bg-gray-500';
+        }
+    }">
+
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl">
+            <div class="container mx-auto px-4 py-12">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-3">Laboratory Protocols</h1>
+                        <p class="text-indigo-100 text-lg">Comprehensive molecular biology and protein analysis protocols</p>
+                    </div>
+                    <div class="hidden md:block text-6xl">🧪</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search and Filter Section -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Search Bar -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Search Protocols</label>
+                        <input type="text"
+                               x-model="searchQuery"
+                               placeholder="Search by name, description, or tag..."
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Filter by Category</label>
+                        <select x-model="selectedCategory"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="all">All Categories</option>
+                            <option value="molecular">Molecular Biology</option>
+                            <option value="protein">Protein Analysis</option>
+                            <option value="cell">Cell Culture</option>
+                            <option value="imaging">Imaging & Microscopy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Results Counter -->
+                <div class="mt-4 text-sm text-gray-600">
+                    <span x-text="filteredProtocols.length"></span>
+                    <span x-text="filteredProtocols.length === 1 ? 'protocol' : 'protocols'"></span> found
+                </div>
+            </div>
+
+            <!-- Protocol Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="protocol in filteredProtocols" :key="protocol.title">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-1">
+                        <!-- Card Header with Icon -->
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 text-white">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-5xl" x-text="protocol.icon"></span>
+                                <span :class="getCategoryColor(protocol.category)"
+                                      class="px-3 py-1 rounded-full text-xs font-semibold bg-white bg-opacity-20 text-white">
+                                    <span x-text="protocol.category.charAt(0).toUpperCase() + protocol.category.slice(1)"></span>
+                                </span>
+                            </div>
+                            <h2 class="text-2xl font-bold" x-text="protocol.title"></h2>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-6">
+                            <p class="text-gray-600 mb-4 line-clamp-3" x-text="protocol.description"></p>
+
+                            <!-- Info Grid -->
+                            <div class="grid grid-cols-2 gap-3 mb-4">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="text-xs text-gray-500 mb-1">Duration</div>
+                                    <div class="font-semibold text-gray-800" x-text="protocol.duration"></div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="text-xs text-gray-500 mb-1">Difficulty</div>
+                                    <div class="flex items-center">
+                                        <div :class="getDifficultyColor(protocol.difficulty)"
+                                             class="w-2 h-2 rounded-full mr-2"></div>
+                                        <span class="font-semibold text-gray-800 capitalize" x-text="protocol.difficulty"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    <template x-for="tag in protocol.tags.slice(0, 3)" :key="tag">
+                                        <span class="px-2 py-1 bg-indigo-50 text-indigo-700 text-xs rounded-full">
+                                            <span x-text="tag"></span>
+                                        </span>
+                                    </template>
+                                    <span x-show="protocol.tags.length > 3"
+                                          class="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                        +<span x-text="protocol.tags.length - 3"></span> more
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- View Protocol Button -->
+                            <a :href="protocol.link"
+                               class="block w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-md hover:shadow-lg">
+                                View Protocol →
+                            </a>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- No Results Message -->
+            <div x-show="filteredProtocols.length === 0" class="text-center py-12">
+                <div class="text-6xl mb-4">🔍</div>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">No protocols found</h3>
+                <p class="text-gray-500">Try adjusting your search or filter criteria</p>
+            </div>
+
+            <!-- Legend Section -->
+            <div class="mt-12 bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Difficulty Levels</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Beginner</div>
+                            <div class="text-sm text-gray-600">Basic laboratory skills required</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Intermediate</div>
+                            <div class="text-sm text-gray-600">Some experience recommended</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Advanced</div>
+                            <div class="text-sm text-gray-600">Significant experience required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Quick Access</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button @click="selectedCategory = 'molecular'; searchQuery = ''"
+                            class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
+                        <div class="text-2xl mb-2">🧬</div>
+                        <div class="font-semibold text-gray-800">Molecular Biology</div>
+                        <div class="text-sm text-gray-600">RNA, DNA, cDNA protocols</div>
+                    </button>
+                    <button @click="selectedCategory = 'protein'; searchQuery = ''"
+                            class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
+                        <div class="text-2xl mb-2">🔬</div>
+                        <div class="font-semibold text-gray-800">Protein Analysis</div>
+                        <div class="text-sm text-gray-600">Western blot, BCA, lysis</div>
+                    </button>
+                    <button @click="selectedCategory = 'cell'; searchQuery = ''"
+                            class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
+                        <div class="text-2xl mb-2">🧫</div>
+                        <div class="font-semibold text-gray-800">Cell Culture</div>
+                        <div class="text-sm text-gray-600">Culture, passage, freeze</div>
+                    </button>
+                    <button @click="selectedCategory = 'imaging'; searchQuery = ''"
+                            class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
+                        <div class="text-2xl mb-2">📷</div>
+                        <div class="font-semibold text-gray-800">Imaging</div>
+                        <div class="text-sm text-gray-600">Microscopy, IF, IHC</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-12 grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-3">✅</div>
+                    <h3 class="font-bold text-gray-800 mb-2">Interactive Checklists</h3>
+                    <p class="text-sm text-gray-600">Track your progress with built-in step checkers</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-3">📱</div>
+                    <h3 class="font-bold text-gray-800 mb-2">Mobile Friendly</h3>
+                    <p class="text-sm text-gray-600">Access protocols on any device at the bench</p>
+                </div>
+                <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                    <div class="text-4xl mb-3">🔍</div>
+                    <h3 class="font-bold text-gray-800 mb-2">Searchable Content</h3>
+                    <p class="text-sm text-gray-600">Find exactly what you need quickly</p>
+                </div>
+            </div>
+
+            <!-- Safety Notice -->
+            <div class="mt-12 bg-red-50 border-l-4 border-red-500 rounded-lg p-6">
+                <div class="flex items-start">
+                    <div class="text-3xl mr-4">⚠️</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-red-800 mb-2">Safety First</h3>
+                        <p class="text-red-700 text-sm">
+                            Always review safety data sheets (SDS) before starting any protocol. Wear appropriate personal
+                            protective equipment (PPE) including lab coat, gloves, and safety glasses. Work in fume hoods
+                            when handling volatile or hazardous chemicals. Follow your institution's safety guidelines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-bold mb-3">About</h4>
+                        <p class="text-sm">
+                            Román A Cáceres<br><br>
+                            University of Cincinnati:<br>
+                            Cacerera@mail.uc.edu<br><br>
+                            Emory University:<br>
+                            Racacer@mail.emory.edu<br>
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Categories</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="#" @click.prevent="selectedCategory = 'molecular'" class="hover:text-white transition">Molecular Biology</a></li>
+                            <li><a href="#" @click.prevent="selectedCategory = 'protein'" class="hover:text-white transition">Protein Analysis</a></li>
+                            <li><a href="#" @click.prevent="selectedCategory = 'cell'" class="hover:text-white transition">Cell Culture</a></li>
+                            <li><a href="#" @click.prevent="selectedCategory = 'imaging'" class="hover:text-white transition">Imaging & Microscopy</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Notice</h4>
+                        <p class="text-sm">
+                            <strong>For Research Use Only</strong><br>
+                            These protocols are intended for laboratory research purposes only.
+                            Last updated: October 2025
+                        </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+                    <p>&copy; 2025 Laboratory Protocols. Built with Alpine.js and Tailwind CSS.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

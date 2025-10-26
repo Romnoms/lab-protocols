@@ -1,0 +1,13 @@
+# Test files
+test-alpine.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

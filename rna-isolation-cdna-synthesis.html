@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNA Isolation and cDNA Synthesis Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-blue-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">RNA Isolation and cDNA Synthesis</h1>
+                <p class="text-blue-100 mt-2">Complete Protocol from Cells to cDNA</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'rna-isolation'"
+                            :class="activeSection === 'rna-isolation' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        RNA Isolation
+                    </button>
+                    <button @click="activeSection = 'cdna-synthesis'"
+                            :class="activeSection === 'cdna-synthesis' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        cDNA Synthesis
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                    <button @click="activeSection = 'quick-ref'"
+                            :class="activeSection === 'quick-ref' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-500 hover:text-white transition">
+                        Quick Reference
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+                    <p class="text-gray-700 mb-4">
+                        This combined protocol guides you through the complete process of isolating RNA from cultured cells
+                        using TRIzol Reagent and converting it to cDNA using the High-Capacity cDNA Reverse Transcription Kit.
+                        The complete procedure takes approximately 4 hours (1 hour for RNA isolation + 3 hours for cDNA synthesis).
+                    </p>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                        <p class="font-semibold text-red-800">SAFETY</p>
+                        <p class="text-red-700 text-sm">
+                            TRIzol contains phenol and guanidine isothiocyanate. Always wear gloves, lab coat, and safety glasses.
+                            Work in a fume hood when possible. Consult Safety Data Sheet before use.
+                        </p>
+                    </div>
+
+                    
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Sample Requirements</h3>
+                    <table class="w-full">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Sample Type</th>
+                                <th class="px-4 py-2 text-left">Amount per 1 mL TRIzol</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">Cells in monolayer</td>
+                                <td class="px-4 py-2">1×10⁵ to 1×10⁷ cells (3.5 cm dish)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells in suspension</td>
+                                <td class="px-4 py-2">5-10×10⁶ cells</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Centrifuge capable of 12,000 × g at 4°C</li>
+                                <li>Water bath or heat block (55-60°C)</li>
+                                <li>Polypropylene microcentrifuge tubes (RNase-free)</li>
+                                <li>Micropipettes and RNase-free pipette tips</li>
+                                <li>Vortex mixer</li>
+                                <li>PCR tubes or 96-well PCR plate</li>
+                                <li>Thermal cycler</li>
+                                <li>NanoDrop or spectrophotometer</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents for RNA Isolation</h3>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>TRIzol Reagent (store at 15-30°C)</li>
+                                <li>Chloroform (molecular biology grade)</li>
+                                <li>Isopropanol</li>
+                                <li>75% ethanol in RNase-free water</li>
+                                <li>RNase-free water</li>
+                                <li>RNase-free glycogen (optional, for small samples)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents for cDNA Synthesis</h3>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>10X RT Buffer</li>
+                                <li>10X RT Random Primers</li>
+                                <li>25X dNTP Mix (100 mM)</li>
+                                <li>MultiScribe™ Reverse Transcriptase (enzyme)</li>
+                                <li>RNase Inhibitor (optional)</li>
+                                <li>Nuclease-free water</li>
+                            </ul>
+                            <p class="text-sm text-gray-600 mt-2">All stored at -20°C</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RNA Isolation Section -->
+            <div x-show="activeSection === 'rna-isolation'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Part 1: RNA Isolation</h2>
+
+                    <!-- Part 1A: Cell Lysis -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 1A: Cell Lysis and Phase Separation</h3>
+                            <button @click="toggleStep('1a')"
+                                    :class="isCompleted('1a') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('1a') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-blue-900 mb-2">For Cells Grown in Monolayer:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                                <li>Remove growth media from culture dish</li>
+                                <li>Add 0.3-0.4 mL TRIzol Reagent per 1×10⁵-10⁷ cells directly to the dish</li>
+                                <li>Pipet lysate up and down several times to homogenize</li>
+                                <li>Transfer lysate to microcentrifuge tube</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-purple-900 mb-2">For Cells Grown in Suspension:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                                <li>Pellet cells by centrifugation and discard supernatant</li>
+                                <li>Add 0.75 mL TRIzol per 0.25 mL cell pellet (5-10×10⁶ cells)</li>
+                                <li>Pipet lysate up and down several times to homogenize</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                            <p class="text-sm font-semibold text-yellow-900">NOTE: Do NOT wash cells before adding TRIzol to avoid mRNA degradation</p>
+                        </div>
+
+                        <div class="border-l-4 border-gray-300 pl-4">
+                            <p class="font-semibold text-gray-800 mb-2">Continue for All Samples:</p>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-700" start="4">
+                                <li>Incubate lysate <strong>5 minutes at room temperature</strong>
+                                    <span class="text-sm text-gray-600 block ml-5">→ This allows complete dissociation of nucleoprotein complexes</span>
+                                </li>
+                                <li>Add <strong>0.2 mL chloroform</strong> per 1 mL TRIzol used (1/5 ratio)</li>
+                                <li>Cap tube securely and shake vigorously by hand for <strong>15 seconds</strong></li>
+                                <li>Incubate <strong>2-3 minutes at room temperature</strong></li>
+                                <li>Centrifuge <strong>15 minutes at 12,000 × g at 4°C</strong>
+                                    <span class="text-sm text-gray-600 block ml-5">→ Mixture separates into 3 phases: upper aqueous (RNA), interphase, lower organic (DNA/proteins)</span>
+                                </li>
+                                <li>Carefully transfer the <strong>upper aqueous phase</strong> to a new tube</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-red-900">CRITICAL: Angle tube at 45° and pipet carefully. AVOID transferring any interphase or organic layer!</p>
+                        </div>
+                    </div>
+
+                    <!-- Part 1B: RNA Precipitation -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 1B: RNA Precipitation</h3>
+                            <button @click="toggleStep('1b')"
+                                    :class="isCompleted('1b') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('1b') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li>(Optional) For small samples (&lt;10⁶ cells): Add 5-10 µg RNase-free glycogen as carrier</li>
+                            <li>Add <strong>0.5 mL isopropanol</strong> per 1 mL TRIzol used (1/2 ratio)</li>
+                            <li>Mix gently by inverting tube</li>
+                            <li>Incubate <strong>10 minutes at room temperature</strong></li>
+                            <li>Centrifuge <strong>10 minutes at 12,000 × g at 4°C</strong>
+                                <span class="text-sm text-gray-600 block ml-5">→ RNA precipitates as white gel-like pellet at bottom of tube</span>
+                            </li>
+                            <li>Carefully discard supernatant with micropipette
+                                <span class="text-sm text-gray-600 block ml-5">→ Pellet may be loose, pipet carefully!</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- Part 1C: Wash RNA Pellet -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 1C: Wash RNA Pellet</h3>
+                            <button @click="toggleStep('1c')"
+                                    :class="isCompleted('1c') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('1c') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li>Add <strong>1 mL of 75% ethanol</strong> per 1 mL TRIzol used
+                                <span class="text-sm text-gray-600 block ml-5">→ RNA can be stored in 75% ethanol for 1 year at -20°C</span>
+                            </li>
+                            <li>Vortex sample briefly to resuspend pellet</li>
+                            <li>Centrifuge <strong>5 minutes at 7,500 × g at 4°C</strong></li>
+                            <li>Carefully discard supernatant with micropipette</li>
+                            <li>Air dry RNA pellet for <strong>5-10 minutes</strong>
+                                <span class="text-sm text-gray-600 block ml-5">→ Do NOT over-dry! Pellet should still look slightly wet</span>
+                            </li>
+                        </ol>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-red-900">IMPORTANT: Do NOT dry by vacuum centrifuge. Do NOT let pellet dry completely - this makes RNA hard to dissolve!</p>
+                        </div>
+                    </div>
+
+                    <!-- Part 1D: Dissolve RNA -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 1D: Dissolve RNA</h3>
+                            <button @click="toggleStep('1d')"
+                                    :class="isCompleted('1d') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('1d') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li>Add <strong>20-50 µL RNase-free water</strong>
+                                <span class="text-sm text-gray-600 block ml-5">→ Volume depends on expected RNA amount</span>
+                            </li>
+                            <li>Pipet up and down gently to dissolve</li>
+                            <li>Incubate in water bath at <strong>55-60°C for 10-15 minutes</strong></li>
+                            <li>Mix by pipetting and check that pellet is fully dissolved</li>
+                            <li>Proceed to quantification</li>
+                        </ol>
+                    </div>
+
+                    <!-- Part 1E: RNA Quantification -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 1E: RNA Quantification</h3>
+                            <button @click="toggleStep('1e')"
+                                    :class="isCompleted('1e') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('1e') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-800 mb-2">Method 1: Absorbance (NanoDrop or Spectrophotometer)</p>
+                            <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                                <li>Dilute sample in RNase-free water if needed</li>
+                                <li>Measure absorbance at 260 nm and 280 nm</li>
+                                <li>Calculate concentration: <strong>A₂₆₀ × dilution × 40 = µg RNA/mL</strong></li>
+                                <li>Check A₂₆₀/A₂₈₀ ratio: <strong>~2.0 indicates pure RNA</strong></li>
+                            </ol>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="font-semibold text-gray-800 mb-2">Method 2: Fluorescence (Qubit or Quant-iT)</p>
+                            <p class="text-gray-700">Fluorescence methods selectively measure intact RNA and are more accurate than absorbance. Follow manufacturer's instructions for Qubit RNA assay.</p>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold text-gray-800 mb-2">Expected RNA Yields:</p>
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Cell Type</th>
+                                        <th class="px-3 py-2 text-left">Quantity</th>
+                                        <th class="px-3 py-2 text-left">Typical Yield</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-3 py-2">Epithelial cells</td>
+                                        <td class="px-3 py-2">1×10⁶ cells</td>
+                                        <td class="px-3 py-2">8-15 µg</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">Fibroblasts</td>
+                                        <td class="px-3 py-2">1×10⁶ cells</td>
+                                        <td class="px-3 py-2">5-7 µg</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-green-900">STOP POINT: RNA can be stored at -70°C until ready to proceed with cDNA synthesis. Alternatively, continue immediately to Part 2.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- cDNA Synthesis Section -->
+            <div x-show="activeSection === 'cdna-synthesis'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Part 2: cDNA Synthesis</h2>
+
+                    <!-- Part 2A: Preparation -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 2A: Preparation</h3>
+                            <button @click="toggleStep('2a')"
+                                    :class="isCompleted('2a') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('2a') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">1. Plan Your Experiment</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                                    <li>Calculate how many reactions you need</li>
+                                    <li>Include at least 1 extra reaction (10% overage) in your master mix calculations</li>
+                                    <li>Example: If running 8 samples, make master mix for 9 reactions</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">2. Thaw Kit Components</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                                    <li>Remove kit components from -20°C freezer</li>
+                                    <li>Thaw on ice (takes ~15-20 minutes)</li>
+                                    <li>Once thawed, keep on ice at all times</li>
+                                    <li>DO NOT thaw the enzyme at room temperature</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-gray-800 mb-2">3. Prepare Your RNA</p>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700 ml-4">
+                                    <li>You can use up to 2 µg of total RNA per reaction</li>
+                                    <li>Common amounts: 500 ng - 1 µg per reaction</li>
+                                    <li>Make sure RNA is in nuclease-free water or TE buffer</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2B: Make Master Mix -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 2B: Make the Master Mix (work on ice!)</h3>
+                            <button @click="toggleStep('2b')"
+                                    :class="isCompleted('2b') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('2b') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <p class="text-gray-700 mb-4">You'll be making a 2X Master Mix that contains all the enzymes and reagents needed for reverse transcription.</p>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-gray-800 mb-2">For ONE 20 µL reaction:</p>
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Component</th>
+                                        <th class="px-3 py-2 text-left">Volume</th>
+                                        <th class="px-3 py-2 text-left">What it does</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-3 py-2">10X RT Buffer</td>
+                                        <td class="px-3 py-2">2.0 µL</td>
+                                        <td class="px-3 py-2">Provides optimal pH and salts</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">25X dNTP Mix</td>
+                                        <td class="px-3 py-2">0.8 µL</td>
+                                        <td class="px-3 py-2">Building blocks for cDNA</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">10X RT Random Primers</td>
+                                        <td class="px-3 py-2">2.0 µL</td>
+                                        <td class="px-3 py-2">Initiates cDNA synthesis</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">MultiScribe™ RT Enzyme</td>
+                                        <td class="px-3 py-2">1.0 µL</td>
+                                        <td class="px-3 py-2">The enzyme that makes cDNA</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">Nuclease-free H₂O</td>
+                                        <td class="px-3 py-2">4.2 µL</td>
+                                        <td class="px-3 py-2">Brings to correct volume</td>
+                                    </tr>
+                                    <tr class="bg-blue-50 font-semibold">
+                                        <td class="px-3 py-2">Total Master Mix</td>
+                                        <td class="px-3 py-2">10.0 µL</td>
+                                        <td class="px-3 py-2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">+ Your RNA sample</td>
+                                        <td class="px-3 py-2">10.0 µL</td>
+                                        <td class="px-3 py-2"></td>
+                                    </tr>
+                                    <tr class="bg-green-50 font-semibold">
+                                        <td class="px-3 py-2">= Final volume</td>
+                                        <td class="px-3 py-2">20.0 µL</td>
+                                        <td class="px-3 py-2"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-blue-900 mb-2">Master Mix Calculation Example (8 samples + 1 extra = 9 reactions):</p>
+                            <table class="w-full text-sm">
+                                <thead class="bg-blue-100">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Component</th>
+                                        <th class="px-3 py-2 text-left">1 reaction</th>
+                                        <th class="px-3 py-2 text-left">× 9 reactions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-3 py-2">10X RT Buffer</td>
+                                        <td class="px-3 py-2">2.0 µL</td>
+                                        <td class="px-3 py-2">18.0 µL</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">25X dNTP Mix</td>
+                                        <td class="px-3 py-2">0.8 µL</td>
+                                        <td class="px-3 py-2">7.2 µL</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">10X RT Random Primers</td>
+                                        <td class="px-3 py-2">2.0 µL</td>
+                                        <td class="px-3 py-2">18.0 µL</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">MultiScribe™ RT Enzyme</td>
+                                        <td class="px-3 py-2">1.0 µL</td>
+                                        <td class="px-3 py-2">9.0 µL</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">Nuclease-free H₂O</td>
+                                        <td class="px-3 py-2">4.2 µL</td>
+                                        <td class="px-3 py-2">37.8 µL</td>
+                                    </tr>
+                                    <tr class="bg-blue-100 font-semibold">
+                                        <td class="px-3 py-2">TOTAL</td>
+                                        <td class="px-3 py-2">10.0 µL</td>
+                                        <td class="px-3 py-2">90.0 µL</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="border-l-4 border-gray-300 pl-4">
+                            <p class="font-semibold text-gray-800 mb-2">Step-by-Step Master Mix Preparation:</p>
+                            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                                <li>Get a clean tube for your master mix (1.5 mL microcentrifuge tube works well)</li>
+                                <li>Label it: "RT Master Mix, [Date], [Your initials]"</li>
+                                <li>Add components IN ORDER (on ice):
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>First: Water (largest volume)</li>
+                                        <li>Then: Buffer, dNTPs, Primers</li>
+                                        <li><strong>LAST: Add enzyme</strong> (it's the most sensitive!)</li>
+                                    </ul>
+                                </li>
+                                <li>Mix gently:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Close tube cap</li>
+                                        <li>Flick tube gently with finger 5-6 times</li>
+                                        <li>Quick spin in microcentrifuge (3 seconds)</li>
+                                    </ul>
+                                </li>
+                                <li>Keep on ice until use</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Part 2C: Set Up Reactions -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 2C: Set Up Your Reactions</h3>
+                            <button @click="toggleStep('2c')"
+                                    :class="isCompleted('2c') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('2c') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li><strong>Label your PCR tubes or plate:</strong>
+                                <ul class="list-disc list-inside ml-5">
+                                    <li>Write sample names clearly</li>
+                                    <li>Include date</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add Master Mix first:</strong>
+                                <ul class="list-disc list-inside ml-5">
+                                    <li>Pipette <strong>10 µL of master mix</strong> into each tube/well</li>
+                                    <li>Use a new tip each time to avoid contamination</li>
+                                </ul>
+                            </li>
+                            <li><strong>Add your RNA samples:</strong>
+                                <ul class="list-disc list-inside ml-5">
+                                    <li>Pipette <strong>10 µL of RNA sample</strong> into corresponding tube</li>
+                                    <li>Pipette up and down 2 times to mix</li>
+                                    <li>Use a new tip for each sample</li>
+                                </ul>
+                            </li>
+                            <li><strong>Seal tubes/plate:</strong>
+                                <ul class="list-disc list-inside ml-5">
+                                    <li>Cap tubes tightly OR</li>
+                                    <li>Seal plate with adhesive film</li>
+                                </ul>
+                            </li>
+                            <li><strong>Quick spin:</strong>
+                                <ul class="list-disc list-inside ml-5">
+                                    <li>Spin in microcentrifuge for 3-5 seconds</li>
+                                    <li>This removes air bubbles and brings liquid to bottom</li>
+                                </ul>
+                            </li>
+                            <li>Keep on ice until you're ready to load thermal cycler</li>
+                        </ol>
+                    </div>
+
+                    <!-- Part 2D: Run Thermal Cycler -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 2D: Run the Thermal Cycler</h3>
+                            <button @click="toggleStep('2d')"
+                                    :class="isCompleted('2d') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('2d') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-gray-800 mb-2">Program Settings:</p>
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Step</th>
+                                        <th class="px-3 py-2 text-left">Temperature</th>
+                                        <th class="px-3 py-2 text-left">Time</th>
+                                        <th class="px-3 py-2 text-left">What's happening</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-3 py-2">1</td>
+                                        <td class="px-3 py-2">25°C</td>
+                                        <td class="px-3 py-2">10 min</td>
+                                        <td class="px-3 py-2">Primers bind to RNA</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">2</td>
+                                        <td class="px-3 py-2">37°C</td>
+                                        <td class="px-3 py-2">120 min</td>
+                                        <td class="px-3 py-2">Enzyme makes cDNA</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">3</td>
+                                        <td class="px-3 py-2">85°C</td>
+                                        <td class="px-3 py-2">5 min</td>
+                                        <td class="px-3 py-2">Stops the reaction</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-2">4</td>
+                                        <td class="px-3 py-2">4°C</td>
+                                        <td class="px-3 py-2">Hold</td>
+                                        <td class="px-3 py-2">Keeps samples cool</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="border-l-4 border-gray-300 pl-4">
+                            <p class="font-semibold text-gray-800 mb-2">To run:</p>
+                            <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                                <li>Turn on thermal cycler</li>
+                                <li>Select or program the above settings</li>
+                                <li>Set reaction volume: 20 µL</li>
+                                <li>Load your samples</li>
+                                <li>Close lid and START</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-yellow-900">The run takes about 2 hours and 15 minutes. You can leave while it runs, but don't forget about your samples!</p>
+                        </div>
+                    </div>
+
+                    <!-- Part 2E: cDNA Storage -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Part 2E: After the Run - cDNA Storage</h3>
+                            <button @click="toggleStep('2e')"
+                                    :class="isCompleted('2e') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('2e') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="font-semibold text-blue-900 mb-2">Option 1: Use immediately</p>
+                                <ul class="list-disc list-inside text-sm text-blue-800">
+                                    <li>Proceed directly to qPCR setup</li>
+                                    <li>Keep cDNA on ice while setting up</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="font-semibold text-green-900 mb-2">Option 2: Short-term storage</p>
+                                <ul class="list-disc list-inside text-sm text-green-800">
+                                    <li>Store at 4°C (regular fridge)</li>
+                                    <li>Good for up to 1 week</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <p class="font-semibold text-purple-900 mb-2">Option 3: Long-term storage</p>
+                                <ul class="list-disc list-inside text-sm text-purple-800">
+                                    <li>Store at -20°C (freezer)</li>
+                                    <li>Good for several months</li>
+                                    <li>Make aliquots to avoid freeze-thaw cycles</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="font-semibold text-gray-800 mb-2">Important Storage Tips:</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Label tubes with: "cDNA, sample name, date, your initials"</li>
+                                <li>Record in lab notebook or spreadsheet</li>
+                                <li>Avoid repeated freeze-thaw cycles (breaks down cDNA)</li>
+                                <li>Consider making duplicate aliquots for backup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">RNA Isolation Issues</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Problem</th>
+                                    <th class="px-4 py-2 text-left">Possible Cause</th>
+                                    <th class="px-4 py-2 text-left">Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2">Low RNA yield</td>
+                                    <td class="px-4 py-2">Incomplete homogenization<br>Pellet not fully dissolved</td>
+                                    <td class="px-4 py-2">Use less starting material<br>Pipet thoroughly<br>Heat sample to 55-60°C</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Degraded RNA</td>
+                                    <td class="px-4 py-2">RNase contamination<br>Sample not processed quickly</td>
+                                    <td class="px-4 py-2">Use RNase-free materials<br>Process samples immediately<br>Clean work area</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Low A260/A280 ratio (&lt;1.8)</td>
+                                    <td class="px-4 py-2">Phenol contamination<br>Insufficient washing</td>
+                                    <td class="px-4 py-2">Avoid transferring organic phase<br>Add extra ethanol wash step</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">RNA won't dissolve</td>
+                                    <td class="px-4 py-2">Pellet too dry</td>
+                                    <td class="px-4 py-2">Heat to 55-60°C longer<br>Add more water<br>Pipet repeatedly</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">cDNA Synthesis Issues</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Problem</th>
+                                    <th class="px-4 py-2 text-left">Possible Cause</th>
+                                    <th class="px-4 py-2 text-left">Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2">No amplification in qPCR</td>
+                                    <td class="px-4 py-2">RNA was degraded<br>Not enough RNA input<br>RT enzyme was dead<br>RNase contamination</td>
+                                    <td class="px-4 py-2">Check RNA quality (260/280 ~2.0)<br>Keep everything cold<br>Add enzyme to master mix<br>Use RNase-free materials</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Master mix calculations confusing</td>
+                                    <td class="px-4 py-2">Math errors</td>
+                                    <td class="px-4 py-2">Write down number of samples<br>Add 1 extra<br>Multiply each volume<br>Double-check with supervisor</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Forgot if component added</td>
+                                    <td class="px-4 py-2">Uncertainty during pipetting</td>
+                                    <td class="px-4 py-2">Make fresh master mix<br>Work systematically<br>Check off components as added</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Reference Section -->
+            <div x-show="activeSection === 'quick-ref'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Reference</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-3">RNA Isolation Key Ratios</h3>
+                            <ul class="space-y-2 text-blue-800">
+                                <li><strong>Chloroform:</strong> 0.2 mL per 1 mL TRIzol</li>
+                                <li><strong>Isopropanol:</strong> 0.5 mL per 1 mL TRIzol</li>
+                                <li><strong>75% Ethanol:</strong> 1 mL per 1 mL TRIzol</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-green-900 mb-3">cDNA Master Mix (per reaction)</h3>
+                            <ul class="space-y-1 text-green-800 text-sm">
+                                <li>2.0 µL → 10X RT Buffer</li>
+                                <li>0.8 µL → 25X dNTP Mix</li>
+                                <li>2.0 µL → 10X RT Random Primers</li>
+                                <li>1.0 µL → MultiScribe RT Enzyme</li>
+                                <li>4.2 µL → Nuclease-free Water</li>
+                                <li class="font-semibold mt-2">10 µL Total Master Mix + 10 µL RNA = 20 µL Final</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-purple-900 mb-3">Thermal Cycler Program</h3>
+                            <ol class="space-y-1 text-purple-800">
+                                <li>1. 25°C for 10 min</li>
+                                <li>2. 37°C for 120 min</li>
+                                <li>3. 85°C for 5 min</li>
+                                <li>4. 4°C hold</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-yellow-900 mb-3">Important Reminders</h3>
+                            <ul class="space-y-1 text-yellow-800 text-sm">
+                                <li>✓ Work in RNase-free environment</li>
+                                <li>✓ Keep everything on ice</li>
+                                <li>✓ Add enzyme LAST to master mix</li>
+                                <li>✓ Don't let RNA pellet dry completely</li>
+                                <li>✓ Label everything clearly</li>
+                                <li>✓ Avoid freeze-thaw cycles</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Storage Conditions</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Material</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Duration</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Lysed samples in TRIzol</td>
+                                    <td class="px-3 py-2">4°C / -20°C</td>
+                                    <td class="px-3 py-2">Overnight / Up to 1 year</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">RNA in 75% ethanol</td>
+                                    <td class="px-3 py-2">-20°C / 4°C</td>
+                                    <td class="px-3 py-2">1 year / 1 week</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Dissolved RNA</td>
+                                    <td class="px-3 py-2">-70°C</td>
+                                    <td class="px-3 py-2">Long-term</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">cDNA</td>
+                                    <td class="px-3 py-2">4°C / -20°C</td>
+                                    <td class="px-3 py-2">1 week / Several months</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol based on TRIzol Reagent User Guide (Thermo Fisher Scientific) and Applied Biosystems High-Capacity cDNA Reverse Transcription Kit</p>
+                <p class="text-sm mt-2">For Research Use Only | Last updated: October 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
