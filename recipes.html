@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Recipes & Reagents Reference - Dasgupta Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        searchQuery: '',
+        selectedCategory: 'all',
+        recipes: [
+            // LYSIS BUFFERS
+            {
+                name: 'Base RIPA Buffer',
+                category: 'lysis',
+                protocol: 'Western Blot',
+                volume: '100 mL',
+                storage: '4°C for up to 6 months',
+                ingredients: [
+                    { component: 'Tris-HCl pH 7.6', concentration: '25 mM', amount: '2.5 mL of 1 M stock' },
+                    { component: 'NaCl', concentration: '150 mM', amount: '3 mL of 5 M stock' },
+                    { component: 'Sodium Deoxycholate', concentration: '1% (w/v)', amount: '1 g' },
+                    { component: 'SDS', concentration: '0.1% (w/v)', amount: '0.1 g' },
+                    { component: 'NP-40 (Igepal CA-630)', concentration: '1% (v/v)', amount: '1 mL' },
+                    { component: 'Na₃VO₄ (Sodium orthovanadate)', concentration: '1 mM', amount: '100 μL of 1 M stock' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 100 mL' }
+                ],
+                steps: [
+                    'Add ~80 mL ddH₂O to beaker with stir bar',
+                    'Add Tris-HCl and NaCl stock solutions',
+                    'Add sodium deoxycholate powder, stir until dissolved',
+                    'Add SDS powder, stir until dissolved (will foam - this is normal)',
+                    'Add NP-40, mix well',
+                    'Add Na₃VO₄ (phosphatase inhibitor), mix well',
+                    'Adjust pH to 7.6 if needed',
+                    'Bring to 100 mL final volume with ddH₂O',
+                    'Store at 4°C'
+                ],
+                notes: 'Do NOT add protease inhibitors until day of use. Add 25X protease inhibitor and 20X phosphatase inhibitor on the day of experiment.',
+                tags: ['lysis', 'RIPA', 'protein extraction', 'western blot']
+            },
+            {
+                name: 'Strong RIPA Buffer',
+                category: 'lysis',
+                protocol: 'Western Blot',
+                volume: '100 mL',
+                storage: '4°C for up to 6 months',
+                ingredients: [
+                    { component: 'Tris-HCl pH 7.4', concentration: '50 mM', amount: '5 mL of 1 M stock' },
+                    { component: 'NaCl', concentration: '150 mM', amount: '3 mL of 5 M stock' },
+                    { component: 'Sodium Deoxycholate', concentration: '1% (w/v)', amount: '1 g' },
+                    { component: 'SDS', concentration: '0.1% (w/v)', amount: '0.1 g' },
+                    { component: 'Triton X-100', concentration: '1% (v/v)', amount: '1 mL' },
+                    { component: 'EDTA', concentration: '0.5 mM', amount: '100 μL of 0.5 M stock' },
+                    { component: 'Na₃VO₄', concentration: '1 mM', amount: '100 μL of 1 M stock' },
+                    { component: 'NaF', concentration: '50 mM', amount: '210 mg' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 100 mL' }
+                ],
+                steps: [
+                    'Add ~80 mL ddH₂O to beaker with stir bar',
+                    'Add all stock solutions (Tris, NaCl, EDTA, Na₃VO₄)',
+                    'Add sodium deoxycholate, stir until dissolved',
+                    'Add SDS, stir until dissolved',
+                    'Add Triton X-100, mix well',
+                    'Add NaF powder, stir until dissolved',
+                    'Adjust pH to 7.4',
+                    'Bring to final volume with ddH₂O'
+                ],
+                notes: 'Use for difficult-to-lyse samples, tissues, or nuclear proteins. Contains built-in phosphatase inhibitors (Na₃VO₄ and NaF). Stronger than standard RIPA due to higher Tris concentration and Triton X-100.',
+                tags: ['lysis', 'RIPA', 'strong', 'tissue', 'nuclear proteins']
+            },
+            {
+                name: '25X Protease Inhibitor Stock',
+                category: 'lysis',
+                protocol: 'Western Blot',
+                volume: '4-8 mL',
+                storage: '-20°C for 1 year (aliquoted)',
+                ingredients: [
+                    { component: 'cOmplete™ EDTA-free tablets', concentration: '1 tablet / 2 mL', amount: '2-4 tablets' },
+                    { component: 'Autoclaved water', concentration: '-', amount: '4-8 mL' }
+                ],
+                steps: [
+                    'Add 1 cOmplete™ tablet per 2 mL water (e.g., 4 tablets + 8 mL water)',
+                    'Vortex vigorously until fully dissolved',
+                    'Aliquot 200-400 μL into 1.5 mL tubes',
+                    'Label: "25X Protease Inhibitor" + date',
+                    'Store at -20°C'
+                ],
+                notes: 'Use one aliquot per experiment. Do NOT refreeze after thawing! Add to RIPA buffer at 1:25 dilution (e.g., 40 μL per 1 mL RIPA).',
+                tags: ['protease inhibitor', 'cOmplete', 'stock solution']
+            },
+            {
+                name: '20X Phosphatase Inhibitor Stock',
+                category: 'lysis',
+                protocol: 'Western Blot',
+                volume: '4-8 mL',
+                storage: '-20°C for 1 year (aliquoted)',
+                ingredients: [
+                    { component: 'PhosSTOP™ tablets', concentration: '1 tablet / 2 mL', amount: '2-4 tablets' },
+                    { component: 'Autoclaved water', concentration: '-', amount: '4-8 mL' }
+                ],
+                steps: [
+                    'Add 1 PhosSTOP™ tablet per 2 mL water',
+                    'Vortex vigorously until fully dissolved',
+                    'Aliquot 200-400 μL into 1.5 mL tubes',
+                    'Label: "20X Phosphatase Inhibitor" + date',
+                    'Store at -20°C'
+                ],
+                notes: 'Use one aliquot per experiment. Do NOT refreeze! Add to RIPA buffer at 1:20 dilution (e.g., 50 μL per 1 mL RIPA).',
+                tags: ['phosphatase inhibitor', 'PhosSTOP', 'stock solution']
+            },
+
+            // ELECTROPHORESIS BUFFERS
+            {
+                name: '10X Tris-Glycine-SDS Running Buffer',
+                category: 'electrophoresis',
+                protocol: 'Western Blot',
+                volume: '1 L',
+                storage: 'Room temperature indefinitely',
+                ingredients: [
+                    { component: 'Tris base', concentration: '0.25 M', amount: '30.3 g' },
+                    { component: 'Glycine', concentration: '1.92 M', amount: '144 g' },
+                    { component: 'SDS', concentration: '1% (w/v)', amount: '10 g' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 1 L' }
+                ],
+                steps: [
+                    'Add ~800 mL ddH₂O to beaker',
+                    'Add Tris base and glycine, stir until dissolved',
+                    'Add SDS, mix well',
+                    'Bring to 1 L with ddH₂O',
+                    'Store at room temperature'
+                ],
+                notes: 'Dilute 1:10 for use (100 mL 10X buffer + 900 mL water = 1 L 1X running buffer). Do NOT adjust pH.',
+                tags: ['SDS-PAGE', 'running buffer', 'gel electrophoresis']
+            },
+            {
+                name: '5X SDS Loading Dye (with β-mercaptoethanol)',
+                category: 'electrophoresis',
+                protocol: 'Western Blot',
+                volume: '1 mL',
+                storage: '-20°C for 6 months',
+                ingredients: [
+                    { component: '5X Loading Dye', concentration: '-', amount: '1 mL' },
+                    { component: 'β-mercaptoethanol', concentration: '5% (v/v)', amount: '50 μL' }
+                ],
+                steps: [
+                    'In fume hood, add 50 μL β-mercaptoethanol to 1 mL 5X loading dye',
+                    'Mix well by vortexing',
+                    'Note the characteristic "rotten eggs" smell',
+                    'Store at -20°C in tightly capped tube'
+                ],
+                notes: 'HAZARD: β-mercaptoethanol is toxic! Work in fume hood. Add to samples at 1:5 ratio (e.g., 5 μL dye per 20 μL sample). Heat samples at 95°C for 5 min after adding.',
+                tags: ['loading dye', 'reducing agent', 'beta-mercaptoethanol']
+            },
+
+            // TRANSFER BUFFERS
+            {
+                name: 'Transfer Buffer (Towbin)',
+                category: 'transfer',
+                protocol: 'Western Blot',
+                volume: '1 L',
+                storage: '4°C for 1 month',
+                ingredients: [
+                    { component: 'Tris base', concentration: '25 mM', amount: '3.03 g' },
+                    { component: 'Glycine', concentration: '192 mM', amount: '14.4 g' },
+                    { component: 'Methanol', concentration: '20% (v/v)', amount: '200 mL' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 1 L' }
+                ],
+                steps: [
+                    'Add ~600 mL ddH₂O to beaker',
+                    'Add Tris base and glycine',
+                    'Stir until completely dissolved',
+                    'Add 200 mL methanol',
+                    'Bring to 1 L with ddH₂O',
+                    'Store at 4°C'
+                ],
+                notes: 'Do NOT add SDS to transfer buffer. Keep cold during transfer. Methanol helps protein binding to membrane but reduces transfer of large proteins (>100 kDa).',
+                tags: ['transfer buffer', 'western blot', 'Towbin']
+            },
+            {
+                name: '10X Tris-Buffered Saline with Tween (TBS-T)',
+                category: 'transfer',
+                protocol: 'Western Blot',
+                volume: '1 L',
+                storage: 'Room temperature for 6 months',
+                ingredients: [
+                    { component: 'Tris base', concentration: '200 mM', amount: '24.2 g' },
+                    { component: 'NaCl', concentration: '1.5 M', amount: '87.6 g' },
+                    { component: 'ddH₂O', concentration: '-', amount: '~900 mL' },
+                    { component: 'HCl (conc.)', concentration: '-', amount: 'to adjust pH to 7.6' },
+                    { component: 'Tween-20', concentration: '1%', amount: '10 mL (add to 1X)' }
+                ],
+                steps: [
+                    'Add ~800 mL ddH₂O to beaker',
+                    'Add Tris base and NaCl',
+                    'Stir until dissolved',
+                    'Adjust pH to 7.6 with concentrated HCl',
+                    'Bring to 1 L with ddH₂O',
+                    'For 1X TBS-T: Dilute 100 mL 10X TBS with 890 mL water and 10 mL Tween-20'
+                ],
+                notes: 'The 10X stock does NOT contain Tween-20. Add Tween-20 only when making 1X working solution.',
+                tags: ['TBS-T', 'washing buffer', 'blocking buffer']
+            },
+            {
+                name: '5% Milk Blocking Buffer',
+                category: 'transfer',
+                protocol: 'Western Blot',
+                volume: '50 mL',
+                storage: '4°C for 1 week',
+                ingredients: [
+                    { component: 'Non-fat dry milk powder', concentration: '5% (w/v)', amount: '2.5 g' },
+                    { component: '1X TBS-T', concentration: '-', amount: '50 mL' }
+                ],
+                steps: [
+                    'Add 2.5 g milk powder to 50 mL 1X TBS-T',
+                    'Vortex or stir until completely dissolved',
+                    'Store at 4°C'
+                ],
+                notes: 'Use for most antibodies. Do NOT use for phospho-antibodies (use 5% BSA instead). Milk contains casein kinases that can interfere with phospho-detection.',
+                tags: ['blocking buffer', 'milk', 'TBS-T']
+            },
+            {
+                name: '5% BSA Blocking Buffer',
+                category: 'transfer',
+                protocol: 'Western Blot',
+                volume: '50 mL',
+                storage: '4°C for 1 week',
+                ingredients: [
+                    { component: 'BSA (Bovine Serum Albumin)', concentration: '5% (w/v)', amount: '2.5 g' },
+                    { component: '1X TBS-T', concentration: '-', amount: '50 mL' }
+                ],
+                steps: [
+                    'Add 2.5 g BSA to 50 mL 1X TBS-T',
+                    'Stir gently to dissolve (avoid foaming)',
+                    'Store at 4°C'
+                ],
+                notes: 'Required for phospho-specific antibodies. More expensive than milk but necessary to avoid background with phospho-detection.',
+                tags: ['blocking buffer', 'BSA', 'phospho-antibodies']
+            },
+
+            // PCR BUFFERS
+            {
+                name: 'PCR Master Mix (Genotyping)',
+                category: 'pcr',
+                protocol: 'Mouse Genotyping',
+                volume: 'Per reaction (25 μL)',
+                storage: 'Make fresh; keep on ice',
+                ingredients: [
+                    { component: '2X GoTaq Green Master Mix', concentration: '1X final', amount: '12.5 μL' },
+                    { component: 'Forward Primer (10 μM)', concentration: '0.4 μM final', amount: '1 μL' },
+                    { component: 'Reverse Primer (10 μM)', concentration: '0.4 μM final', amount: '1 μL' },
+                    { component: 'Nuclease-free water', concentration: '-', amount: '8.5 μL' },
+                    { component: 'Template DNA', concentration: '-', amount: '2 μL' }
+                ],
+                steps: [
+                    'Thaw 2X GoTaq Master Mix on ice',
+                    'Calculate total reactions needed + 10% extra',
+                    'Prepare master mix without template DNA',
+                    'Vortex and briefly spin down',
+                    'Aliquot 23 μL per PCR tube',
+                    'Add 2 μL template DNA to each tube'
+                ],
+                notes: 'GoTaq Green contains buffer, dNTPs, Mg²⁺, and Taq polymerase. The green dye allows direct loading on agarose gel.',
+                tags: ['PCR', 'genotyping', 'GoTaq', 'master mix']
+            },
+            {
+                name: '50X TAE Buffer',
+                category: 'pcr',
+                protocol: 'Mouse Genotyping',
+                volume: '1 L',
+                storage: 'Room temperature indefinitely',
+                ingredients: [
+                    { component: 'Tris base', concentration: '2 M', amount: '242 g' },
+                    { component: 'Glacial acetic acid', concentration: '1 M', amount: '57.1 mL' },
+                    { component: 'EDTA (0.5 M, pH 8.0)', concentration: '50 mM', amount: '100 mL' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 1 L' }
+                ],
+                steps: [
+                    'Add ~700 mL ddH₂O to beaker',
+                    'Add Tris base, stir until dissolved',
+                    'Add glacial acetic acid (CAREFULLY - exothermic)',
+                    'Add EDTA solution',
+                    'Bring to 1 L with ddH₂O',
+                    'Store at room temperature'
+                ],
+                notes: 'Dilute 1:50 for 1X TAE running buffer (20 mL 50X TAE + 980 mL water). Used for agarose gel electrophoresis.',
+                tags: ['TAE buffer', 'gel electrophoresis', 'agarose']
+            },
+
+            // CELL CULTURE MEDIA
+            {
+                name: 'Complete Growth Medium (Example: HEK293)',
+                category: 'cell-culture',
+                protocol: 'Cell Culture',
+                volume: '500 mL',
+                storage: '4°C for 1 month',
+                ingredients: [
+                    { component: 'DMEM (high glucose)', concentration: '-', amount: '445 mL' },
+                    { component: 'Fetal Bovine Serum (FBS)', concentration: '10%', amount: '50 mL' },
+                    { component: 'Penicillin-Streptomycin (100X)', concentration: '1X', amount: '5 mL' }
+                ],
+                steps: [
+                    'In sterile hood, add FBS to DMEM bottle',
+                    'Add Pen-Strep',
+                    'Swirl gently to mix',
+                    'Label with date and contents',
+                    'Store at 4°C'
+                ],
+                notes: 'FBS concentration varies by cell line (typically 5-15%). Warm media to 37°C before adding to cells. Some cell lines require additional supplements (L-glutamine, non-essential amino acids, etc.).',
+                tags: ['cell culture', 'media', 'DMEM', 'FBS']
+            },
+            {
+                name: 'Neurosphere Media (Neural Progenitors)',
+                category: 'cell-culture',
+                protocol: 'Neural Progenitor Culture',
+                volume: '50 mL',
+                storage: '4°C for 2 weeks',
+                ingredients: [
+                    { component: 'Neurobasal Medium', concentration: '-', amount: '48.5 mL' },
+                    { component: 'B27 Supplement (50X)', concentration: '1X', amount: '1 mL' },
+                    { component: 'L-glutamine (200 mM)', concentration: '2 mM', amount: '0.5 mL' },
+                    { component: 'Penicillin-Streptomycin', concentration: '1X', amount: 'included' },
+                    { component: 'EGF (stock 20 μg/mL)', concentration: '20 ng/mL', amount: 'Add fresh' },
+                    { component: 'FGF-2 (stock 20 μg/mL)', concentration: '10 ng/mL', amount: 'Add fresh' }
+                ],
+                steps: [
+                    'Combine Neurobasal, B27, and L-glutamine',
+                    'Store base media at 4°C',
+                    'Add growth factors (EGF and FGF-2) fresh each time',
+                    'Warm to 37°C before use'
+                ],
+                notes: 'EGF and FGF-2 are unstable and must be added fresh. Do not store complete media with growth factors for more than 1 week.',
+                tags: ['neurosphere', 'neural progenitors', 'growth factors', 'Neurobasal']
+            },
+            {
+                name: 'Astrocyte Culture Medium',
+                category: 'cell-culture',
+                protocol: 'Astrocyte Isolation',
+                volume: '500 mL',
+                storage: '4°C for 1 month',
+                ingredients: [
+                    { component: 'DMEM/F12 (1:1)', concentration: '-', amount: '445 mL' },
+                    { component: 'Fetal Bovine Serum', concentration: '10%', amount: '50 mL' },
+                    { component: 'Penicillin-Streptomycin', concentration: '1X', amount: '5 mL' }
+                ],
+                steps: [
+                    'Combine all components in sterile hood',
+                    'Mix well',
+                    'Store at 4°C',
+                    'Warm to 37°C before use'
+                ],
+                notes: 'DMEM/F12 blend provides optimal nutrient balance for glial cells. FBS can be reduced to 5% after initial plating.',
+                tags: ['astrocytes', 'DMEM/F12', 'glial cells']
+            },
+
+            // PERFUSION BUFFERS
+            {
+                name: 'Perfusion Buffer 1 (EGTA)',
+                category: 'perfusion',
+                protocol: 'Hepatocyte Isolation',
+                volume: '500 mL',
+                storage: '4°C for 1 week',
+                ingredients: [
+                    { component: 'HBSS (Ca²⁺/Mg²⁺ free)', concentration: '-', amount: '500 mL' },
+                    { component: 'EGTA', concentration: '0.5 mM', amount: '95 mg' },
+                    { component: 'HEPES', concentration: '10 mM', amount: '1.19 g' }
+                ],
+                steps: [
+                    'Add EGTA and HEPES to HBSS',
+                    'Adjust pH to 7.4 with NaOH',
+                    'Filter sterilize (0.22 μm)',
+                    'Store at 4°C',
+                    'Warm to 37°C before perfusion'
+                ],
+                notes: 'EGTA chelates Ca²⁺ to disrupt cell-cell junctions. Keep sterile and warm during perfusion.',
+                tags: ['perfusion', 'EGTA', 'hepatocyte isolation', 'HBSS']
+            },
+            {
+                name: 'Perfusion Buffer 2 (Liberase)',
+                category: 'perfusion',
+                protocol: 'Hepatocyte Isolation',
+                volume: '50 mL',
+                storage: 'Make fresh',
+                ingredients: [
+                    { component: 'HBSS (with Ca²⁺/Mg²⁺)', concentration: '-', amount: '50 mL' },
+                    { component: 'Liberase TM', concentration: '0.2-0.4 mg/mL', amount: '10-20 mg' },
+                    { component: 'HEPES', concentration: '10 mM', amount: '119 mg' }
+                ],
+                steps: [
+                    'Add HEPES to HBSS with Ca²⁺/Mg²⁺',
+                    'Adjust pH to 7.4',
+                    'Filter sterilize',
+                    'Add Liberase TM just before use',
+                    'Warm to 37°C'
+                ],
+                notes: 'Make fresh each time. Liberase activity varies by lot - optimize concentration. Requires Ca²⁺ for enzyme activity.',
+                tags: ['perfusion', 'Liberase', 'collagenase', 'digestion']
+            },
+
+            // STAINING SOLUTIONS
+            {
+                name: 'Hematoxylin Solution (Harris)',
+                category: 'staining',
+                protocol: 'H&E Staining',
+                volume: 'Purchase ready-made',
+                storage: 'Room temperature',
+                ingredients: [
+                    { component: 'Hematoxylin', concentration: '-', amount: 'Commercial solution' }
+                ],
+                steps: [
+                    'Purchase Harris Hematoxylin solution',
+                    'Filter before use to remove precipitates',
+                    'Can be reused multiple times'
+                ],
+                notes: 'Stains nuclei blue/purple. Commercially available solutions are safer than preparing from scratch (contains aluminum salts and acidic components).',
+                tags: ['H&E', 'hematoxylin', 'nuclear stain', 'histology']
+            },
+            {
+                name: 'Eosin Y Solution',
+                category: 'staining',
+                protocol: 'H&E Staining',
+                volume: '500 mL',
+                storage: 'Room temperature indefinitely',
+                ingredients: [
+                    { component: 'Eosin Y powder', concentration: '1% (w/v)', amount: '5 g' },
+                    { component: '95% Ethanol', concentration: '-', amount: '500 mL' },
+                    { component: 'Glacial acetic acid', concentration: '0.5%', amount: '2.5 mL' }
+                ],
+                steps: [
+                    'Dissolve Eosin Y in 95% ethanol',
+                    'Add glacial acetic acid',
+                    'Filter if needed',
+                    'Store in dark bottle at room temperature'
+                ],
+                notes: 'Stains cytoplasm and extracellular matrix pink. Acetic acid intensifies staining. Can be reused.',
+                tags: ['H&E', 'eosin', 'cytoplasmic stain', 'histology']
+            },
+            {
+                name: 'BODIPY 493/503 Stock Solution',
+                category: 'staining',
+                protocol: 'BODIPY Staining',
+                volume: '1 mL',
+                storage: '-20°C protected from light',
+                ingredients: [
+                    { component: 'BODIPY 493/503 powder', concentration: '1 mg/mL', amount: '1 mg' },
+                    { component: 'DMSO (anhydrous)', concentration: '-', amount: '1 mL' }
+                ],
+                steps: [
+                    'Dissolve BODIPY powder in DMSO',
+                    'Vortex well',
+                    'Aliquot into 50-100 μL portions',
+                    'Wrap in foil to protect from light',
+                    'Store at -20°C'
+                ],
+                notes: 'Light sensitive! Working concentration is typically 1-5 μg/mL (1:200 to 1:1000 dilution). Dilute in PBS or culture media.',
+                tags: ['BODIPY', 'lipid droplets', 'fluorescence', 'DMSO stock']
+            },
+            {
+                name: 'Antigen Retrieval Buffer (Citrate)',
+                category: 'staining',
+                protocol: 'Immunohistochemistry',
+                volume: '1 L',
+                storage: 'Room temperature for 1 month',
+                ingredients: [
+                    { component: 'Sodium citrate tribasic', concentration: '10 mM', amount: '2.94 g' },
+                    { component: 'Tween-20', concentration: '0.05%', amount: '0.5 mL' },
+                    { component: 'ddH₂O', concentration: '-', amount: 'to 1 L' }
+                ],
+                steps: [
+                    'Dissolve sodium citrate in water',
+                    'Adjust pH to 6.0 with citric acid or HCl',
+                    'Add Tween-20',
+                    'Mix well'
+                ],
+                notes: 'Heat slides in this buffer (microwave or pressure cooker) to unmask epitopes. Most common retrieval method for IHC.',
+                tags: ['IHC', 'antigen retrieval', 'citrate buffer', 'heat-induced']
+            },
+            {
+                name: 'DAB Substrate Solution',
+                category: 'staining',
+                protocol: 'Immunohistochemistry',
+                volume: '10 mL',
+                storage: 'Make fresh',
+                ingredients: [
+                    { component: 'DAB tablets or powder', concentration: '0.5 mg/mL', amount: '5 mg' },
+                    { component: 'PBS or Tris buffer pH 7.6', concentration: '-', amount: '10 mL' },
+                    { component: 'Hydrogen peroxide (30%)', concentration: '0.03%', amount: '10 μL' }
+                ],
+                steps: [
+                    'Dissolve DAB in PBS (protect from light)',
+                    'Add H₂O₂ immediately before use',
+                    'Apply to slides within 5 minutes',
+                    'Develops brown color in 1-10 minutes'
+                ],
+                notes: 'CARCINOGEN! Use with extreme caution. Wear double gloves. Prepare in fume hood. Inactivate used DAB with bleach before disposal.',
+                tags: ['DAB', 'chromogen', 'IHC', 'hazardous']
+            },
+
+            // RT-qPCR
+            {
+                name: 'cDNA Synthesis Master Mix (per 20 μL reaction)',
+                category: 'pcr',
+                protocol: 'RNA Isolation and cDNA Synthesis',
+                volume: '10 μL (per reaction)',
+                storage: 'Make fresh on ice',
+                ingredients: [
+                    { component: '10X RT Buffer', concentration: '1X final', amount: '2.0 μL' },
+                    { component: '25X dNTP Mix (100 mM)', concentration: '4 mM final', amount: '0.8 μL' },
+                    { component: '10X RT Random Primers', concentration: '1X final', amount: '2.0 μL' },
+                    { component: 'MultiScribe™ RT Enzyme', concentration: '-', amount: '1.0 μL' },
+                    { component: 'Nuclease-free H₂O', concentration: '-', amount: '4.2 μL' },
+                    { component: 'RNA template', concentration: '-', amount: '10 μL' }
+                ],
+                steps: [
+                    'Thaw kit components on ice',
+                    'Calculate number of reactions + 10% extra',
+                    'Prepare master mix (add enzyme LAST)',
+                    'Mix gently by pipetting',
+                    'Aliquot 10 μL per PCR tube',
+                    'Add 10 μL RNA (up to 2 μg) to each tube',
+                    'Run thermal cycler: 25°C/10min, 37°C/120min, 85°C/5min'
+                ],
+                notes: 'Keep all reagents on ice. Add enzyme last. Mix for multiple samples to ensure consistency.',
+                tags: ['cDNA synthesis', 'reverse transcription', 'RT', 'master mix']
+            }
+        ],
+        get filteredRecipes() {
+            return this.recipes.filter(recipe => {
+                const matchesSearch = recipe.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                    recipe.protocol.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                                    recipe.tags.some(tag => tag.toLowerCase().includes(this.searchQuery.toLowerCase()));
+                const matchesCategory = this.selectedCategory === 'all' || recipe.category === this.selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+        },
+        getCategoryColor(category) {
+            const colors = {
+                'lysis': 'bg-purple-100 text-purple-800',
+                'electrophoresis': 'bg-blue-100 text-blue-800',
+                'transfer': 'bg-green-100 text-green-800',
+                'pcr': 'bg-indigo-100 text-indigo-800',
+                'cell-culture': 'bg-pink-100 text-pink-800',
+                'perfusion': 'bg-teal-100 text-teal-800',
+                'staining': 'bg-orange-100 text-orange-800'
+            };
+            return colors[category] || 'bg-gray-100 text-gray-800';
+        },
+        getCategoryName(category) {
+            const names = {
+                'lysis': 'Lysis Buffers',
+                'electrophoresis': 'Electrophoresis',
+                'transfer': 'Transfer & Blocking',
+                'pcr': 'PCR & Molecular',
+                'cell-culture': 'Cell Culture Media',
+                'perfusion': 'Perfusion Buffers',
+                'staining': 'Staining Solutions'
+            };
+            return names[category] || category;
+        }
+    }">
+
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-green-600 to-teal-600 text-white shadow-2xl">
+            <div class="container mx-auto px-4 py-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2">Recipes & Reagents Reference</h1>
+                        <p class="text-green-100">Complete formulations from all lab protocols</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="index.html" class="bg-white text-green-600 px-6 py-3 rounded-lg font-semibold hover:bg-green-50 transition">
+                            ← All Protocols
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Search and Filter -->
+        <div class="container mx-auto px-4 py-6">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Search Recipes</label>
+                        <input type="text"
+                               x-model="searchQuery"
+                               placeholder="Search by name, protocol, or ingredient..."
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Filter by Category</label>
+                        <select x-model="selectedCategory"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="all">All Categories</option>
+                            <option value="lysis">Lysis Buffers</option>
+                            <option value="electrophoresis">Electrophoresis Buffers</option>
+                            <option value="transfer">Transfer & Blocking</option>
+                            <option value="pcr">PCR & Molecular</option>
+                            <option value="cell-culture">Cell Culture Media</option>
+                            <option value="perfusion">Perfusion Buffers</option>
+                            <option value="staining">Staining Solutions</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-4 text-sm text-gray-600">
+                    <span x-text="filteredRecipes.length"></span>
+                    <span x-text="filteredRecipes.length === 1 ? 'recipe' : 'recipes'"></span> found
+                </div>
+            </div>
+
+            <!-- Recipe Cards -->
+            <div class="space-y-6">
+                <template x-for="recipe in filteredRecipes" :key="recipe.name">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <!-- Recipe Header -->
+                        <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6 text-white">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h2 class="text-2xl font-bold mb-2" x-text="recipe.name"></h2>
+                                    <p class="text-green-100 text-sm">From: <span x-text="recipe.protocol"></span> protocol</p>
+                                </div>
+                                <span :class="getCategoryColor(recipe.category)"
+                                      class="px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span x-text="getCategoryName(recipe.category)"></span>
+                                </span>
+                            </div>
+                            <div class="mt-4 flex gap-4 text-sm">
+                                <div>
+                                    <span class="font-semibold">Volume:</span>
+                                    <span x-text="recipe.volume"></span>
+                                </div>
+                                <div>
+                                    <span class="font-semibold">Storage:</span>
+                                    <span x-text="recipe.storage"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recipe Body -->
+                        <div class="p-6">
+                            <!-- Ingredients Table -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-3">Ingredients</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="px-4 py-2 text-left">Component</th>
+                                                <th class="px-4 py-2 text-left">Final Concentration</th>
+                                                <th class="px-4 py-2 text-left">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y">
+                                            <template x-for="ing in recipe.ingredients" :key="ing.component">
+                                                <tr>
+                                                    <td class="px-4 py-2" x-text="ing.component"></td>
+                                                    <td class="px-4 py-2" x-text="ing.concentration"></td>
+                                                    <td class="px-4 py-2 font-semibold" x-text="ing.amount"></td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Preparation Steps -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-bold text-gray-800 mb-3">Preparation</h3>
+                                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                                    <template x-for="(step, index) in recipe.steps" :key="index">
+                                        <li x-text="step"></li>
+                                    </template>
+                                </ol>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <p class="font-semibold text-yellow-900 mb-1">Important Notes</p>
+                                <p class="text-yellow-800 text-sm" x-text="recipe.notes"></p>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <template x-for="tag in recipe.tags" :key="tag">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full" x-text="tag"></span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- No Results -->
+            <div x-show="filteredRecipes.length === 0" class="text-center py-12">
+                <div class="text-6xl mb-4">🔍</div>
+                <h3 class="text-2xl font-bold text-gray-700 mb-2">No recipes found</h3>
+                <p class="text-gray-500">Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Consolidated recipes from Dasgupta Lab protocols</p>
+                <p class="text-sm mt-2">For Research Use Only | Compiled by Roman | October 2025</p>
+                <p class="text-sm mt-2">
+                    <a href="index.html" class="text-green-400 hover:text-green-300">← Back to Protocol Index</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
