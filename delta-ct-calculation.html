@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Delta Ct Calculation Protocol - Bio-Rad RT-qPCR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        /* Mobile table improvements */
+        @media (max-width: 640px) {
+            table {
+                font-size: 0.875rem;
+            }
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-blue-700 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">Delta Ct (ΔCt) Calculation Protocol</h1>
+                        <p class="text-blue-100 mt-2">For Bio-Rad RT-qPCR Data Analysis</p>
+                    </div>
+                    <a href="index.html" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+                        ← All Protocols
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'export-data'"
+                            :class="activeSection === 'export-data' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 1: Export
+                    </button>
+                    <button @click="activeSection = 'organize'"
+                            :class="activeSection === 'organize' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 2: Organize
+                    </button>
+                    <button @click="activeSection = 'mean-ct'"
+                            :class="activeSection === 'mean-ct' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 3: Mean Ct
+                    </button>
+                    <button @click="activeSection = 'delta-ct'"
+                            :class="activeSection === 'delta-ct' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 4: ΔCt
+                    </button>
+                    <button @click="activeSection = 'sd-calc'"
+                            :class="activeSection === 'sd-calc' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 5: SD
+                    </button>
+                    <button @click="activeSection = 'interpretation'"
+                            :class="activeSection === 'interpretation' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 6: Interpret
+                    </button>
+                    <button @click="activeSection = 'ddct'"
+                            :class="activeSection === 'ddct' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Step 7: ΔΔCt
+                    </button>
+                    <button @click="activeSection = 'qc-reference'"
+                            :class="activeSection === 'qc-reference' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        QC & Reference
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+                    <p class="text-gray-700 mb-4">
+                        This protocol outlines the steps for calculating ΔCt values from RT-qPCR data generated on Bio-Rad CFX systems
+                        (CFX96, CFX Connect, CFX Opus, etc.). The ΔCt method normalizes target gene expression to reference genes,
+                        allowing for accurate comparison of gene expression across samples.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-700 p-4 mb-4">
+                        <p class="font-semibold text-blue-900 mb-2">What is ΔCt?</p>
+                        <p class="text-blue-800 text-sm">
+                            ΔCt (Delta Ct) represents the difference between the Ct value of your target gene and a reference gene.
+                            It normalizes gene expression to account for differences in RNA input amount and quality.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Workflow Overview</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                            <li>Export data from Bio-Rad CFX Maestro software</li>
+                            <li>Organize data in spreadsheet</li>
+                            <li>Calculate mean Ct values with quality control</li>
+                            <li>Calculate ΔCt (target Ct - reference Ct)</li>
+                            <li>Calculate ΔCt standard deviation</li>
+                            <li>Interpret ΔCt values</li>
+                            <li>Optional: Calculate ΔΔCt for fold change analysis</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Materials Needed</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Software</h3>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>Bio-Rad CFX Maestro (recommended) or CFX Manager</li>
+                                <li>Spreadsheet software (Excel, Google Sheets, etc.)</li>
+                                <li>Optional: GraphPad Prism or R for statistical analysis</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Data Files</h3>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li>RT-qPCR run file (.pcrd format)</li>
+                                <li>Completed qPCR run with quality control metrics</li>
+                                <li>Reference gene data for normalization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Export Data -->
+            <div x-show="activeSection === 'export-data'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 1: Export Data from Bio-Rad Software</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Using CFX Maestro</h3>
+                            <button @click="toggleStep('export')"
+                                    :class="isCompleted('export') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('export') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-2 text-gray-700 mb-4">
+                            <li>Open your run file in CFX Maestro</li>
+                            <li>Navigate to the <strong>Quantification</strong> tab</li>
+                            <li>Review the amplification curves and ensure quality control</li>
+                            <li>Go to <strong>Data Analysis</strong> → <strong>Export</strong></li>
+                            <li>Select <strong>Export to Excel</strong> or <strong>Export to CSV</strong></li>
+                        </ol>
+
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-yellow-900">NOTE: Ensure the export includes Sample names, Target names, Cq values, Well positions, and Technical replicates.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">For Older CFX Manager Software:</h3>
+                        <ol class="list-decimal list-inside space-y-1 text-gray-700">
+                            <li>Open run file in CFX Manager</li>
+                            <li>Click <strong>Export</strong> button in toolbar</li>
+                            <li>Choose <strong>Export All Data Sheets</strong></li>
+                            <li>Save as .xls or .csv format</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Organize Data -->
+            <div x-show="activeSection === 'organize'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 2: Organize Your Data</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Create Spreadsheet Structure</h3>
+                            <button @click="toggleStep('organize')"
+                                    :class="isCompleted('organize') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('organize') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <p class="text-gray-700 mb-4">Create a spreadsheet with the following structure:</p>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-blue-100">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left">Sample</th>
+                                        <th class="px-4 py-2 text-left">Target Gene</th>
+                                        <th class="px-4 py-2 text-left">Rep 1 Ct</th>
+                                        <th class="px-4 py-2 text-left">Rep 2 Ct</th>
+                                        <th class="px-4 py-2 text-left">Rep 3 Ct</th>
+                                        <th class="px-4 py-2 text-left">Mean Ct</th>
+                                        <th class="px-4 py-2 text-left">SD</th>
+                                        <th class="px-4 py-2 text-left">Ref Gene Ct</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-4 py-2">Control_1</td>
+                                        <td class="px-4 py-2">VEGFA</td>
+                                        <td class="px-4 py-2">24.32</td>
+                                        <td class="px-4 py-2">24.45</td>
+                                        <td class="px-4 py-2">24.28</td>
+                                        <td class="px-4 py-2 bg-green-50 font-semibold">24.35</td>
+                                        <td class="px-4 py-2">0.09</td>
+                                        <td class="px-4 py-2">18.45</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Control_1</td>
+                                        <td class="px-4 py-2">ACTB</td>
+                                        <td class="px-4 py-2">18.42</td>
+                                        <td class="px-4 py-2">18.48</td>
+                                        <td class="px-4 py-2">18.45</td>
+                                        <td class="px-4 py-2 bg-green-50 font-semibold">18.45</td>
+                                        <td class="px-4 py-2">0.03</td>
+                                        <td class="px-4 py-2">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Treated_1</td>
+                                        <td class="px-4 py-2">VEGFA</td>
+                                        <td class="px-4 py-2">22.15</td>
+                                        <td class="px-4 py-2">22.28</td>
+                                        <td class="px-4 py-2">22.19</td>
+                                        <td class="px-4 py-2 bg-green-50 font-semibold">22.21</td>
+                                        <td class="px-4 py-2">0.07</td>
+                                        <td class="px-4 py-2">18.62</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-2">Tips for Organization:</h3>
+                        <ul class="list-disc list-inside space-y-1 text-blue-800 text-sm">
+                            <li>Group samples by condition (Control, Treated, etc.)</li>
+                            <li>List each target gene separately</li>
+                            <li>Include reference genes for each sample</li>
+                            <li>Keep technical replicates in separate columns</li>
+                            <li>Use consistent naming conventions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Calculate Mean Ct -->
+            <div x-show="activeSection === 'mean-ct'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 3: Calculate Mean Ct Values</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Calculate Average and Standard Deviation</h3>
+                            <button @click="toggleStep('mean-ct')"
+                                    :class="isCompleted('mean-ct') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('mean-ct') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg mb-4 border-2 border-green-500">
+                            <h4 class="font-semibold text-green-900 mb-2">Example Calculation:</h4>
+                            <p class="text-green-800 text-sm mb-2"><strong>Sample Data:</strong> VEGFA gene in Control sample</p>
+                            <p class="text-green-800 text-sm mb-3">Technical replicates: 24.32, 24.45, 24.28</p>
+
+                            <div class="bg-white p-3 rounded border border-green-300 mb-3">
+                                <p class="font-mono text-center">Mean Ct = (24.32 + 24.45 + 24.28) / 3 = <strong class="text-green-700">24.35</strong></p>
+                            </div>
+
+                            <p class="text-green-800 text-sm mb-2"><strong>Standard Deviation:</strong></p>
+                            <div class="bg-white p-3 rounded border border-green-300">
+                                <p class="font-mono text-center">SD = √[Σ(xi - mean)² / (n-1)] = <strong class="text-green-700">0.09</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">Excel/Sheets Formulas:</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li><strong>Mean Ct:</strong> <code class="bg-white px-2 py-1 rounded">=AVERAGE(C2:E2)</code></li>
+                                <li><strong>Standard Deviation:</strong> <code class="bg-white px-2 py-1 rounded">=STDEV(C2:E2)</code></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                            <p class="font-semibold text-red-800 mb-2">Quality Control Checkpoint:</p>
+                            <p class="text-red-700 text-sm">
+                                <strong>SD &gt; 0.5</strong> between replicates may indicate pipetting errors.
+                                Exclude outliers if one replicate differs by &gt;0.5 Ct from others, or re-run the samples.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Calculate ΔCt -->
+            <div x-show="activeSection === 'delta-ct'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 4: Calculate Delta Ct (ΔCt)</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">ΔCt Formula</h3>
+                            <button @click="toggleStep('delta-ct')"
+                                    :class="isCompleted('delta-ct') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('delta-ct') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="bg-blue-600 text-white p-4 rounded-lg mb-4 text-center">
+                            <p class="text-2xl font-bold">ΔCt = Ct<sub>(target gene)</sub> - Ct<sub>(reference gene)</sub></p>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg mb-4 border-2 border-green-500">
+                            <h4 class="font-semibold text-green-900 mb-3">Single Reference Gene Example:</h4>
+                            <p class="text-green-800 text-sm mb-2"><strong>Given:</strong></p>
+                            <ul class="list-disc list-inside text-green-800 text-sm mb-3 ml-4">
+                                <li>VEGFA (target) Mean Ct = 24.35</li>
+                                <li>ACTB (reference) Mean Ct = 18.45</li>
+                            </ul>
+
+                            <div class="bg-white p-3 rounded border border-green-300">
+                                <p class="font-mono text-center">ΔCt = 24.35 - 18.45 = <strong class="text-green-700 text-xl">5.90</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6 border-2 border-purple-500">
+                        <h3 class="text-xl font-semibold text-purple-900 mb-3">For Multiple Reference Genes (Recommended):</h3>
+
+                        <p class="text-gray-700 mb-3">Using multiple reference genes improves normalization accuracy. Calculate the geometric mean of reference genes first:</p>
+
+                        <div class="bg-purple-50 p-4 rounded-lg mb-4">
+                            <h4 class="font-semibold text-purple-900 mb-2">Example with 3 Reference Genes:</h4>
+                            <p class="text-purple-800 text-sm mb-2"><strong>Reference genes:</strong></p>
+                            <ul class="list-disc list-inside text-purple-800 text-sm mb-3 ml-4">
+                                <li>ACTB Ct = 18.45</li>
+                                <li>GAPDH Ct = 19.20</li>
+                                <li>HPRT1 Ct = 22.15</li>
+                            </ul>
+
+                            <div class="bg-white p-3 rounded border border-purple-300 mb-3">
+                                <p class="font-mono text-sm text-center">Geometric Mean = ³√(18.45 × 19.20 × 22.15) = <strong class="text-purple-700">19.88</strong></p>
+                            </div>
+
+                            <p class="text-purple-800 text-sm mb-2"><strong>Excel formula:</strong></p>
+                            <div class="bg-white p-2 rounded border border-purple-300 mb-3">
+                                <code class="text-sm">=GEOMEAN(18.45, 19.20, 22.15)</code>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-purple-300">
+                                <p class="font-mono text-center">ΔCt = 24.35 - 19.88 = <strong class="text-purple-700 text-xl">4.47</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: SD Calculation -->
+            <div x-show="activeSection === 'sd-calc'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 5: Calculate ΔCt Standard Deviation</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Error Propagation</h3>
+                            <button @click="toggleStep('sd-calc')"
+                                    :class="isCompleted('sd-calc') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('sd-calc') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <p class="text-gray-700 mb-4">Propagate error from both target and reference measurements:</p>
+
+                        <div class="bg-blue-600 text-white p-4 rounded-lg mb-4 text-center">
+                            <p class="text-xl font-bold">SD<sub>(ΔCt)</sub> = √[SD²<sub>(target)</sub> + SD²<sub>(reference)</sub>]</p>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg border-2 border-green-500">
+                            <h4 class="font-semibold text-green-900 mb-3">Example Calculation:</h4>
+                            <p class="text-green-800 text-sm mb-3"><strong>Given:</strong></p>
+                            <ul class="list-disc list-inside text-green-800 text-sm mb-3 ml-4">
+                                <li>SD<sub>(VEGFA)</sub> = 0.09</li>
+                                <li>SD<sub>(ACTB)</sub> = 0.03</li>
+                            </ul>
+
+                            <div class="bg-white p-3 rounded border border-green-300 mb-2">
+                                <p class="font-mono text-sm text-center">SD<sub>(ΔCt)</sub> = √[0.09² + 0.03²]</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-green-300 mb-2">
+                                <p class="font-mono text-sm text-center">= √[0.0081 + 0.0009]</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-green-300 mb-2">
+                                <p class="font-mono text-sm text-center">= √0.009</p>
+                            </div>
+                            <div class="bg-white p-3 rounded border border-green-300">
+                                <p class="font-mono text-center">= <strong class="text-green-700 text-xl">0.095</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mt-4">
+                            <h4 class="font-semibold text-gray-800 mb-2">Excel Formula:</h4>
+                            <code class="bg-white px-3 py-2 rounded block text-sm">=SQRT(G2^2 + H2^2)</code>
+                            <p class="text-gray-600 text-sm mt-2">Where G2 = SD of target, H2 = SD of reference</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6: Interpretation -->
+            <div x-show="activeSection === 'interpretation'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 6: Interpretation of ΔCt Values</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Understanding Your Results</h3>
+                            <button @click="toggleStep('interpretation')"
+                                    :class="isCompleted('interpretation') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('interpretation') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <div class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 h-20 rounded-lg mb-4 flex items-center justify-between px-8 text-white font-bold shadow-lg">
+                            <div class="text-center">
+                                <div class="text-2xl">0</div>
+                                <div class="text-xs">Same as reference</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl">~5-10</div>
+                                <div class="text-xs">Typical range</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl">&gt;15</div>
+                                <div class="text-xs">Low expression</div>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-red-50 p-4 rounded-lg border-2 border-red-500">
+                                <h4 class="font-semibold text-red-900 mb-2">LOW ΔCt (0-5)</h4>
+                                <p class="text-red-800 text-sm">
+                                    <strong>HIGH Expression</strong><br>
+                                    Target amplifies close to reference gene. Abundant transcript.
+                                </p>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg border-2 border-yellow-500">
+                                <h4 class="font-semibold text-yellow-900 mb-2">MODERATE ΔCt (5-10)</h4>
+                                <p class="text-yellow-800 text-sm">
+                                    <strong>MODERATE Expression</strong><br>
+                                    Typical expression level for many genes.
+                                </p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg border-2 border-green-500">
+                                <h4 class="font-semibold text-green-900 mb-2">HIGH ΔCt (&gt;10)</h4>
+                                <p class="text-green-800 text-sm">
+                                    <strong>LOW Expression</strong><br>
+                                    Target amplifies much later than reference. Low abundance.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-700 p-4">
+                            <p class="font-semibold text-blue-900 mb-2">Key Interpretation Points:</p>
+                            <ul class="list-disc list-inside space-y-1 text-blue-800 text-sm">
+                                <li><strong>Lower ΔCt</strong> = Higher expression (target amplifies closer to reference)</li>
+                                <li><strong>Higher ΔCt</strong> = Lower expression (target amplifies later than reference)</li>
+                                <li>Each unit increase in ΔCt ≈ 2-fold decrease in expression (assuming 100% efficiency)</li>
+                                <li>ΔCt values are inversely related to gene expression levels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 7: ΔΔCt -->
+            <div x-show="activeSection === 'ddct'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Step 7: Optional - Calculate ΔΔCt for Relative Expression</h2>
+
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-semibold text-gray-800">Fold Change Analysis</h3>
+                            <button @click="toggleStep('ddct')"
+                                    :class="isCompleted('ddct') ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="isCompleted('ddct') ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+
+                        <p class="text-gray-700 mb-4">If comparing to a control/calibrator sample, calculate fold change using the ΔΔCt method:</p>
+
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div class="bg-purple-600 text-white p-4 rounded-lg text-center">
+                                <p class="text-lg font-bold">ΔΔCt = ΔCt<sub>(sample)</sub> - ΔCt<sub>(control)</sub></p>
+                            </div>
+                            <div class="bg-purple-600 text-white p-4 rounded-lg text-center">
+                                <p class="text-lg font-bold">Fold Change = 2<sup>(-ΔΔCt)</sup></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg border-2 border-green-500 mb-4">
+                            <h4 class="font-semibold text-green-900 mb-3">Complete Example:</h4>
+                            <p class="text-green-800 text-sm mb-3"><strong>Given:</strong></p>
+                            <ul class="list-disc list-inside text-green-800 text-sm mb-3 ml-4">
+                                <li>Control sample: ΔCt = 5.90</li>
+                                <li>Treated sample: ΔCt = 3.59</li>
+                            </ul>
+
+                            <div class="bg-white p-3 rounded border border-green-300 mb-3">
+                                <p class="font-mono text-center">ΔΔCt = 3.59 - 5.90 = <strong class="text-green-700">-2.31</strong></p>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-green-300 mb-3">
+                                <p class="font-mono text-center">Fold Change = 2<sup>-(-2.31)</sup> = 2<sup>2.31</sup></p>
+                            </div>
+
+                            <div class="bg-white p-3 rounded border border-green-300">
+                                <p class="font-mono text-center text-xl"><strong class="text-green-700">= 4.96-fold increase</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">Excel Formula for Fold Change:</h4>
+                            <code class="bg-white px-3 py-2 rounded block text-sm mb-2">=2^(-ΔΔCt)</code>
+                            <code class="bg-white px-3 py-2 rounded block text-sm">=2^(-(I2-I3))</code>
+                            <p class="text-gray-600 text-sm mt-2">Where I2 = ΔCt of sample, I3 = ΔCt of control</p>
+                        </div>
+
+                        <div class="mt-4 bg-blue-50 border-l-4 border-blue-700 p-4">
+                            <p class="font-semibold text-blue-900 mb-2">Interpreting Fold Change:</p>
+                            <ul class="list-disc list-inside space-y-1 text-blue-800 text-sm">
+                                <li><strong>Fold Change &gt; 1:</strong> Gene is upregulated (increased expression)</li>
+                                <li><strong>Fold Change = 1:</strong> No change in expression</li>
+                                <li><strong>Fold Change &lt; 1:</strong> Gene is downregulated (decreased expression)</li>
+                                <li><strong>Negative ΔΔCt:</strong> Upregulation</li>
+                                <li><strong>Positive ΔΔCt:</strong> Downregulation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QC & Reference Section -->
+            <div x-show="activeSection === 'qc-reference'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Quality Control Checkpoints</h2>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-3">Before Calculating ΔCt, Verify:</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">Amplification efficiency 90-110% (if standard curve performed)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">Melt curve shows single peak (SYBR Green assays)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">Technical replicate SD &lt; 0.5</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">Negative controls show no amplification (Ct &gt; 35 or undetermined)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">Reference gene Ct variation &lt; 1 cycle across samples</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-700 text-xl mr-3">☐</span>
+                                <span class="text-yellow-800">All Ct values within linear range (15-35)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Common Reference Genes for Normalization</h2>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-blue-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Gene</th>
+                                    <th class="px-4 py-2 text-left">Full Name</th>
+                                    <th class="px-4 py-2 text-left">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2"><strong>ACTB</strong></td>
+                                    <td class="px-4 py-2">β-actin</td>
+                                    <td class="px-4 py-2">Generally stable; good for GBM studies</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2"><strong>GAPDH</strong></td>
+                                    <td class="px-4 py-2">Glyceraldehyde-3-phosphate dehydrogenase</td>
+                                    <td class="px-4 py-2">Caution: can vary in hypoxic conditions</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2"><strong>18S rRNA</strong></td>
+                                    <td class="px-4 py-2">18S ribosomal RNA</td>
+                                    <td class="px-4 py-2">Very abundant; may need dilution</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2"><strong>HPRT1</strong></td>
+                                    <td class="px-4 py-2">Hypoxanthine phosphoribosyltransferase 1</td>
+                                    <td class="px-4 py-2">Stable across many conditions</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2"><strong>TBP</strong></td>
+                                    <td class="px-4 py-2">TATA-box binding protein</td>
+                                    <td class="px-4 py-2">Good for neurological samples</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2"><strong>RPLP0</strong></td>
+                                    <td class="px-4 py-2">Ribosomal protein lateral stalk subunit P0</td>
+                                    <td class="px-4 py-2">Alternative to GAPDH</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                        <p class="font-semibold text-red-800 mb-2">Important for GBM Research:</p>
+                        <p class="text-red-700 text-sm">
+                            Validate reference gene stability in your experimental system. Metabolic reprogramming and hypoxic
+                            conditions in GBM can affect traditional housekeeping genes. Use tools like geNorm, NormFinder,
+                            or BestKeeper to assess stability.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Data Reporting Guidelines</h2>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="font-semibold text-blue-900 mb-3">When reporting ΔCt values in publications, include:</p>
+                        <ul class="list-disc list-inside space-y-2 text-blue-800 text-sm">
+                            <li>State the reference gene(s) used and validation method</li>
+                            <li>Report mean ± SD or SEM with sample size</li>
+                            <li>Specify number of biological and technical replicates</li>
+                            <li>Include quality control metrics (efficiency, R²)</li>
+                            <li>Note any excluded data points with justification</li>
+                            <li>Provide primer sequences and amplicon sizes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Issue</th>
+                                    <th class="px-4 py-2 text-left">Possible Cause</th>
+                                    <th class="px-4 py-2 text-left">Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2">High SD between replicates</td>
+                                    <td class="px-4 py-2">Pipetting error</td>
+                                    <td class="px-4 py-2">Re-run samples; check pipette calibration</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Reference gene variable</td>
+                                    <td class="px-4 py-2">Unstable reference</td>
+                                    <td class="px-4 py-2">Test alternative reference genes</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Late Ct values (&gt;35)</td>
+                                    <td class="px-4 py-2">Low expression or poor efficiency</td>
+                                    <td class="px-4 py-2">Increase RNA input; optimize primers</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">No Ct value</td>
+                                    <td class="px-4 py-2">No amplification</td>
+                                    <td class="px-4 py-2">Check primers; verify RNA quality</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Multiple melt peaks</td>
+                                    <td class="px-4 py-2">Non-specific amplification</td>
+                                    <td class="px-4 py-2">Redesign primers; optimize annealing temperature</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Inconsistent ΔCt between biological replicates</td>
+                                    <td class="px-4 py-2">Biological variability or experimental variation</td>
+                                    <td class="px-4 py-2">Increase sample size; check sample preparation consistency</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Reference gene Ct varies across samples</td>
+                                    <td class="px-4 py-2">RNA quality or quantity differences</td>
+                                    <td class="px-4 py-2">Re-quantify RNA; normalize input; use multiple reference genes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol for Delta Ct calculation from Bio-Rad CFX systems RT-qPCR data</p>
+                <p class="text-sm mt-2">For Research Use Only | Version 1.0 | October 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
