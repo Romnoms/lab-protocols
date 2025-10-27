@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mouse Genotyping Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        /* Mobile table improvements */
+        @media (max-width: 640px) {
+            table {
+                font-size: 0.875rem;
+            }
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        activeMouseLine: 'scd1',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-blue-700 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Mouse Genotyping Protocol</h1>
+                <p class="text-blue-100 mt-2">Dasgupta Laboratory - Emory University</p>
+                <p class="text-blue-100 text-sm">SCD1, SCD2, Cdh5-Cre, and tdTomato Reporter Lines</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'dna-extraction'"
+                            :class="activeSection === 'dna-extraction' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        DNA Extraction
+                    </button>
+                    <button @click="activeSection = 'pcr-setup'"
+                            :class="activeSection === 'pcr-setup' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        PCR Setup
+                    </button>
+                    <button @click="activeSection = 'mouse-lines'; activeMouseLine = 'scd1'"
+                            :class="activeSection === 'mouse-lines' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Mouse Lines
+                    </button>
+                    <button @click="activeSection = 'gel'"
+                            :class="activeSection === 'gel' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Gel Electrophoresis
+                    </button>
+                    <button @click="activeSection = 'interpretation'"
+                            :class="activeSection === 'interpretation' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Results
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Protocol Overview</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        This protocol describes comprehensive genotyping procedures for transgenic mouse lines maintained
+                        in the Dasgupta Laboratory. Each mouse line requires specific primers and PCR conditions to
+                        accurately determine genotypes.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">General Principles:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• Always include positive and negative controls</li>
+                            <li>• Run wild-type and floxed/transgene primers in separate reactions unless noted</li>
+                            <li>• Use fresh reagents and maintain sterile technique</li>
+                            <li>• Document all results in laboratory notebook and database</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">🧬 Mouse Lines Covered</h3>
+                            <ul class="text-sm text-green-800 space-y-1">
+                                <li>• <strong>SCD1 Floxed</strong> - Conditional knockout allele</li>
+                                <li>• <strong>SCD2 Floxed</strong> - Conditional knockout allele</li>
+                                <li>• <strong>Cdh5-Cre</strong> - Endothelial cell-specific Cre</li>
+                                <li>• <strong>tdTomato Reporter</strong> - Rosa26-LSL-tdTomato</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">⏱️ Timeline</h3>
+                            <ul class="text-sm text-purple-800 space-y-1">
+                                <li>• <strong>Day 1:</strong> DNA extraction (~2-3 hours)</li>
+                                <li>• <strong>Day 2:</strong> PCR setup and run (~3-4 hours)</li>
+                                <li>• <strong>Day 2:</strong> Gel electrophoresis (~1 hour)</li>
+                                <li>• <strong>Total:</strong> 2 days</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                        <p class="font-semibold text-yellow-900 mb-2">⚠️ Important Notes:</p>
+                        <ul class="text-sm text-yellow-800 space-y-1">
+                            <li>• Tail samples are clipped and stored in -20°C freezer (arrivals bin)</li>
+                            <li>• Change pipette tips between each sample to prevent cross-contamination</li>
+                            <li>• Keep all reagents on ice during setup</li>
+                            <li>• Store DNA samples at 4°C (not -20°C) for accessibility</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Heat blocks (95°C) - holds 12 tubes each</li>
+                                <li>Thermal cycler (PCR machine)</li>
+                                <li>Centrifuge (max speed ~13,000 rpm)</li>
+                                <li>Vortex mixer</li>
+                                <li>Microwave for gel preparation</li>
+                                <li>Gel electrophoresis apparatus</li>
+                                <li>UV transilluminator or blue light imager</li>
+                                <li>Pipettes (P20, P200, P1000)</li>
+                                <li>Multichannel pipette (optional, for large batches)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">DNA Extraction Reagents</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>25 mM NaOH/EDTA solution</li>
+                                <li>40 mM Tris-HCl (pH neutralization)</li>
+                                <li>1.5 mL microcentrifuge tubes</li>
+                                <li>Cap locks for heat block tubes</li>
+                                <li>Sterile pipette tips</li>
+                                <li>Mouse tail tissue samples (from -20°C freezer)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">PCR Reagents</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>2X PCR Master Mix (Taq polymerase, dNTPs, buffer)</li>
+                                <li>Primers (10 µM working stocks) - see Mouse Lines section</li>
+                                <li>Nuclease-free water</li>
+                                <li>PCR tubes or 96-well PCR plates</li>
+                                <li>Positive control DNA (known genotypes)</li>
+                                <li>Negative control (water)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Gel Electrophoresis</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Agarose powder</li>
+                                <li>1X TAE buffer</li>
+                                <li>Ethidium bromide or safe DNA stain</li>
+                                <li>6X loading dye</li>
+                                <li>100 bp DNA ladder</li>
+                                <li>Gel casting tray and combs</li>
+                                <li>UV protection equipment (face shield, gloves)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mt-6">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-3">Standard PCR Reaction (25 µL total)</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-blue-100">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Component</th>
+                                    <th class="px-3 py-2 text-left">Volume</th>
+                                    <th class="px-3 py-2 text-left">Final Concentration</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-blue-200">
+                                <tr>
+                                    <td class="px-3 py-2">2X PCR Master Mix</td>
+                                    <td class="px-3 py-2">12.5 µL</td>
+                                    <td class="px-3 py-2">1X</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Forward Primer (10 µM)</td>
+                                    <td class="px-3 py-2">1.0 µL</td>
+                                    <td class="px-3 py-2">0.4 µM</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Reverse Primer (10 µM)</td>
+                                    <td class="px-3 py-2">1.0 µL</td>
+                                    <td class="px-3 py-2">0.4 µM</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Template DNA</td>
+                                    <td class="px-3 py-2">1.0 µL</td>
+                                    <td class="px-3 py-2">~50-100 ng</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Nuclease-free water</td>
+                                    <td class="px-3 py-2">9.5 µL</td>
+                                    <td class="px-3 py-2">-</td>
+                                </tr>
+                                <tr class="bg-blue-100 font-semibold">
+                                    <td class="px-3 py-2">Total</td>
+                                    <td class="px-3 py-2">25 µL</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DNA Extraction Section -->
+            <div x-show="activeSection === 'dna-extraction'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">DNA Extraction (Tail Digestion)</h2>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <p class="text-sm text-yellow-900">
+                            <strong>Note:</strong> Tail samples are clipped in the latter half of the week and stored
+                            in the arrivals bin in the -20°C freezer.
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Step 1 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 1: Preheat Heat Blocks</h3>
+                                <button @click="toggleStep('preheat-blocks')"
+                                        :class="isCompleted('preheat-blocks') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('preheat-blocks') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-700 mb-2">Preheat the heat blocks to <strong>95°C</strong>.</p>
+                                <ul class="text-sm text-gray-600 list-disc list-inside">
+                                    <li>Takes approximately 10-20 minutes</li>
+                                    <li>Each heat block holds 12 tubes - plan accordingly</li>
+                                    <li>Start preheating while organizing samples</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 2: Add NaOH/EDTA Solution</h3>
+                                <button @click="toggleStep('add-naoh')"
+                                        :class="isCompleted('add-naoh') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('add-naoh') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Add <strong>100 µL of 25 mM NaOH/EDTA</strong> to each tube containing tail tissue</li>
+                                <li>Ensure the tail is fully submerged in the solution using pipette tips</li>
+                            </ol>
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-red-900">CRITICAL:</p>
+                                <p class="text-sm text-red-800">
+                                    If a pipette tip touches the inside of the tube or the tail, it MUST be discarded
+                                    and replaced before moving to the next tube.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 3: Incubate at 95°C</h3>
+                                <button @click="toggleStep('incubate-95')"
+                                        :class="isCompleted('incubate-95') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('incubate-95') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Put cap locks on every tube</li>
+                                <li>Place tubes in the preheated heat blocks</li>
+                                <li>Let sit for <strong>1 hour</strong></li>
+                                <li>Set a timer to avoid over-digestion</li>
+                            </ol>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 4: Cool Samples</h3>
+                                <button @click="toggleStep('cool-samples')"
+                                        :class="isCompleted('cool-samples') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('cool-samples') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-700 mb-2">Remove tubes from heat blocks and allow to cool for <strong>10-60 seconds</strong> before removing cap locks.</p>
+                                <p class="text-xs text-gray-600">
+                                    This cooling period allows tubes to relieve pressure from temperature change and
+                                    prevents them from popping open and splashing solution.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 5: Add Tris-HCl (Neutralization)</h3>
+                                <button @click="toggleStep('add-tris')"
+                                        :class="isCompleted('add-tris') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('add-tris') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-700 mb-2">Add <strong>100 µL of 40 mM Tris-HCl</strong> to each tube.</p>
+                                <div class="bg-red-50 p-2 rounded mt-2">
+                                    <p class="text-xs font-semibold text-red-900">IMPORTANT:</p>
+                                    <p class="text-xs text-red-800">
+                                        If the pipette tip touches the inside of the tube or the solution, it MUST be
+                                        discarded and replaced before moving to the next tube.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 6: Vortex</h3>
+                                <button @click="toggleStep('vortex')"
+                                        :class="isCompleted('vortex') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('vortex') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <p class="text-sm text-gray-700">Vortex the tubes thoroughly to mix the neutralized solution.</p>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 7: Centrifuge</h3>
+                                <button @click="toggleStep('centrifuge')"
+                                        :class="isCompleted('centrifuge') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('centrifuge') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="text-sm text-gray-700 mb-2">Centrifuge tubes at <strong>max speed for 5 minutes</strong>.</p>
+                                <div class="bg-yellow-50 p-2 rounded mt-2">
+                                    <p class="text-xs font-semibold text-yellow-900">BE CAREFUL:</p>
+                                    <p class="text-xs text-yellow-800">
+                                        When removing tubes, all tissue is at the bottom. Jostling them too much can
+                                        reverse the effects of centrifugation.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 8 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 8: Transfer Supernatant</h3>
+                                <button @click="toggleStep('transfer-super')"
+                                        :class="isCompleted('transfer-super') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('transfer-super') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Prepare and label new eppendorf tubes corresponding to each sample</li>
+                                <li>Carefully pipette out <strong>150 µL of supernatant</strong> from each tube into its respective new tube</li>
+                                <li>Be careful NOT to pick up any particulate matter (this will destroy sample over time)</li>
+                                <li>The pipette tip MUST be changed between each sample</li>
+                            </ol>
+                        </div>
+
+                        <!-- Step 9 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 9: Store DNA Samples</h3>
+                                <button @click="toggleStep('store-dna')"
+                                        :class="isCompleted('store-dna') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('store-dna') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <p class="text-sm text-blue-900 mb-2">
+                                    Store the DNA samples in the <strong>4°C freezer</strong> in their respective boxes.
+                                </p>
+                                <p class="text-xs text-blue-800">
+                                    Note: DNA is stored at 4°C (not -20°C) for easy access and to prevent freeze-thaw cycles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PCR Setup Section -->
+            <div x-show="activeSection === 'pcr-setup'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">PCR Setup and Master Mix</h2>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">PCR Setup Tips:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• Prepare master mix for all reactions plus 10% extra</li>
+                            <li>• Keep all reagents on ice</li>
+                            <li>• Add DNA template last</li>
+                            <li>• Mix thoroughly but gently</li>
+                            <li>• Spin down briefly before placing in thermocycler</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Master Mix Calculation -->
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Master Mix Preparation</h3>
+
+                            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-gray-700 mb-3">
+                                    <strong>Master Mix Strategy:</strong> Prepare a master mix containing all components
+                                    except the DNA template. This ensures consistency across samples and reduces pipetting errors.
+                                </p>
+
+                                <div class="bg-white p-3 rounded border border-gray-300">
+                                    <p class="text-sm font-semibold text-gray-900 mb-2">Example: For 10 samples + 2 controls = 12 reactions total</p>
+                                    <p class="text-sm text-gray-700 mb-2">Add 10% extra: 12 × 1.1 = <strong>13.2 reactions</strong> (round to 13)</p>
+
+                                    <table class="w-full text-xs mt-3">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                                <th class="px-2 py-1 text-left">Component</th>
+                                                <th class="px-2 py-1 text-left">1 rxn</th>
+                                                <th class="px-2 py-1 text-left">13 rxns</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y">
+                                            <tr>
+                                                <td class="px-2 py-1">2X Master Mix</td>
+                                                <td class="px-2 py-1">12.5 µL</td>
+                                                <td class="px-2 py-1">162.5 µL</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-2 py-1">Forward Primer (10 µM)</td>
+                                                <td class="px-2 py-1">1.0 µL</td>
+                                                <td class="px-2 py-1">13 µL</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-2 py-1">Reverse Primer (10 µM)</td>
+                                                <td class="px-2 py-1">1.0 µL</td>
+                                                <td class="px-2 py-1">13 µL</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-2 py-1">Nuclease-free water</td>
+                                                <td class="px-2 py-1">9.5 µL</td>
+                                                <td class="px-2 py-1">123.5 µL</td>
+                                            </tr>
+                                            <tr class="bg-gray-100 font-semibold">
+                                                <td class="px-2 py-1">Master Mix Total</td>
+                                                <td class="px-2 py-1">24 µL</td>
+                                                <td class="px-2 py-1">312 µL</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="text-xs text-gray-600 mt-2">
+                                        Aliquot 24 µL master mix into each PCR tube, then add 1 µL DNA template (total 25 µL)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PCR Setup Procedure -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">PCR Setup Procedure</h3>
+                                <button @click="toggleStep('pcr-setup-proc')"
+                                        :class="isCompleted('pcr-setup-proc') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('pcr-setup-proc') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Thaw all reagents on ice (2X Master Mix, primers, DNA)</li>
+                                <li>Label PCR tubes with sample IDs</li>
+                                <li>Calculate master mix volumes (number of reactions + 10%)</li>
+                                <li>In a clean tube, combine:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>2X PCR Master Mix</li>
+                                        <li>Forward primer</li>
+                                        <li>Reverse primer</li>
+                                        <li>Nuclease-free water</li>
+                                    </ul>
+                                </li>
+                                <li>Mix master mix thoroughly by pipetting up/down or vortexing gently</li>
+                                <li>Aliquot 24 µL of master mix into each labeled PCR tube</li>
+                                <li>Add 1 µL of DNA template to each tube (change tip between samples)</li>
+                                <li>Include controls:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Positive control: Known genotype DNA</li>
+                                        <li>Negative control: Water instead of DNA</li>
+                                    </ul>
+                                </li>
+                                <li>Cap tubes and spin down briefly (quick spin, 2-3 seconds)</li>
+                                <li>Place tubes in thermocycler</li>
+                                <li>Start appropriate PCR program (see Mouse Lines section)</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">Pro Tips:</p>
+                                <ul class="text-sm text-yellow-800 space-y-1">
+                                    <li>• For multiple genotypes, prepare separate master mixes for each primer set</li>
+                                    <li>• Keep master mix on ice while aliquoting to tubes</li>
+                                    <li>• Work quickly but carefully to minimize time at room temperature</li>
+                                    <li>• Double-check that thermocycler program is correct before starting</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mouse Lines Section -->
+            <div x-show="activeSection === 'mouse-lines'" class="space-y-6">
+                <!-- Mouse Line Navigation -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <button @click="activeMouseLine = 'scd1'"
+                                :class="activeMouseLine === 'scd1' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">
+                            SCD1 Floxed
+                        </button>
+                        <button @click="activeMouseLine = 'scd2'"
+                                :class="activeMouseLine === 'scd2' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">
+                            SCD2 Floxed
+                        </button>
+                        <button @click="activeMouseLine = 'cdh5cre'"
+                                :class="activeMouseLine === 'cdh5cre' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">
+                            Cdh5-Cre
+                        </button>
+                        <button @click="activeMouseLine = 'tdtomato'"
+                                :class="activeMouseLine === 'tdtomato' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition">
+                            tdTomato Reporter
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SCD1 -->
+                <div x-show="activeMouseLine === 'scd1'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">SCD1 Floxed Allele Genotyping</h2>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">Purpose:</p>
+                        <p class="text-sm text-blue-800">To identify mice carrying the floxed SCD1 allele (conditional knockout)</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Reaction A: Floxed Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-green-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (T-SCD1 PrA):</td>
+                                        <td class="py-1 font-mono text-xs">5'-CAACTCAGGGTTTCCCTA-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (Neo 7):</td>
+                                        <td class="py-1 font-mono text-xs">5'-ATAGCAGGCATGCTGGGGAT-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>&gt;1000 bp</strong> (floxed)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Reaction B: Wild-Type Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-purple-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (T-SCD1 PrA):</td>
+                                        <td class="py-1 font-mono text-xs">5'-CAACTCAGGGTTTCCCTA-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (T-SCD1 PrB):</td>
+                                        <td class="py-1 font-mono text-xs">5'-GCCATGGCTACTCAGTGA-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>~700 bp</strong> (wild-type)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">PCR Cycling Conditions</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Step</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Time</th>
+                                    <th class="px-3 py-2 text-left">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Initial Denaturation</td>
+                                    <td class="px-3 py-2">95°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">95°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">35 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">58°C</td>
+                                    <td class="px-3 py-2">45 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">1 min</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Final Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">10 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Hold</td>
+                                    <td class="px-3 py-2">4°C</td>
+                                    <td class="px-3 py-2">∞</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-yellow-900 mb-2">Interpretation:</h3>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• <strong>FL/FL:</strong> Band &gt;1000 bp (Rxn A), no band (Rxn B)</li>
+                                <li>• <strong>+/+:</strong> No band (Rxn A), band ~700 bp (Rxn B)</li>
+                                <li>• <strong>FL/+:</strong> Band &gt;1000 bp (Rxn A), band ~700 bp (Rxn B)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-red-900 mb-2">Important Notes:</h3>
+                            <ul class="text-sm text-red-800 space-y-1">
+                                <li>• Run Reactions A and B <strong>separately</strong></li>
+                                <li>• Include wild-type control in both reactions</li>
+                                <li>• Floxed band is large (&gt;1000 bp) - run gel longer if needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SCD2 -->
+                <div x-show="activeMouseLine === 'scd2'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">SCD2 Floxed Allele Genotyping</h2>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">Purpose:</p>
+                        <p class="text-sm text-blue-800">To identify mice carrying the floxed SCD2 allele</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Reaction A: Floxed Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-green-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (Scd2-A):</td>
+                                        <td class="py-1 font-mono text-xs">5'-TGGGTAGTCAGGGATCAAGG-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (Scd2-C):</td>
+                                        <td class="py-1 font-mono text-xs">5'-ATAGCAGGCATGCTGGGAT-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>~250 bp</strong> (floxed)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Reaction B: Wild-Type Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-purple-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (Scd2-A):</td>
+                                        <td class="py-1 font-mono text-xs">5'-TGGGTAGTCAGGGATCAAGG-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (Scd2-B):</td>
+                                        <td class="py-1 font-mono text-xs">5'-ATCTCGACACGGCACAGAG-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>~500 bp</strong> (wild-type)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">PCR Cycling Conditions</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Step</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Time</th>
+                                    <th class="px-3 py-2 text-left">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Initial Denaturation</td>
+                                    <td class="px-3 py-2">95°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">95°C</td>
+                                    <td class="px-3 py-2">20 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">40 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">65°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">1 min 10 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Final Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">5 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Hold</td>
+                                    <td class="px-3 py-2">4°C</td>
+                                    <td class="px-3 py-2">∞</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-yellow-900 mb-2">Interpretation:</h3>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• <strong>FL/FL:</strong> Band ~250 bp (Rxn A), no band (Rxn B)</li>
+                                <li>• <strong>+/+:</strong> No band (Rxn A), band ~500 bp (Rxn B)</li>
+                                <li>• <strong>FL/+:</strong> Band ~250 bp (Rxn A), band ~500 bp (Rxn B)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-red-900 mb-2">Important Notes:</h3>
+                            <ul class="text-sm text-red-800 space-y-1">
+                                <li>• Run Reactions A and B as <strong>2 separate reactions</strong></li>
+                                <li>• SCD2 floxed band (~250 bp) is smaller than SCD1 (&gt;1000 bp)</li>
+                                <li>• Include appropriate controls for both reactions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cdh5-Cre -->
+                <div x-show="activeMouseLine === 'cdh5cre'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Cdh5-Cre (VE-Cadherin-Cre) Genotyping</h2>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">Purpose:</p>
+                        <p class="text-sm text-blue-800">
+                            To identify mice carrying the Cdh5-Cre transgene (endothelial cell-specific Cre recombinase expression)
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Transgene Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-green-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (15623):</td>
+                                        <td class="py-1 font-mono text-xs">5'-AGGCAGCTCACAAAGGAACAAT-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (15625):</td>
+                                        <td class="py-1 font-mono text-xs">5'-TCGTTGCATCGACCGGTAA-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>~300 bp</strong> (transgene)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Internal Positive Control</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-purple-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Control F (oIMR7338):</td>
+                                        <td class="py-1 font-mono text-xs">5'-CTAGGCCACAGAATTGAAAGATCT-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Control R (oIMR7339):</td>
+                                        <td class="py-1 font-mono text-xs">5'-GTAGGTGGAAATTCTAGCATCATCC-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>324 bp</strong> (always present)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6">
+                        <p class="text-sm font-semibold text-yellow-900">Special Protocol: Touchdown PCR</p>
+                        <p class="text-sm text-yellow-800 mt-1">
+                            This protocol uses a touchdown approach where the annealing temperature decreases by 0.5°C
+                            per cycle during the first 10 cycles (65°C down to 60°C). This improves specificity.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">PCR Cycling Conditions (Touchdown Protocol)</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Step</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Time</th>
+                                    <th class="px-3 py-2 text-left">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Initial Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td colspan="4" class="px-3 py-2 text-center font-semibold">Touchdown Phase</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">10 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">65°C (-0.5°C/cycle)</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">68°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr class="bg-green-50">
+                                    <td colspan="4" class="px-3 py-2 text-center font-semibold">Standard Phase</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">28 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">60°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Final Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Hold</td>
+                                    <td class="px-3 py-2">4°C</td>
+                                    <td class="px-3 py-2">∞</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-yellow-900 mb-2">Interpretation:</h3>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• <strong>Cre/+:</strong> Two bands at ~300 bp and 324 bp</li>
+                                <li>• <strong>+/+:</strong> Single band at 324 bp (internal control only)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-red-900 mb-2">Important Notes:</h3>
+                            <ul class="text-sm text-red-800 space-y-1">
+                                <li>• Internal control confirms PCR reaction worked</li>
+                                <li>• If no 324 bp band appears, PCR failed - do not interpret transgene results</li>
+                                <li>• Can run as single reaction with all 4 primers (multiplex)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- tdTomato -->
+                <div x-show="activeMouseLine === 'tdtomato'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">tdTomato Reporter Genotyping</h2>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">Purpose:</p>
+                        <p class="text-sm text-blue-800">
+                            To identify mice carrying the Rosa26-LSL-tdTomato reporter allele. This reporter is useful
+                            for visualizing Cre activity via tdTomato fluorescence (bright red under fluorescence microscopy).
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Mutant (tdTomato) Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-green-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (oIMR9105):</td>
+                                        <td class="py-1 font-mono text-xs">5'-CTGTTCCTGTACGGCATGG-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (oIMR9103):</td>
+                                        <td class="py-1 font-mono text-xs">5'-GGCATTAAAGCAGCGTATCC-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>196 bp</strong> (mutant)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Wild-Type Allele Detection</h3>
+                            <table class="w-full text-sm">
+                                <tbody class="divide-y divide-purple-200">
+                                    <tr>
+                                        <td class="py-1 font-semibold">Forward (oIMR9020):</td>
+                                        <td class="py-1 font-mono text-xs">5'-AAGGGAGCTGCAGTGGAGTA-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Reverse (oIMR9021):</td>
+                                        <td class="py-1 font-mono text-xs">5'-CCGAAAATCTGTGGGAAGTC-3'</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 font-semibold">Expected Product:</td>
+                                        <td class="py-1"><strong>297 bp</strong> (wild-type)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-6">
+                        <p class="text-sm font-semibold text-indigo-900">Multiplex Option:</p>
+                        <p class="text-sm text-indigo-800 mt-1">
+                            Can run as single multiplex reaction with all 4 primers. Both bands will appear in
+                            heterozygous mice, making genotype interpretation straightforward.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">PCR Cycling Conditions (Touchdown Protocol - Recommended)</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Step</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Time</th>
+                                    <th class="px-3 py-2 text-left">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Initial Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr class="bg-blue-50">
+                                    <td colspan="4" class="px-3 py-2 text-center font-semibold">Touchdown Phase</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">10 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">65°C (-0.5°C/cycle)</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">68°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr class="bg-green-50">
+                                    <td colspan="4" class="px-3 py-2 text-center font-semibold">Standard Phase</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">28 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">60°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">30 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Final Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">2 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Hold</td>
+                                    <td class="px-3 py-2">4°C</td>
+                                    <td class="px-3 py-2">∞</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                        <h3 class="font-semibold text-gray-900 mb-3">Alternative Protocol (Yoshida Lab)</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Step</th>
+                                    <th class="px-3 py-2 text-left">Temperature</th>
+                                    <th class="px-3 py-2 text-left">Time</th>
+                                    <th class="px-3 py-2 text-left">Cycles</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-3 py-2">Initial Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">5 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Denaturation</td>
+                                    <td class="px-3 py-2">94°C</td>
+                                    <td class="px-3 py-2">45 sec</td>
+                                    <td class="px-3 py-2" rowspan="3">38 cycles</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Annealing</td>
+                                    <td class="px-3 py-2">60°C</td>
+                                    <td class="px-3 py-2">45 sec</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">1 min</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Final Extension</td>
+                                    <td class="px-3 py-2">72°C</td>
+                                    <td class="px-3 py-2">7 min</td>
+                                    <td class="px-3 py-2">1</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-2">Hold</td>
+                                    <td class="px-3 py-2">4°C</td>
+                                    <td class="px-3 py-2">∞</td>
+                                    <td class="px-3 py-2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-yellow-900 mb-2">Interpretation:</h3>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• <strong>Td/Td:</strong> Band at 196 bp only</li>
+                                <li>• <strong>Td/+:</strong> Bands at both 196 bp and 297 bp</li>
+                                <li>• <strong>+/+:</strong> Band at 297 bp only</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-red-900 mb-2">Important Notes:</h3>
+                            <ul class="text-sm text-red-800 space-y-1">
+                                <li>• Homozygous tdTomato mice are bright red under fluorescence microscopy</li>
+                                <li>• Useful for Cre-reporter experiments to visualize Cre activity</li>
+                                <li>• Can run as single multiplex reaction with all 4 primers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gel Electrophoresis Section -->
+            <div x-show="activeSection === 'gel'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Gel Electrophoresis</h2>
+
+                    <div class="space-y-6">
+                        <!-- Gel Preparation -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Agarose Gel Preparation (2%)</h3>
+                                <button @click="toggleStep('gel-prep')"
+                                        :class="isCompleted('gel-prep') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('gel-prep') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                                <p class="text-sm text-blue-900 font-semibold mb-2">2% Agarose Gel (Standard for Genotyping)</p>
+                                <p class="text-sm text-blue-800">
+                                    2% gels provide good resolution for DNA fragments from ~100 bp to ~1500 bp, making them
+                                    ideal for genotyping where bands range from 196 bp to &gt;1000 bp.
+                                </p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Weigh <strong>2 g agarose powder</strong></li>
+                                <li>Add to <strong>100 mL 1X TAE buffer</strong> in Erlenmeyer flask</li>
+                                <li>Microwave in 30-second intervals, swirling between heating, until fully dissolved
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Total time usually 2-3 minutes</li>
+                                        <li>Watch carefully to prevent boil-over</li>
+                                    </ul>
+                                </li>
+                                <li>Cool to ~60°C (comfortable to touch flask)</li>
+                                <li>Add <strong>5 µL ethidium bromide</strong> (10 mg/mL) or equivalent DNA stain
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Alternative: Use safer DNA stains like SYBR Safe or GelRed</li>
+                                    </ul>
+                                </li>
+                                <li>Pour into gel casting tray with comb in place</li>
+                                <li>Allow to solidify (30-45 minutes at room temperature)</li>
+                                <li>Remove comb carefully</li>
+                                <li>Place gel in electrophoresis chamber</li>
+                            </ol>
+                        </div>
+
+                        <!-- Running the Gel -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Running the Gel</h3>
+                                <button @click="toggleStep('run-gel')"
+                                        :class="isCompleted('run-gel') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('run-gel') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Fill electrophoresis chamber with <strong>1X TAE buffer</strong> (just covering gel)</li>
+                                <li>Mix <strong>5 µL PCR product</strong> with <strong>1 µL 6X loading dye</strong></li>
+                                <li>Load samples into wells
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Load entire 6 µL mixture</li>
+                                        <li>Pipette slowly to avoid sample escaping well</li>
+                                    </ul>
+                                </li>
+                                <li>Load <strong>5 µL of 100 bp DNA ladder</strong> in first and/or last lane</li>
+                                <li>Run gel at <strong>95V for 35 minutes</strong> at room temperature
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>DNA migrates toward positive (red) electrode</li>
+                                        <li>Can adjust time based on separation needed</li>
+                                    </ul>
+                                </li>
+                                <li>Image gel on UV transilluminator or blue light system</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">Timing Adjustments:</p>
+                                <ul class="text-sm text-yellow-800 space-y-1">
+                                    <li>• For SCD1 (&gt;1000 bp band): May need 40-45 minutes for good separation</li>
+                                    <li>• For tdTomato and SCD2: 30-35 minutes usually sufficient</li>
+                                    <li>• Monitor dye front - stop before it runs off gel</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Gel Imaging -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Gel Imaging and Documentation</h3>
+                                <button @click="toggleStep('image-gel')"
+                                        :class="isCompleted('image-gel') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('image-gel') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                                <p class="text-sm font-semibold text-red-900">SAFETY:</p>
+                                <ul class="text-sm text-red-800 space-y-1">
+                                    <li>• Use UV protection equipment (face shield, gloves)</li>
+                                    <li>• Ethidium bromide is a mutagen - handle with care</li>
+                                    <li>• Dispose of gels in appropriate hazardous waste container</li>
+                                </ul>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Transfer gel to imaging system</li>
+                                <li>Capture high-quality image for records
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Use consistent exposure settings</li>
+                                        <li>Ensure ladder bands are visible</li>
+                                        <li>All sample lanes should be clearly visible</li>
+                                    </ul>
+                                </li>
+                                <li>Label lanes clearly on saved image</li>
+                                <li>Save image with informative filename:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Format: <code class="bg-gray-100 px-2 py-1 rounded text-xs">YYYYMMDD_MouseLine_SampleIDs.jpg</code></li>
+                                        <li>Example: <code class="bg-gray-100 px-2 py-1 rounded text-xs">20251026_SCD1_Flox_M001-M012.jpg</code></li>
+                                    </ul>
+                                </li>
+                                <li>Store in laboratory shared drive</li>
+                                <li>Backup regularly</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interpretation Section -->
+            <div x-show="activeSection === 'interpretation'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Interpretation of Results</h2>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">General Guidelines:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• Always compare to positive and negative controls</li>
+                            <li>• Band intensity can vary but should be clearly visible</li>
+                            <li>• Non-specific bands may occasionally appear - focus on expected sizes</li>
+                            <li>• If no bands appear in any sample including controls, PCR failed</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white border border-gray-300 rounded-lg overflow-hidden mb-6">
+                        <h3 class="text-lg font-semibold bg-gray-100 px-4 py-3">Expected Band Sizes Summary</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-4 py-2 text-left">Mouse Line</th>
+                                        <th class="px-4 py-2 text-left">Genotype</th>
+                                        <th class="px-4 py-2 text-left">Expected Bands (bp)</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold" rowspan="3">SCD1</td>
+                                        <td class="px-4 py-2">FL/FL</td>
+                                        <td class="px-4 py-2">&gt;1000 (flox), no WT band</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">FL/+</td>
+                                        <td class="px-4 py-2">&gt;1000 (flox), ~700 (WT)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">+/+</td>
+                                        <td class="px-4 py-2">~700 (WT only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold" rowspan="3">SCD2</td>
+                                        <td class="px-4 py-2">FL/FL</td>
+                                        <td class="px-4 py-2">250 (flox), no WT band</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">FL/+</td>
+                                        <td class="px-4 py-2">250 (flox), ~500 (WT)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">+/+</td>
+                                        <td class="px-4 py-2">~500 (WT only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold" rowspan="2">Cdh5-Cre</td>
+                                        <td class="px-4 py-2">Cre/+</td>
+                                        <td class="px-4 py-2">300 (transgene), 324 (control)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">+/+</td>
+                                        <td class="px-4 py-2">324 (control only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 font-semibold" rowspan="3">tdTomato</td>
+                                        <td class="px-4 py-2">Td/Td</td>
+                                        <td class="px-4 py-2">196 (mutant only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Td/+</td>
+                                        <td class="px-4 py-2">196 (mutant), 297 (WT)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">+/+</td>
+                                        <td class="px-4 py-2">297 (WT only)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-purple-900 mb-3">Complex Genotypes</h3>
+                        <p class="text-sm text-purple-800 mb-2">
+                            For mice carrying multiple transgenes (e.g., <strong>SCD1-FL/FL; Cdh5-Cre; tdTomato</strong>):
+                        </p>
+                        <ul class="text-sm text-purple-800 space-y-1">
+                            <li>• Run separate PCR reactions for each genotype</li>
+                            <li>• Record all results in laboratory database</li>
+                            <li>• Verify expected genotypes based on breeding scheme</li>
+                            <li>• Example complex genotype: SCD1<sup>FL/FL</sup>; SCD2<sup>FL/FL</sup>; Cdh5-Cre<sup>+/+</sup>; tdTomato<sup>+/+</sup></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting Guide</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">No Bands in Any Sample (Including Controls)</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-red-900 mb-2">Possible Causes:</p>
+                                    <ul class="text-sm text-red-800 list-disc list-inside space-y-1">
+                                        <li>PCR failed to amplify</li>
+                                        <li>DNA degraded or insufficient</li>
+                                        <li>Primers degraded or incorrect</li>
+                                        <li>Thermocycler malfunction</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-green-900 mb-2">Solutions:</p>
+                                    <ul class="text-sm text-green-800 list-disc list-inside space-y-1">
+                                        <li>Check thermocycler program ran correctly</li>
+                                        <li>Prepare fresh PCR master mix</li>
+                                        <li>Extract fresh DNA</li>
+                                        <li>Order new primers</li>
+                                        <li>Check reagent expiration dates</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Weak or Faint Bands</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-red-900 mb-2">Possible Causes:</p>
+                                    <ul class="text-sm text-red-800 list-disc list-inside space-y-1">
+                                        <li>Low DNA concentration</li>
+                                        <li>Insufficient PCR cycles</li>
+                                        <li>PCR inhibitors in DNA prep</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-green-900 mb-2">Solutions:</p>
+                                    <ul class="text-sm text-green-800 list-disc list-inside space-y-1">
+                                        <li>Use more template DNA (2-3 µL instead of 1 µL)</li>
+                                        <li>Extract DNA again with fresh reagents</li>
+                                        <li>Dilute DNA 1:10 (may dilute out inhibitors)</li>
+                                        <li>Increase cycle number by 3-5 cycles</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Non-Specific Bands or Smearing</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-red-900 mb-2">Possible Causes:</p>
+                                    <ul class="text-sm text-red-800 list-disc list-inside space-y-1">
+                                        <li>Annealing temperature too low</li>
+                                        <li>Too many PCR cycles</li>
+                                        <li>Primer degradation or dimer formation</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-green-900 mb-2">Solutions:</p>
+                                    <ul class="text-sm text-green-800 list-disc list-inside space-y-1">
+                                        <li>Increase annealing temperature by 2°C</li>
+                                        <li>Decrease cycle number</li>
+                                        <li>Order fresh primers</li>
+                                        <li>Optimize MgCl₂ concentration</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Internal Control Fails (Cre Genotyping)</h3>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <p class="font-semibold text-yellow-900 mb-2">Possible Causes:</p>
+                                <ul class="text-sm text-yellow-800 list-disc list-inside space-y-1">
+                                    <li>DNA quality issue</li>
+                                    <li>PCR setup error</li>
+                                </ul>
+                                <p class="font-semibold text-yellow-900 mt-3 mb-2">Solutions:</p>
+                                <p class="text-sm text-yellow-800">
+                                    <strong>This indicates PCR failure - do not interpret transgene results!</strong>
+                                    Re-extract DNA, check all primer stocks, and repeat PCR with fresh reagents.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Unexpected Genotype Results</h3>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-red-900 mb-2">Possible Causes:</p>
+                                    <ul class="text-sm text-red-800 list-disc list-inside space-y-1">
+                                        <li>Sample mix-up</li>
+                                        <li>Contamination</li>
+                                        <li>Mouse pedigree error</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-green-900 mb-2">Solutions:</p>
+                                    <ul class="text-sm text-green-800 list-disc list-inside space-y-1">
+                                        <li>Repeat genotyping from new tissue sample</li>
+                                        <li>Verify mouse ID matches cage card</li>
+                                        <li>Check breeding records</li>
+                                        <li>Consider re-genotyping parents</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Record Keeping Requirements</h2>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">Laboratory Notebook</h3>
+                            <ul class="text-sm text-blue-800 list-disc list-inside space-y-1">
+                                <li>Date of genotyping</li>
+                                <li>Mouse ID numbers</li>
+                                <li>Tissue sample type and collection date</li>
+                                <li>DNA extraction method and date</li>
+                                <li>PCR primer set and lot numbers</li>
+                                <li>PCR conditions (if different from protocol)</li>
+                                <li>Gel image with sample IDs</li>
+                                <li>Interpretation of results</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">Database Entry</h3>
+                            <ul class="text-sm text-green-800 list-disc list-inside space-y-1">
+                                <li>Mouse ID</li>
+                                <li>Genotype for each allele</li>
+                                <li>Date genotyped</li>
+                                <li>Technician initials</li>
+                                <li>Link to gel image file</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Breeding Records</h3>
+                            <ul class="text-sm text-purple-800 list-disc list-inside space-y-1">
+                                <li>Confirmed genotypes of parents</li>
+                                <li>Offspring genotypes</li>
+                                <li>Mendelian ratios (expected vs. observed)</li>
+                                <li>Any unexpected results flagged for follow-up</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Safety Notice -->
+                <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mt-8">
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">⚠️</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-red-800 mb-2">Safety and Compliance</h3>
+                            <ul class="text-red-700 text-sm space-y-1 list-disc list-inside">
+                                <li>Always wear gloves when handling mice and biological samples</li>
+                                <li>Use aseptic technique for tissue collection</li>
+                                <li>Dispose of biohazardous waste according to institutional guidelines</li>
+                                <li>Follow IACUC-approved protocols for all animal procedures</li>
+                                <li>NaOH is caustic - handle with care and use appropriate PPE</li>
+                                <li>Work in designated areas for pre-PCR and post-PCR to avoid contamination</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Top Button -->
+                <div class="mt-8 text-center">
+                    <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        ↑ Back to Top
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-bold mb-3">About This Protocol</h4>
+                        <p class="text-sm">
+                            Comprehensive genotyping protocol for SCD1, SCD2, Cdh5-Cre, and tdTomato mouse lines.
+                            Developed and optimized for routine colony management.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Quick Links</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="index.html" class="hover:text-white transition">← All Protocols</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'overview'" class="hover:text-white transition">Protocol Overview</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'troubleshooting'" class="hover:text-white transition">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Contact</h4>
+                        <p class="text-sm">
+                            Román A Cáceres<br><br>
+                            University of Cincinnati:<br>
+                            Cacerera@mail.uc.edu<br><br>
+                            Emory University:<br>
+                            Racacer@emory.edu
+                        </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+                    <p>For Research Use Only. Last updated: October 2025</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

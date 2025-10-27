@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Lentiviral Production and Infection Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        activeMethod: 'jetprime',
+        concentrationMethod: 'unconcentrated',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-violet-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Lentiviral Production and Infection Protocol</h1>
+                <p class="text-violet-100 mt-2">Complete workflow from transfection to viral transduction</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'production'"
+                            :class="activeSection === 'production' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Virus Production
+                    </button>
+                    <button @click="activeSection = 'concentration'"
+                            :class="activeSection === 'concentration' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Concentration
+                    </button>
+                    <button @click="activeSection = 'infection'"
+                            :class="activeSection === 'infection' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Infection
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-violet-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    This protocol describes lentiviral production using HEK293T packaging cells and subsequent
+                    infection of target cells. Lentiviral vectors can transduce both dividing and non-dividing cells,
+                    making them ideal for stable gene transfer in a wide range of cell types.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Workflow Overview:</p>
+                    <ul class="text-sm text-blue-800 mt-2 space-y-1">
+                        <li>• <strong>Day 0:</strong> Plate 293T cells</li>
+                        <li>• <strong>Day 1:</strong> Transfection</li>
+                        <li>• <strong>Day 2:</strong> Media change</li>
+                        <li>• <strong>Day 3-4:</strong> Virus collection</li>
+                        <li>• <strong>Day 4-5:</strong> Virus concentration (optional)</li>
+                        <li>• <strong>Day 5+:</strong> Target cell infection</li>
+                        <li>• <strong>Day 7-8:</strong> Selection or sorting</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-violet-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-violet-900 mb-2">Applications</h3>
+                        <ul class="text-sm text-violet-800 space-y-1">
+                            <li>• Stable gene overexpression</li>
+                            <li>• shRNA/CRISPR knockdown</li>
+                            <li>• Reporter gene expression</li>
+                            <li>• Gene editing delivery</li>
+                            <li>• Cell line engineering</li>
+                            <li>• Primary cell transduction</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Key Components</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• <strong>Transfer plasmid:</strong> Contains your gene of interest</li>
+                            <li>• <strong>Packaging plasmid:</strong> pSPAX2 or cDNL (gag-pol)</li>
+                            <li>• <strong>Envelope plasmid:</strong> pMD2.G or VSVG</li>
+                            <li>• <strong>293T cells:</strong> Virus-producing cells</li>
+                            <li>• <strong>Transfection reagent:</strong> Delivers DNA to cells</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Biosafety Considerations</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• Lentiviral work typically requires BSL-2 containment</li>
+                        <li>• Check institutional biosafety guidelines and obtain IBC approval</li>
+                        <li>• VSV-G pseudotyped lentivirus has broad tropism - handle carefully</li>
+                        <li>• Work in biosafety cabinet for all virus handling steps</li>
+                        <li>• Decontaminate all materials with 10% bleach before disposal</li>
+                        <li>• Never pipette by mouth - use mechanical pipettors</li>
+                        <li>• Wear appropriate PPE: lab coat, gloves, eye protection</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Cells & Plasmids</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>HEK293T cells (ATCC CRL-3216)</li>
+                            <li>Target cells for infection</li>
+                            <li><strong>Plasmids (per 10cm plate):</strong></li>
+                            <li class="ml-6">• Transfer plasmid: 10-20 µg</li>
+                            <li class="ml-6">• pSPAX2 (Addgene #12260): 7.5 µg</li>
+                            <li class="ml-6">• pMD2.G (Addgene #12259): 2.5 µg</li>
+                            <li class="ml-6">OR cDNL: 4.5-15 µg + VSVG: 0.5-2 µg</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>DMEM high glucose</li>
+                            <li>Fetal bovine serum (FBS)</li>
+                            <li>Penicillin/Streptomycin (optional for transfection)</li>
+                            <li>Poly-L-lysine solution (0.01%)</li>
+                            <li>Opti-MEM or serum-free medium</li>
+                            <li>PBS (phosphate buffered saline)</li>
+                            <li>0.45 µm syringe filters (PES or PVDF)</li>
+                            <li>Polybrene (hexadimethrine bromide), 8 mg/mL stock</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-3">Transfection Reagent Options</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                            <li><strong>JetPRIME</strong> (Polyplus) - Recommended</li>
+                            <li><strong>FuGENE HD</strong> or <strong>X-tremeGENE</strong> (Promega)</li>
+                            <li><strong>Lipofectamine 2000/3000</strong> (Thermo Fisher)</li>
+                            <li><strong>PEI</strong> (polyethylenimine) - Low cost option</li>
+                            <li><strong>Calcium phosphate</strong> - Traditional method</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Concentration Reagents (Optional)</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li><strong>PEG Precipitation:</strong></li>
+                            <li class="ml-6">• PEG-8000 solution</li>
+                            <li><strong>Ultracentrifugation:</strong></li>
+                            <li class="ml-6">• Beckman ultracentrifuge tubes</li>
+                            <li class="ml-6">• Ultracentrifuge access</li>
+                            <li><strong>Commercial kits:</strong></li>
+                            <li class="ml-6">• Lenti-X Concentrator (Takara)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Biological safety cabinet (BSC)</li>
+                            <li>CO₂ incubator (37°C, 5% CO₂)</li>
+                            <li>Centrifuge (benchtop and ultracentrifuge)</li>
+                            <li>Hemocytometer or cell counter</li>
+                            <li>10 cm tissue culture dishes</li>
+                            <li>6-well or 12-well plates (for small scale)</li>
+                            <li>15 mL and 50 mL conical tubes</li>
+                            <li>Cryovials for virus storage</li>
+                            <li>-80°C freezer</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-3">Media Recipes</h3>
+                        <div class="text-sm text-blue-800 space-y-2">
+                            <p><strong>293T Growth Medium:</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>DMEM high glucose</li>
+                                <li>10% FBS</li>
+                                <li>1% Pen/Strep (optional)</li>
+                            </ul>
+                            <p class="mt-2"><strong>Transfection Medium:</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>DMEM high glucose</li>
+                                <li>10% FBS</li>
+                                <li>No antibiotics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Virus Production Section -->
+            <div x-show="activeSection === 'production'" class="space-y-6">
+                <!-- Method Selection -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Transfection Method:</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button @click="activeMethod = 'jetprime'"
+                                :class="activeMethod === 'jetprime' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            JetPRIME (Recommended)
+                        </button>
+                        <button @click="activeMethod = 'fugene'"
+                                :class="activeMethod === 'fugene' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            FuGENE/X-tremeGENE
+                        </button>
+                        <button @click="activeMethod = 'generic'"
+                                :class="activeMethod === 'generic' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            Generic Protocol
+                        </button>
+                    </div>
+                </div>
+
+                <!-- JetPRIME Protocol -->
+                <div x-show="activeMethod === 'jetprime'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Virus Production - JetPRIME Method</h2>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                        <p class="text-sm font-semibold text-blue-900">Scale options: 10cm plate (standard) or 6-well/12-well (small scale)</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 0: Plate 293T Cells</h3>
+                                <button @click="toggleStep('jetprime-day0')"
+                                        :class="completedSteps['jetprime-day0'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-day0'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li><strong>Poly-L-lysine coating:</strong> Add 5 mL poly-L-lysine to 10cm dish, incubate 30 min at 37°C</li>
+                                <li>Aspirate poly-L-lysine (can be reused 2-3 times)</li>
+                                <li><strong>10cm plate:</strong> Plate 3-8 × 10⁶ 293T cells in 10 mL DMEM + 10% FBS</li>
+                                <li><strong>6-well plate:</strong> Plate 150,000 cells/well in 1 mL medium</li>
+                                <li><strong>12-well plate:</strong> Plate 75,000 cells/well in 500 µL medium</li>
+                                <li>Target: 60-70% confluent on Day 1 (transfection day)</li>
+                                <li>Incubate overnight at 37°C, 5% CO₂</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 1: Transfection</h3>
+                                <button @click="toggleStep('jetprime-day1')"
+                                        :class="completedSteps['jetprime-day1'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-day1'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Change medium to fresh DMEM + 10% FBS (no antibiotics)</li>
+                                <li><strong>Prepare transfection mix per plate:</strong></li>
+                            </ul>
+                            <div class="bg-green-50 p-3 rounded-lg mt-2 ml-4">
+                                <p class="font-semibold text-green-900 text-sm mb-2">10cm Plate Recipe:</p>
+                                <ul class="text-xs text-green-800 space-y-1">
+                                    <li>• 500 µL JetPRIME buffer</li>
+                                    <li>• 20 µg transfer plasmid (your gene of interest)</li>
+                                    <li>• 15 µg cDNL (packaging plasmid)</li>
+                                    <li>• 2 µg VSVG (envelope plasmid)</li>
+                                    <li>• Vortex, spin down briefly</li>
+                                    <li>• Add 10 µL JetPRIME reagent per plate</li>
+                                    <li>• Vortex, spin down, incubate 10 min at RT</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-3 rounded-lg mt-2 ml-4">
+                                <p class="font-semibold text-green-900 text-sm mb-2">6-well Plate Recipe:</p>
+                                <ul class="text-xs text-green-800 space-y-1">
+                                    <li>• 200 µL JetPRIME buffer</li>
+                                    <li>• 2 µg total DNA</li>
+                                    <li>• 4 µL JetPRIME reagent</li>
+                                    <li>• Incubate 10 min at RT</li>
+                                </ul>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4 mt-2">
+                                <li>Add transfection mix dropwise to cells, distribute evenly</li>
+                                <li>Incubate 4-12 hours (no longer than 12h to avoid toxicity)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 2: Media Change</h3>
+                                <button @click="toggleStep('jetprime-day2')"
+                                        :class="completedSteps['jetprime-day2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-day2'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Aspirate transfection medium</li>
+                                <li>Wash once with PBS (optional)</li>
+                                <li>Add fresh DMEM + 10% FBS: 15 mL for 10cm plate, 1-2 mL for 6-well</li>
+                                <li>Return to incubator</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 3: First Collection</h3>
+                                <button @click="toggleStep('jetprime-day3')"
+                                        :class="completedSteps['jetprime-day3'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-day3'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Collect medium into 50 mL conical tube</li>
+                                <li>Store at 4°C if collecting multiple batches</li>
+                                <li>Add 10-15 mL fresh medium back to plates</li>
+                                <li>Return to incubator for ~36 hours</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 4: Second Collection (Optional)</h3>
+                                <button @click="toggleStep('jetprime-day4')"
+                                        :class="completedSteps['jetprime-day4'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-day4'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Collect medium and pool with Day 3 collection</li>
+                                <li>Total volume: typically 20-30 mL per 10cm plate</li>
+                                <li>Discard 293T cells (decontaminate with bleach)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 4-5: Clarification</h3>
+                                <button @click="toggleStep('jetprime-clarify')"
+                                        :class="completedSteps['jetprime-clarify'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['jetprime-clarify'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Centrifuge pooled virus at 300-500 × g for 5 min to pellet cell debris</li>
+                                <li>Transfer supernatant to new tube</li>
+                                <li>Filter through 0.45 µm syringe filter (work in BSC)</li>
+                                <li>Virus is now ready for concentration (optional) or direct use</li>
+                                <li>Aliquot and store at -80°C (stable for months)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FuGENE Protocol -->
+                <div x-show="activeMethod === 'fugene'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Virus Production - FuGENE/X-tremeGENE Method</h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 0: Plate 293T Cells</h3>
+                                <button @click="toggleStep('fugene-day0')"
+                                        :class="completedSteps['fugene-day0'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['fugene-day0'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Plate 1.5 × 10⁶ 293T cells per 10cm dish in DMEM + 10% FBS</li>
+                                <li>Target: 60-70% confluent on Day 1</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 1 AM: Media Change</h3>
+                                <button @click="toggleStep('fugene-day1am')"
+                                        :class="completedSteps['fugene-day1am'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['fugene-day1am'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Aspirate growth medium</li>
+                                <li>Add 15 mL transfection medium (DMEM + 10% FBS, no antibiotics)</li>
+                                <li>Return to incubator</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 1 PM: Transfection</h3>
+                                <button @click="toggleStep('fugene-day1pm')"
+                                        :class="completedSteps['fugene-day1pm'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['fugene-day1pm'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li><strong>Prepare master mix per 10cm plate:</strong></li>
+                            </ul>
+                            <div class="bg-purple-50 p-3 rounded-lg mt-2 ml-4">
+                                <ul class="text-sm text-purple-800 space-y-1">
+                                    <li>• 1 mL Opti-MEM</li>
+                                    <li>• 10 µg transfer plasmid</li>
+                                    <li>• 7.5 µg pSPAX2 (packaging plasmid)</li>
+                                    <li>• 2.5 µg pMD2.G (envelope plasmid)</li>
+                                    <li>• Mix gently, add 60 µL FuGENE X-tremeGENE</li>
+                                    <li>• Incubate 20-30 min at room temperature</li>
+                                </ul>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4 mt-2">
+                                <li>Add transfection mix dropwise to cells</li>
+                                <li>Swirl plate gently to distribute</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 2: Media Change</h3>
+                                <button @click="toggleStep('fugene-day2')"
+                                        :class="completedSteps['fugene-day2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['fugene-day2'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Aspirate supernatant</li>
+                                <li>Add 10-12 mL collection medium (DMEM + 10% FBS)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">Day 3 & 4: Virus Collection</h3>
+                                <button @click="toggleStep('fugene-collect')"
+                                        :class="completedSteps['fugene-collect'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['fugene-collect'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Collect supernatant into 50 mL tube, store at 4°C</li>
+                                <li>Add fresh 10-12 mL medium back to plate</li>
+                                <li>Repeat collection on Day 4, pool with Day 3 collection</li>
+                                <li>Centrifuge 300 × g for 5 min, filter through 0.45 µm</li>
+                                <li>Proceed to concentration or store at -80°C</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generic Protocol -->
+                <div x-show="activeMethod === 'generic'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Virus Production - Generic Protocol</h2>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                        <p class="text-sm text-yellow-800">This protocol can be adapted to various transfection reagents. Follow manufacturer's instructions for DNA:reagent ratios.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">General Workflow</h3>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 ml-4">
+                                <li><strong>Day 0:</strong> Plate 293T cells at 60-70% confluency for next day</li>
+                                <li><strong>Day 1:</strong> Transfect with transfer + packaging + envelope plasmids</li>
+                                <li><strong>Day 2:</strong> Change to fresh collection medium</li>
+                                <li><strong>Day 3:</strong> First virus collection, replace with fresh medium</li>
+                                <li><strong>Day 4:</strong> Second virus collection (optional), pool collections</li>
+                                <li><strong>Day 5:</strong> Clarify by centrifugation and filtration</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-2">Key Parameters</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• <strong>Cell density:</strong> 60-70% confluent at transfection</li>
+                                <li>• <strong>Total DNA:</strong> 10-20 µg per 10cm plate</li>
+                                <li>• <strong>Plasmid ratio:</strong> Transfer : Packaging : Envelope = 4:3:1 to 8:7.5:2.5</li>
+                                <li>• <strong>Collection time:</strong> 48-72 hours post-transfection</li>
+                                <li>• <strong>Peak titer:</strong> Usually Day 3 collection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concentration Section -->
+            <div x-show="activeSection === 'concentration'" class="space-y-6">
+                <!-- Concentration Method Selection -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Concentration Method:</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <button @click="concentrationMethod = 'unconcentrated'"
+                                :class="concentrationMethod === 'unconcentrated' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            Unconcentrated (Easiest)
+                        </button>
+                        <button @click="concentrationMethod = 'peg'"
+                                :class="concentrationMethod === 'peg' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            PEG Precipitation
+                        </button>
+                        <button @click="concentrationMethod = 'ultracentrifuge'"
+                                :class="concentrationMethod === 'ultracentrifuge' ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-violet-500 hover:text-white transition">
+                            Ultracentrifugation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Unconcentrated -->
+                <div x-show="concentrationMethod === 'unconcentrated'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Unconcentrated Virus (Direct Use)</h2>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                        <p class="font-semibold text-green-900">Simplest method - use filtered virus directly</p>
+                        <p class="text-sm text-green-800 mt-2">Best for: High-expressing constructs, easily transduced cells, quick experiments</p>
+                    </div>
+
+                    <ul class="list-disc list-inside space-y-2 text-sm text-gray-700">
+                        <li>After clarification (300 × g spin) and 0.45 µm filtration, virus is ready to use</li>
+                        <li>Typical volume: 3 mL virus supernatant per 1-2 × 10⁶ target cells</li>
+                        <li>Add polybrene (8 µg/mL final) to enhance infection</li>
+                        <li>Store aliquots at -80°C (avoid freeze-thaw cycles)</li>
+                        <li>Titer: Usually 10⁵-10⁶ TU/mL</li>
+                    </ul>
+                </div>
+
+                <!-- PEG Precipitation -->
+                <div x-show="concentrationMethod === 'peg'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">PEG Precipitation Concentration</h2>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
+                        <p class="font-semibold text-purple-900">Concentrates virus 10-50× without special equipment</p>
+                        <p class="text-sm text-purple-800 mt-2">Best for: Labs without ultracentrifuge, moderate titer needs</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Protocol:</h3>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 ml-4">
+                                <li>Clarify virus: spin 300 × g for 5 min, transfer supernatant to new tube</li>
+                                <li>Add PEG-8000 solution at 1:3 ratio (virus:PEG)</li>
+                                <li>Example: 16 mL virus + 6-8 mL PEG solution</li>
+                                <li>Mix by inverting (do not vortex)</li>
+                                <li>Incubate at 4°C for 2 hours (or overnight) with rocking</li>
+                                <li>Centrifuge at 1,500-1,600 × g for 1 hour at 4°C</li>
+                                <li>Carefully remove supernatant (virus pellet at bottom)</li>
+                                <li>Resuspend pellet in 1 mL Opti-MEM by pipetting gently</li>
+                                <li>Aliquot 200 µL into cryovials, store at -80°C</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-yellow-50 p-3 rounded-lg">
+                            <p class="font-semibold text-yellow-900 text-sm">Expected concentration: ~20-50× original titer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ultracentrifugation -->
+                <div x-show="concentrationMethod === 'ultracentrifuge'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Ultracentrifugation Concentration</h2>
+
+                    <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 mb-4">
+                        <p class="font-semibold text-indigo-900">Highest concentration (100-1000×) and purity</p>
+                        <p class="text-sm text-indigo-800 mt-2">Best for: High-titer needs, difficult-to-transduce cells, in vivo experiments</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <h3 class="font-semibold text-gray-800 mb-2">Protocol:</h3>
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 ml-4">
+                                <li>Pre-clarify virus: centrifuge 300-500 × g for 10 min at 4°C</li>
+                                <li>Transfer supernatant to Beckman ultracentrifuge tube</li>
+                                <li>Balance tubes precisely (within 0.1 g)</li>
+                                <li>Ultracentrifuge: <strong>25,000 RPM for 1.5 hours at 4°C</strong></li>
+                                <li>Carefully aspirate supernatant (virus pellet may not be visible)</li>
+                                <li>Resuspend pellet in 200-500 µL Opti-MEM or PBS</li>
+                                <li>Incubate on ice 1-2 hours to fully resuspend</li>
+                                <li>Aliquot and store at -80°C</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="font-semibold text-blue-900 text-sm mb-1">Ultracentrifuge Settings:</p>
+                            <ul class="text-xs text-blue-800 space-y-1">
+                                <li>• Speed: 25,000 RPM (or 50,000-100,000 × g)</li>
+                                <li>• Duration: 1.5 hours</li>
+                                <li>• Temperature: 4°C</li>
+                                <li>• Brake: Slow</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-yellow-50 p-3 rounded-lg mt-3">
+                            <p class="font-semibold text-yellow-900 text-sm">Expected concentration: 100-1000× original titer (10⁷-10⁹ TU/mL)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Infection Section -->
+            <div x-show="activeSection === 'infection'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Target Cell Infection (Transduction)</h2>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Spinoculation method enhances infection efficiency</p>
+                    <p class="text-sm text-blue-800 mt-2">Centrifugation brings virus particles into contact with target cells</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Day 0: Prepare Target Cells</h3>
+                            <button @click="toggleStep('infect-day0')"
+                                    :class="completedSteps['infect-day0'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['infect-day0'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Ensure target cells are in log-phase growth</li>
+                            <li>Viability should be >95%</li>
+                            <li>Count cells and prepare appropriate number for infection</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Day 1: Infection with Spinoculation</h3>
+                            <button @click="toggleStep('infect-spinoculation')"
+                                    :class="completedSteps['infect-spinoculation'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['infect-spinoculation'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Count 1-2 × 10⁶ target cells into 15 mL tube</li>
+                            <li>Centrifuge and aspirate supernatant</li>
+                            <li><strong>For unconcentrated virus:</strong> Add 3 mL filtered virus</li>
+                            <li><strong>For concentrated virus:</strong> Add 20-50 µL virus in 2-3 mL medium</li>
+                            <li>Add polybrene to <strong>final concentration 8 µg/mL</strong></li>
+                            <li>Mix gently</li>
+                            <li><strong>Spinoculate:</strong> Centrifuge at 3,000 RPM (900 × g) for 1.5 hours at 32°C</li>
+                            <li>After spin, resuspend cells and transfer to 6-well plate</li>
+                            <li>Incubate at 37°C</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">4 Hours Post-Infection</h3>
+                            <button @click="toggleStep('infect-4hr')"
+                                    :class="completedSteps['infect-4hr'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['infect-4hr'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Add 2-3 mL fresh medium (appropriate for your cells - RPMI, DMEM, etc.)</li>
+                            <li>Do not remove virus-containing medium</li>
+                            <li>Dilutes polybrene and provides fresh nutrients</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Day 2: Media Change</h3>
+                            <button @click="toggleStep('infect-day2')"
+                                    :class="completedSteps['infect-day2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['infect-day2'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Centrifuge cells and aspirate virus-containing medium</li>
+                            <li>Resuspend in fresh complete medium</li>
+                            <li>Return to culture</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Day 5-8: Selection or Analysis</h3>
+                            <button @click="toggleStep('infect-selection')"
+                                    :class="completedSteps['infect-selection'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['infect-selection'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li><strong>For fluorescent markers:</strong> Sort by FACS on Day 7-8</li>
+                            <li><strong>For selection markers:</strong> Begin antibiotic selection on Day 3-5</li>
+                            <li>Common antibiotics: Puromycin (1-5 µg/mL), Blasticidin (5-10 µg/mL), G418 (400-800 µg/mL)</li>
+                            <li>Maintain selection pressure for 5-7 days</li>
+                            <li>Untransduced control cells should die within 3-5 days</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold text-green-900 mb-2">Alternative: Plate-Based Infection (No Spinoculation)</h3>
+                    <ul class="text-sm text-green-800 space-y-1">
+                        <li>• Seed cells in 6-well plate at desired density</li>
+                        <li>• Add virus + polybrene (8 µg/mL) directly to wells</li>
+                        <li>• Incubate 24 hours, then change medium</li>
+                        <li>• Lower efficiency than spinoculation but simpler</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Problem</th>
+                                <th class="px-4 py-2 text-left">Possible Cause</th>
+                                <th class="px-4 py-2 text-left">Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">Low virus titer</td>
+                                <td class="px-4 py-2">293T cells over/under confluent<br>Old plasmids<br>Transfection inefficient</td>
+                                <td class="px-4 py-2">Optimize cell density (60-70% at transfection)<br>Use fresh, high-quality plasmids<br>Optimize DNA:reagent ratio<br>Verify plasmid sequences</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">293T cells died after transfection</td>
+                                <td class="px-4 py-2">Toxic transfection reagent<br>Media change too late</td>
+                                <td class="px-4 py-2">Change media 4-8 hours post-transfection<br>Reduce transfection reagent amount<br>Use healthier passage of 293T</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Low infection efficiency</td>
+                                <td class="px-4 py-2">Low virus titer<br>Target cells resistant<br>No polybrene</td>
+                                <td class="px-4 py-2">Use concentrated virus<br>Increase virus volume (MOI)<br>Add polybrene (8 µg/mL)<br>Use spinoculation<br>Optimize for cell type</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">High cytotoxicity during infection</td>
+                                <td class="px-4 py-2">Too much polybrene<br>High MOI</td>
+                                <td class="px-4 py-2">Reduce polybrene to 4-6 µg/mL<br>Reduce virus amount<br>Change media 4 hours post-infection</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Variable expression across cells</td>
+                                <td class="px-4 py-2">Multiple integration events<br>Low MOI</td>
+                                <td class="px-4 py-2">Use lower MOI (0.3-1.0)<br>FACS sort for uniform expression<br>Clone single cells if needed</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Virus titer decreased after freezing</td>
+                                <td class="px-4 py-2">Freeze-thaw damage<br>Ice crystal formation</td>
+                                <td class="px-4 py-2">Snap freeze in liquid nitrogen or dry ice/ethanol<br>Store at -80°C (not -20°C)<br>Aliquot to avoid freeze-thaw cycles<br>Thaw rapidly at 37°C</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-2">Tips for Success</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                            <li>Use low-passage 293T cells (&lt;P20)</li>
+                            <li>Verify plasmid integrity before transfection</li>
+                            <li>Collect virus 48-72h post-transfection (peak titer)</li>
+                            <li>Filter virus immediately after collection</li>
+                            <li>Aliquot virus to minimize freeze-thaw</li>
+                            <li>Optimize MOI for each cell type (typically 0.5-5)</li>
+                            <li>Include untransduced controls for selection</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-2">Safety Reminders</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                            <li>All work in BSL-2 biosafety cabinet</li>
+                            <li>Decontaminate with 10% bleach (30 min contact)</li>
+                            <li>Autoclave all contaminated materials</li>
+                            <li>Never store lentivirus in shared -20°C freezers</li>
+                            <li>Label all tubes clearly: "LENTIVIRUS - BSL-2"</li>
+                            <li>Report spills to EHS immediately</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol compiled from multiple laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Requires BSL-2 and IBC approval | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

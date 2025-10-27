@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immunofluorescence (IF) Staining Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-violet-100 min-h-screen">
+    <div x-data="{
+        activeSection: 'overview',
+        activeSampleType: 'paraffin',
+        activeDay: 'day1',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-purple-600 to-violet-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2">🔬 Immunofluorescence (IF) Staining</h1>
+                        <p class="text-purple-100">Fluorescent Antibody Detection Protocol</p>
+                    </div>
+                    <a href="index.html" class="bg-white text-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-50 transition">
+                        ← All Protocols
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-40">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-4 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'; activeDay = 'day1'"
+                            :class="activeSection === 'protocol' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'imaging'"
+                            :class="activeSection === 'imaging' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Imaging Tips
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-5xl mx-auto">
+                <!-- Overview Section -->
+                <div x-show="activeSection === 'overview'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Protocol Overview</h2>
+                        <p class="text-gray-700 mb-4">
+                            Immunofluorescence (IF) is a technique that uses fluorescently-labeled antibodies to detect
+                            specific proteins or antigens in tissue sections. This protocol is designed for both paraffin-embedded
+                            and cryosectioned tissue samples.
+                        </p>
+
+                        <div class="grid md:grid-cols-2 gap-6 mt-6">
+                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-purple-800 mb-3">⏱️ Duration</h3>
+                                <ul class="space-y-2 text-purple-900">
+                                    <li><strong>Day 1:</strong> ~3 hours (+ overnight incubation)</li>
+                                    <li><strong>Day 2:</strong> ~2 hours</li>
+                                    <li><strong>Total:</strong> 2 days</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-violet-50 to-violet-100 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-violet-800 mb-3">🎯 Key Steps</h3>
+                                <ul class="space-y-2 text-violet-900">
+                                    <li>1. Deparaffinization/Antigen retrieval</li>
+                                    <li>2. Blocking (1 hour)</li>
+                                    <li>3. Primary antibody (overnight)</li>
+                                    <li>4. Secondary antibody (1 hour)</li>
+                                    <li>5. DAPI and mounting</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6">
+                            <p class="font-semibold text-blue-800">💡 Important Notes:</p>
+                            <ul class="text-blue-700 text-sm mt-2 space-y-1 list-disc list-inside">
+                                <li>Protect slides from light after adding fluorescent antibodies</li>
+                                <li>Work quickly during mounting to prevent drying</li>
+                                <li>Store stained slides at 4°C protected from light</li>
+                                <li>Image slides within 1-2 weeks for best results</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materials Section -->
+                <div x-show="activeSection === 'materials'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">Reagents</h3>
+                                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                                    <li>Xylene (for paraffin sections)</li>
+                                    <li>100%, 95%, 70%, 50%, 20% Ethanol</li>
+                                    <li>ddH₂O (distilled water)</li>
+                                    <li>Citrate antigen retrieval buffer
+                                        <ul class="ml-6 mt-1 text-sm text-gray-600 list-circle list-inside">
+                                            <li>Solution A: 0.1M citric acid</li>
+                                            <li>Solution B: 0.1M sodium citrate</li>
+                                        </ul>
+                                    </li>
+                                    <li>PBS-T (PBS + 0.1% Triton X-100)</li>
+                                    <li>10% serum (matched to secondary antibody host)</li>
+                                    <li>Primary antibody</li>
+                                    <li>Secondary antibody (fluorescent conjugate)</li>
+                                    <li>DAPI (1 mg/mL stock)</li>
+                                    <li>Fluoromount mounting medium</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">Equipment</h3>
+                                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                                    <li>Coplin jars</li>
+                                    <li>Microwave</li>
+                                    <li>Humidifying chamber (can use wet paper towels in closed box)</li>
+                                    <li>PAP pen (hydrophobic barrier pen)</li>
+                                    <li>Coverslips</li>
+                                    <li>Timer</li>
+                                    <li>4°C refrigerator or cold room</li>
+                                    <li>Slide storage box (opaque, light-protected)</li>
+                                    <li>Pipettes and tips</li>
+                                </ul>
+
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3 mt-6">Solution Recipes</h3>
+                                <div class="bg-purple-50 p-3 rounded-lg text-sm">
+                                    <p class="font-semibold text-purple-800 mb-1">10% Serum Block:</p>
+                                    <p class="text-purple-700">100 µL serum + 900 µL PBS-T</p>
+
+                                    <p class="font-semibold text-purple-800 mb-1 mt-3">2% Serum (Antibody Dilution):</p>
+                                    <p class="text-purple-700">20 µL serum + 980 µL PBS-T</p>
+
+                                    <p class="font-semibold text-purple-800 mb-1 mt-3">DAPI Working Solution:</p>
+                                    <p class="text-purple-700">1 µL DAPI (1 mg/mL) + 2 mL PBS-T (1:2000 dilution)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol Section -->
+                <div x-show="activeSection === 'protocol'" class="space-y-6">
+                    <!-- Day Selection -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Protocol Day:</h3>
+                        <div class="flex space-x-4">
+                            <button @click="activeDay = 'day1'"
+                                    :class="activeDay === 'day1' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                    class="px-6 py-2 rounded-lg font-semibold transition">
+                                Day 1 (3 hours + overnight)
+                            </button>
+                            <button @click="activeDay = 'day2'"
+                                    :class="activeDay === 'day2' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                    class="px-6 py-2 rounded-lg font-semibold transition">
+                                Day 2 (2 hours)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Day 1 Protocol -->
+                    <div x-show="activeDay === 'day1'" class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Day 1: Deparaffinization, Antigen Retrieval, and Primary Antibody</h2>
+                            <p class="text-gray-600 mb-6">Total time: ~3 hours + overnight incubation</p>
+
+                            <!-- Sample Type Selection -->
+                            <div class="mb-6 bg-purple-50 p-4 rounded-lg">
+                                <h3 class="text-lg font-semibold text-purple-800 mb-3">Select Sample Type:</h3>
+                                <div class="flex space-x-4">
+                                    <button @click="activeSampleType = 'paraffin'"
+                                            :class="activeSampleType === 'paraffin' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                            class="px-6 py-2 rounded-lg font-semibold transition">
+                                        Paraffin Sections
+                                    </button>
+                                    <button @click="activeSampleType = 'cryo'"
+                                            :class="activeSampleType === 'cryo' ? 'bg-purple-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                            class="px-6 py-2 rounded-lg font-semibold transition">
+                                        Cryo Sections
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Paraffin Deparaffinization -->
+                            <div x-show="activeSampleType === 'paraffin'" class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                                    Deparaffinization (~30 minutes)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-1')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 10 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-2')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 3 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-3')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 3 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-4')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-4']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-5')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-5']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-6')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-6']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-7')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-7']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-8')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-8']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">50% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-9')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-9']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">20% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-depara-10')">
+                                        <input type="checkbox" :checked="completedSteps['day1-depara-10']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Transfer to ddH₂O</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Antigen Retrieval - Paraffin -->
+                            <div x-show="activeSampleType === 'paraffin'" class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                                    Antigen Retrieval (~1 hour)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-1')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Place slides in coplin jar with citrate buffer, sit 10 min at RT</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Have a second jar with buffer only to microwave alongside slides</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-2')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave 2.5 min at 50% power (power level 5)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-3')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave 2.5 min at power level 4</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-4')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-4']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave 2.5 min at power level 4</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-5')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-5']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave 2.5 min at power level 4</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-6')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-6']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Remove lid and allow to cool AT LEAST 30 minutes</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Critical: Do not rush cooling step</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-par-7')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-par-7']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 3× for 5 min each</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Antigen Retrieval - Cryo -->
+                            <div x-show="activeSampleType === 'cryo'" class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                                    Antigen Retrieval (~15 minutes)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-cryo-1')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-cryo-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave citrate buffer 2.5 min at power level 5</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-cryo-2')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-cryo-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Pour heated buffer over slides</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-cryo-3')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-cryo-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Microwave slides 2.5 min at power level 4</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-cryo-4')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-cryo-4']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Allow to cool for 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-ar-cryo-5')">
+                                        <input type="checkbox" :checked="completedSteps['day1-ar-cryo-5']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 3× for 5 min each</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Blocking -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm" x-text="activeSampleType === 'paraffin' ? '3' : '2'"></span>
+                                    Blocking (1 hour)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-block-1')">
+                                        <input type="checkbox" :checked="completedSteps['day1-block-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Prepare 10% serum in PBS-T (100 µL serum + 900 µL PBS-T)</p>
+                                            <p class="text-sm text-gray-600 mt-1">💡 Use serum from same species as secondary antibody host</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-block-2')">
+                                        <input type="checkbox" :checked="completedSteps['day1-block-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Incubate slides with 10% serum for 1 hour at room temperature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Primary Antibody -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm" x-text="activeSampleType === 'paraffin' ? '4' : '3'"></span>
+                                    Primary Antibody (Overnight)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-primary-1')">
+                                        <input type="checkbox" :checked="completedSteps['day1-primary-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 5 min 3×</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-primary-2')">
+                                        <input type="checkbox" :checked="completedSteps['day1-primary-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Dilute primary antibody in 2% serum (20 µL serum + 980 µL PBS-T)</p>
+                                            <p class="text-sm text-gray-600 mt-1">💡 Dilution ratio varies by antibody - check datasheet</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-primary-3')">
+                                        <input type="checkbox" :checked="completedSteps['day1-primary-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Apply primary antibody to slides in humidifying chamber</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day1-primary-4')">
+                                        <input type="checkbox" :checked="completedSteps['day1-primary-4']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Incubate overnight at 4°C in dark</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Ensure humidifying chamber is well-sealed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Day 2 Protocol -->
+                    <div x-show="activeDay === 'day2'" class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Day 2: Secondary Antibody, DAPI, and Mounting</h2>
+                            <p class="text-gray-600 mb-6">Total time: ~2 hours</p>
+
+                            <!-- Secondary Antibody -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                                    Secondary Antibody (1 hour)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-secondary-1')">
+                                        <input type="checkbox" :checked="completedSteps['day2-secondary-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 5 min 3×</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-secondary-2')">
+                                        <input type="checkbox" :checked="completedSteps['day2-secondary-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Dilute secondary antibody in 2% serum</p>
+                                            <p class="text-sm text-gray-600 mt-1">💡 Common dilution: 1:200-1:500, check datasheet</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-secondary-3')">
+                                        <input type="checkbox" :checked="completedSteps['day2-secondary-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Incubate slides for 1 hour at room temperature in dark</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Protect from light - fluorophores are light-sensitive</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DAPI Staining -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                                    DAPI Nuclear Staining
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-dapi-1')">
+                                        <input type="checkbox" :checked="completedSteps['day2-dapi-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 5 min 2×</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-dapi-2')">
+                                        <input type="checkbox" :checked="completedSteps['day2-dapi-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Dilute DAPI 1:2000 (1 µL of 1 mg/mL stock into 2 mL PBS-T)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-dapi-3')">
+                                        <input type="checkbox" :checked="completedSteps['day2-dapi-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Incubate slides in DAPI for 1 minute</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mounting -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-purple-700 mb-4 flex items-center">
+                                    <span class="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">3</span>
+                                    Mounting
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-mount-1')">
+                                        <input type="checkbox" :checked="completedSteps['day2-mount-1']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Wash slides with PBS-T 5 min 2×</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-mount-2')">
+                                        <input type="checkbox" :checked="completedSteps['day2-mount-2']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Add Fluoromount mounting medium</p>
+                                            <p class="text-sm text-gray-600 mt-1">💡 Use aqueous mounting medium - do NOT use xylene-based mounting medium</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-mount-3')">
+                                        <input type="checkbox" :checked="completedSteps['day2-mount-3']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Place coverslip gently and remove air bubbles</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                                         @click="toggleStep('day2-mount-4')">
+                                        <input type="checkbox" :checked="completedSteps['day2-mount-4']" class="mt-1 h-5 w-5 text-purple-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Store slides at 4°C protected from light</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Image within 1-2 weeks for optimal fluorescence</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Imaging Tips Section -->
+                <div x-show="activeSection === 'imaging'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Imaging Tips</h2>
+
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                                <p class="font-semibold text-blue-800">Minimize Photobleaching</p>
+                                <p class="text-blue-700 text-sm mt-1">
+                                    Keep exposure times as short as possible and reduce light intensity when finding focal plane.
+                                    Work quickly to prevent fluorophore degradation under light exposure.
+                                </p>
+                            </div>
+
+                            <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                                <p class="font-semibold text-green-800">Optimal Timing</p>
+                                <p class="text-green-700 text-sm mt-1">
+                                    Image slides within 1-2 weeks of staining for best fluorescence intensity.
+                                    Some fluorophores fade over time even when stored properly.
+                                </p>
+                            </div>
+
+                            <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                                <p class="font-semibold text-purple-800">Channel Selection</p>
+                                <p class="text-purple-700 text-sm mt-1">
+                                    Image DAPI first (blue channel), then move to longer wavelengths (green, then red).
+                                    This minimizes photobleaching of more sensitive fluorophores.
+                                </p>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <p class="font-semibold text-yellow-800">Control Slides</p>
+                                <p class="text-yellow-700 text-sm mt-1">
+                                    Always include: (1) No primary antibody control, (2) Isotype control, (3) Positive control tissue.
+                                    These help validate specificity and optimize imaging settings.
+                                </p>
+                            </div>
+
+                            <div class="bg-rose-50 border-l-4 border-rose-500 p-4">
+                                <p class="font-semibold text-rose-800">Mounting Medium Curing</p>
+                                <p class="text-rose-700 text-sm mt-1">
+                                    Allow mounting medium to cure for at least 24 hours at 4°C before imaging for optimal clarity.
+                                    Imaging too soon may result in poor image quality.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting Section -->
+                <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting Guide</h2>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">High Background Signal</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Insufficient blocking</li>
+                                        <li>Antibody concentration too high</li>
+                                        <li>Inadequate washing</li>
+                                        <li>Tissue autofluorescence</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Increase blocking time or serum concentration</li>
+                                        <li>Optimize antibody dilution (start with higher dilutions)</li>
+                                        <li>Extend wash times and increase number of washes</li>
+                                        <li>Use autofluorescence quencher or image at different wavelengths</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">No Signal or Weak Signal</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Antibody concentration too low</li>
+                                        <li>Primary or secondary antibody not working</li>
+                                        <li>Antigen not present or masked</li>
+                                        <li>Photobleaching during imaging</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Optimize antibody dilution (use less dilution)</li>
+                                        <li>Test antibodies with positive control tissue</li>
+                                        <li>Optimize antigen retrieval method and duration</li>
+                                        <li>Reduce light exposure during imaging</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">Non-Specific Staining</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Cross-reactivity of antibodies</li>
+                                        <li>Secondary antibody binding non-specifically</li>
+                                        <li>Endogenous biotin (if using biotin-based detection)</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Include no-primary antibody control</li>
+                                        <li>Use isotype control to assess non-specific binding</li>
+                                        <li>Pre-absorb antibody with tissue powder</li>
+                                        <li>Switch to non-biotin detection system</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">Rapid Photobleaching</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Fluorophore is light-sensitive</li>
+                                        <li>High light intensity during imaging</li>
+                                        <li>Long exposure times</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Use more photostable fluorophores (Alexa Fluor series)</li>
+                                        <li>Reduce light intensity and exposure time</li>
+                                        <li>Use anti-fade mounting medium</li>
+                                        <li>Image immediately after mounting</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-purple-700 mb-3">Tissue Fell Off Slides</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Slides not positively charged</li>
+                                        <li>Microwave power too high</li>
+                                        <li>Excessive agitation during washes</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Use positively charged slides only</li>
+                                        <li>Reduce microwave power during antigen retrieval</li>
+                                        <li>Be gentle during washing steps</li>
+                                        <li>Bake slides at 60°C for 30-60 min before staining</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safety Notice -->
+                <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mt-8">
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">⚠️</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-red-800 mb-2">Safety Information</h3>
+                            <ul class="text-red-700 text-sm space-y-1 list-disc list-inside">
+                                <li>Always work with xylene in a fume hood (for paraffin sections)</li>
+                                <li>Wear appropriate PPE (lab coat, gloves, safety glasses)</li>
+                                <li>Handle antibodies with care - some may contain sodium azide preservative</li>
+                                <li>Dispose of fluorescent waste appropriately</li>
+                                <li>Be cautious with hot liquids during antigen retrieval</li>
+                                <li>Follow proper storage conditions for antibodies (typically 4°C or -20°C)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Top Button -->
+                <div class="mt-8 text-center">
+                    <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                            class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        ↑ Back to Top
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-bold mb-3">About This Protocol</h4>
+                        <p class="text-sm">
+                            Immunofluorescence (IF) staining protocol for detecting specific proteins using
+                            fluorescently-labeled antibodies in tissue sections.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Quick Links</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="index.html" class="hover:text-white transition">← All Protocols</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'overview'" class="hover:text-white transition">Protocol Overview</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'troubleshooting'" class="hover:text-white transition">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Contact</h4>
+                        <p class="text-sm">
+                            Román A Cáceres<br><br>
+                            University of Cincinnati:<br>
+                            Cacerera@mail.uc.edu<br><br>
+                            Emory University:<br>
+                            Racacer@emory.edu
+                        </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+                    <p>For Research Use Only. Last updated: October 2025</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

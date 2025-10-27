@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>BODIPY Staining Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        activeCellType: 'adherent',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-orange-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">BODIPY(493/503) Staining for Lipid Droplets</h1>
+                <p class="text-orange-100 mt-2">Fluorescent staining protocol for visualizing cellular lipid droplets</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-orange-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-orange-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-orange-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'imaging'"
+                            :class="activeSection === 'imaging' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-orange-500 hover:text-white transition">
+                        Imaging
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-orange-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    BODIPY 493/503 is a lipophilic fluorescent dye used to visualize neutral lipid storage organelles
+                    (lipid droplets) in cells. This protocol provides methods for staining both adherent and suspension cells.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Applications:</p>
+                    <ul class="text-sm text-blue-800 mt-2 space-y-1">
+                        <li>• Lipid metabolism studies</li>
+                        <li>• Adipocyte differentiation</li>
+                        <li>• Lipid droplet dynamics</li>
+                        <li>• Oleic acid or fatty acid treatment experiments</li>
+                        <li>• Metabolic disease research</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-orange-900 mb-2">Fluorescence Properties</h3>
+                        <ul class="text-sm text-orange-800 space-y-1">
+                            <li>• <strong>Excitation:</strong> 493 nm</li>
+                            <li>• <strong>Emission:</strong> 503 nm</li>
+                            <li>• <strong>Color:</strong> Green fluorescence</li>
+                            <li>• <strong>Compatible with:</strong> FITC/GFP filter sets</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Key Features</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• Rapid staining (1-2 hours)</li>
+                            <li>• Live or fixed cells</li>
+                            <li>• Compatible with DAPI nuclear staining</li>
+                            <li>• Minimal background fluorescence</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Safety Considerations</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• BODIPY is dissolved in DMSO - handle with care</li>
+                        <li>• DMSO can facilitate absorption of other chemicals through skin</li>
+                        <li>• Wear gloves and work in biosafety cabinet when handling cells</li>
+                        <li>• Dispose of fluorescent dye waste properly</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>BODIPY 493/503 (Thermo Fisher, Cat# D3922)</li>
+                            <li>DMSO (dimethyl sulfoxide), sterile</li>
+                            <li>HBSS (Hank's Balanced Salt Solution), sterile</li>
+                            <li>Fluoromount mounting medium with DAPI</li>
+                            <li>Oleic acid (optional, for lipid induction)</li>
+                            <li>Culture medium appropriate for your cells</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Biological safety cabinet (BSC)</li>
+                            <li>37°C CO₂ incubator</li>
+                            <li>Fluorescence microscope (FITC/GFP filter)</li>
+                            <li>Centrifuge (for suspension cells)</li>
+                            <li>Cytocentrifuge (for suspension cells)</li>
+                            <li>Microscope slides (positively charged)</li>
+                            <li>Coverslips</li>
+                            <li>Clear nail polish (for sealing)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-3">Stock Solutions</h3>
+                        <div class="text-sm text-yellow-800 space-y-2">
+                            <p><strong>BODIPY Stock Solution (10 mM):</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Dissolve BODIPY in DMSO to 10 mM</li>
+                                <li>Store at -20°C protected from light</li>
+                                <li>Stable for several months</li>
+                            </ul>
+                            <p class="mt-3"><strong>Working Solution (1 µM):</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Dilute stock 1:10,000 in sterile HBSS</li>
+                                <li>Prepare fresh on day of use</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Optional Materials</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Oleic acid-BSA conjugate (for lipid loading)</li>
+                            <li>Chamber slides or coverslip dishes</li>
+                            <li>Paraformaldehyde 4% (for fixation)</li>
+                            <li>PBS (phosphate buffered saline)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="space-y-6">
+                <!-- Cell Type Selection -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Cell Type:</h3>
+                    <div class="flex gap-3">
+                        <button @click="activeCellType = 'adherent'"
+                                :class="activeCellType === 'adherent' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-orange-500 hover:text-white transition">
+                            Adherent Cells
+                        </button>
+                        <button @click="activeCellType = 'suspension'"
+                                :class="activeCellType === 'suspension' ? 'bg-orange-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-orange-500 hover:text-white transition">
+                            Suspension Cells
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Adherent Cells Protocol -->
+                <div x-show="activeCellType === 'adherent'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">BODIPY Staining - Adherent Cells</h2>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                        <p class="text-sm font-semibold text-blue-900">Note: Cells can be grown directly on coverslips, chamber slides, or in culture dishes.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">1. Cell Preparation (Optional Lipid Loading)</h3>
+                                <button @click="toggleStep('adherent-prep')"
+                                        :class="completedSteps['adherent-prep'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-prep'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Grow cells to desired confluence in culture vessel</li>
+                                <li><strong>Optional:</strong> Treat with oleic acid (typically 100-400 µM) for 12-24 hours to induce lipid droplet formation</li>
+                                <li>Cells can be used at any confluence, typically 50-80%</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">2. Wash Cells</h3>
+                                <button @click="toggleStep('adherent-wash')"
+                                        :class="completedSteps['adherent-wash'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-wash'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Aspirate culture medium</li>
+                                <li>Wash cells twice with sterile, room temperature HBSS</li>
+                                <li>Remove all traces of serum-containing medium (can increase background)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">3. Prepare BODIPY Staining Solution</h3>
+                                <button @click="toggleStep('adherent-solution')"
+                                        :class="completedSteps['adherent-solution'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-solution'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Dilute BODIPY stock solution (10 mM in DMSO) in sterile HBSS</li>
+                                <li><strong>Final concentration: 1 µM</strong> (1:10,000 dilution)</li>
+                                <li>Example: For 10 mL, add 1 µL BODIPY stock to 10 mL HBSS</li>
+                                <li>Mix thoroughly and protect from light</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">4. Stain Cells</h3>
+                                <button @click="toggleStep('adherent-stain')"
+                                        :class="completedSteps['adherent-stain'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-stain'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Add 1 µM BODIPY staining solution to cells (enough to cover cells)</li>
+                                <li>Incubate for <strong>1-2 hours at 37°C</strong></li>
+                                <li>Protect from light during incubation</li>
+                                <li>Use foil or dark incubator chamber</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">5. Post-Staining Wash</h3>
+                                <button @click="toggleStep('adherent-wash2')"
+                                        :class="completedSteps['adherent-wash2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-wash2'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Remove staining solution</li>
+                                <li>Wash cells twice with HBSS to remove unbound dye</li>
+                                <li>Final wash should be thorough to minimize background</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">6. Mounting with DAPI</h3>
+                                <button @click="toggleStep('adherent-mount')"
+                                        :class="completedSteps['adherent-mount'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['adherent-mount'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Add 1-2 drops of Fluoromount + DAPI to cells</li>
+                                <li>If using coverslips, carefully place on microscope slide</li>
+                                <li>If imaging dish directly, proceed to microscopy</li>
+                                <li>Allow mounting medium to cure overnight at 4°C in dark</li>
+                                <li>Optional: Seal coverslip edges with clear nail polish</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suspension Cells Protocol -->
+                <div x-show="activeCellType === 'suspension'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">BODIPY Staining - Suspension Cells</h2>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-3 mb-4">
+                        <p class="text-sm font-semibold text-purple-900">This protocol includes cytospinning to adhere cells to slides for imaging.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">1. Harvest Cell Suspension</h3>
+                                <button @click="toggleStep('susp-harvest')"
+                                        :class="completedSteps['susp-harvest'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-harvest'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Collect cell suspension in sterile centrifuge tube</li>
+                                <li>Optional: Pre-treat with oleic acid if desired</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">2. Pellet Cells</h3>
+                                <button @click="toggleStep('susp-pellet1')"
+                                        :class="completedSteps['susp-pellet1'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-pellet1'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Centrifuge at <strong>1000 RPM for 5 minutes</strong></li>
+                                <li>Carefully remove supernatant without disturbing pellet</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">3. Wash Cells</h3>
+                                <button @click="toggleStep('susp-wash')"
+                                        :class="completedSteps['susp-wash'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-wash'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Resuspend pellet in 2-3 mL room temperature HBSS</li>
+                                <li>Centrifuge at 1000 RPM for 5 minutes</li>
+                                <li>Remove supernatant</li>
+                                <li><strong>Repeat wash 2x total</strong> (2 washes)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">4. Stain Cells</h3>
+                                <button @click="toggleStep('susp-stain')"
+                                        :class="completedSteps['susp-stain'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-stain'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Resuspend cell pellet in 1 µM BODIPY solution in HBSS</li>
+                                <li>Incubate at <strong>37°C for 1-2 hours</strong></li>
+                                <li>Protect from light during incubation (cover with foil)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">5. Post-Staining Wash</h3>
+                                <button @click="toggleStep('susp-wash2')"
+                                        :class="completedSteps['susp-wash2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-wash2'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Centrifuge at 1000 RPM for 5 minutes</li>
+                                <li>Remove supernatant</li>
+                                <li>Wash twice with HBSS (centrifuge between washes)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">6. Prepare for Cytospin</h3>
+                                <button @click="toggleStep('susp-prepare')"
+                                        :class="completedSteps['susp-prepare'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-prepare'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>After final wash, resuspend pellet in small volume of HBSS</li>
+                                <li>Adjust concentration so final cell suspension <strong>does not exceed 10⁵ cells/mL</strong></li>
+                                <li>Mix thoroughly to ensure single-cell suspension</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">7. Cytospin</h3>
+                                <button @click="toggleStep('susp-cytospin')"
+                                        :class="completedSteps['susp-cytospin'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-cytospin'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Use positively charged microscope slides</li>
+                                <li>Load <strong>maximum 500 µL</strong> of cell suspension into cytospin chamber</li>
+                                <li>Centrifuge at <strong>500 × g for 5 minutes</strong></li>
+                                <li>Remove slides and let dry briefly (2-3 minutes)</li>
+                                <li>Check for cell spots under microscope</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-lg font-semibold text-gray-800">8. Mount and Seal</h3>
+                                <button @click="toggleStep('susp-mount')"
+                                        :class="completedSteps['susp-mount'] ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="completedSteps['susp-mount'] ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                                <li>Add a drop of Fluoromount + DAPI mounting medium to cell spot</li>
+                                <li>Carefully place coverslip over mounting medium</li>
+                                <li>Let slides cure overnight at 4°C protected from light</li>
+                                <li>Seal coverslip edges with clear nail polish to prevent drying</li>
+                                <li>Allow nail polish to dry completely before imaging</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Imaging Section -->
+            <div x-show="activeSection === 'imaging'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Fluorescence Imaging</h2>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">BODIPY Channel (Lipid Droplets)</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• <strong>Filter:</strong> FITC/GFP</li>
+                            <li>• <strong>Excitation:</strong> 488-495 nm</li>
+                            <li>• <strong>Emission:</strong> 500-520 nm</li>
+                            <li>• <strong>Appearance:</strong> Bright green puncta</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-blue-900 mb-2">DAPI Channel (Nuclei)</h3>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• <strong>Filter:</strong> DAPI/Hoechst</li>
+                            <li>• <strong>Excitation:</strong> 340-365 nm</li>
+                            <li>• <strong>Emission:</strong> 420-480 nm</li>
+                            <li>• <strong>Appearance:</strong> Blue nuclei</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-3">Imaging Tips</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                        <li>Use oil immersion objective (40× or 63×) for high-resolution imaging of lipid droplets</li>
+                        <li>Lipid droplets appear as distinct bright green punctate structures in cytoplasm</li>
+                        <li>Set exposure time to avoid saturation of brightest droplets</li>
+                        <li>Image DAPI first (to locate cells) then BODIPY channel</li>
+                        <li>Use Z-stacking for 3D reconstruction of lipid droplet distribution</li>
+                        <li>Minimize photobleaching by using minimal light intensity</li>
+                        <li>Store slides at 4°C protected from light between imaging sessions</li>
+                    </ul>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <p class="font-semibold text-yellow-900 mb-2">Expected Results:</p>
+                    <ul class="text-sm text-yellow-800 space-y-1">
+                        <li>• Basal cells: Few small lipid droplets</li>
+                        <li>• Oleic acid-treated cells: Numerous large lipid droplets throughout cytoplasm</li>
+                        <li>• Adipocytes: Very abundant large lipid droplets</li>
+                        <li>• Size range: 0.5-5 µm diameter (typically 1-2 µm)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="space-y-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2 text-left">Problem</th>
+                                    <th class="px-4 py-2 text-left">Possible Cause</th>
+                                    <th class="px-4 py-2 text-left">Solution</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2">No or weak signal</td>
+                                    <td class="px-4 py-2">Low lipid content<br>BODIPY degraded<br>Incorrect filter</td>
+                                    <td class="px-4 py-2">Treat cells with oleic acid to induce lipid droplets<br>Use fresh BODIPY stock<br>Verify using FITC/GFP filter set</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">High background</td>
+                                    <td class="px-4 py-2">Insufficient washing<br>Too much dye</td>
+                                    <td class="px-4 py-2">Increase number of washes<br>Reduce BODIPY concentration to 0.5 µM</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Uneven staining</td>
+                                    <td class="px-4 py-2">Poor mixing<br>Inadequate incubation</td>
+                                    <td class="px-4 py-2">Mix staining solution thoroughly<br>Extend incubation to 2 hours<br>Ensure even distribution of solution</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Cells detached during staining</td>
+                                    <td class="px-4 py-2">Harsh washing<br>Prolonged incubation</td>
+                                    <td class="px-4 py-2">Wash more gently<br>Reduce incubation time<br>Use chamber slides for better adhesion</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Photobleaching</td>
+                                    <td class="px-4 py-2">Excessive light exposure</td>
+                                    <td class="px-4 py-2">Reduce light intensity<br>Use anti-fade mounting medium<br>Minimize time under microscope</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Poor cytospin results</td>
+                                    <td class="px-4 py-2">Cell concentration too high/low<br>Clumped cells</td>
+                                    <td class="px-4 py-2">Adjust to 10⁴-10⁵ cells/mL<br>Pipette thoroughly to create single-cell suspension<br>Filter through 40 µm mesh</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-2">Additional Notes</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                            <li>BODIPY staining is compatible with live cell imaging (cells can be imaged in medium)</li>
+                            <li>For live imaging, use FluoroBrite DMEM or phenol red-free medium to reduce background</li>
+                            <li>Staining can be combined with other fluorescent markers (use appropriate filter sets)</li>
+                            <li>For quantification, use image analysis software (ImageJ, CellProfiler) to measure droplet size and number</li>
+                            <li>Store BODIPY stock protected from light to prevent degradation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

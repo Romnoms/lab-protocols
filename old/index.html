@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasgupta Lab Protocols - Compiled by Roman</title>
+    <title>Laboratory Protocols</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
 </head>
@@ -17,6 +17,7 @@
                 description: 'Complete protocol from cells to cDNA using TRIzol and High-Capacity cDNA RT Kit',
                 category: 'molecular',
                 duration: '~4 hours',
+                difficulty: 'intermediate',
                 link: 'rna-isolation-cdna-synthesis.html',
                 icon: '🧬',
                 tags: ['RNA', 'cDNA', 'TRIzol', 'Reverse Transcription', 'qPCR prep']
@@ -26,117 +27,10 @@
                 description: 'Complete immunoblotting protocol from cell lysis to band visualization',
                 category: 'protein',
                 duration: '2-3 days',
+                difficulty: 'advanced',
                 link: 'western-blot.html',
                 icon: '🔬',
                 tags: ['Protein', 'Antibody', 'RIPA', 'SDS-PAGE', 'Immunoblot']
-            },
-            {
-                title: 'Mammalian Cell Culture',
-                description: 'Complete guide to cell culture maintenance, passaging, and cryopreservation',
-                category: 'cell',
-                duration: 'Ongoing',
-                link: 'cell-culture.html',
-                icon: '🧫',
-                tags: ['Cell Culture', 'Passaging', 'Trypsin', 'Freezing', 'Thawing', 'Cryopreservation']
-            },
-            {
-                title: 'CellTiter-Fluor Cell Viability Assay',
-                description: '96-well plate protocol for cell plating and fluorescence-based viability measurement',
-                category: 'cell',
-                duration: '~3-4 hours',
-                link: 'celltiter-fluor-assay.html',
-                icon: '📊',
-                tags: ['Viability', 'Fluorescence', '96-well plate', 'Cell counting', 'Cytotoxicity', 'Drug screening']
-            },
-            {
-                title: 'Mouse Genotyping Protocol',
-                description: 'Comprehensive genotyping for SCD1, SCD2, Cdh5-Cre, and tdTomato mouse lines with PCR protocols',
-                category: 'molecular',
-                duration: '~5-6 hours',
-                link: 'mouse-genotyping.html',
-                icon: '🐭',
-                tags: ['PCR', 'Genotyping', 'DNA extraction', 'Mouse', 'SCD1', 'SCD2', 'Cre', 'tdTomato', 'Gel electrophoresis']
-            },
-            {
-                title: 'H&E Staining',
-                description: 'Hematoxylin and Eosin staining for paraffin and cryo tissue sections',
-                category: 'imaging',
-                duration: '~1-1.5 hours',
-                link: 'h-and-e-staining.html',
-                icon: '🔬',
-                tags: ['H&E', 'Hematoxylin', 'Eosin', 'Histology', 'Staining', 'Paraffin', 'Cryo', 'Tissue', 'Microscopy']
-            },
-            {
-                title: 'Immunofluorescence (IF)',
-                description: 'Fluorescent antibody detection for tissue sections with DAPI nuclear staining',
-                category: 'imaging',
-                duration: '2 days',
-                link: 'immunofluorescence.html',
-                icon: '✨',
-                tags: ['IF', 'Immunofluorescence', 'Antibody', 'Fluorescence', 'DAPI', 'Microscopy', 'Tissue', 'Antigen retrieval', 'Imaging']
-            },
-            {
-                title: 'Immunohistochemistry (IHC)',
-                description: 'DAB-based antibody detection using ABC method for tissue sections',
-                category: 'imaging',
-                duration: '2 days',
-                link: 'immunohistochemistry.html',
-                icon: '🟤',
-                tags: ['IHC', 'Immunohistochemistry', 'DAB', 'ABC', 'Antibody', 'Chromogen', 'Tissue', 'Antigen retrieval', 'Microscopy']
-            },
-            {
-                title: 'BODIPY Staining',
-                description: 'Fluorescent staining for lipid droplets in adherent and suspension cells',
-                category: 'imaging',
-                duration: '~2-3 hours',
-                link: 'bodipy-staining.html',
-                icon: '💧',
-                tags: ['BODIPY', 'Lipid droplets', 'Fluorescence', 'DAPI', 'Microscopy', 'Cytospin', 'Oleic acid', 'Metabolism', 'Imaging']
-            },
-            {
-                title: 'Primary Mouse Hepatocyte Isolation',
-                description: 'Two-step collagenase perfusion method for isolating primary hepatocytes from mouse liver',
-                category: 'cell',
-                duration: '~2-3 hours',
-                link: 'hepatocyte-isolation.html',
-                icon: '🫀',
-                tags: ['Hepatocytes', 'Liver', 'Perfusion', 'Liberase', 'Primary cells', 'Percoll', 'Mouse', 'Cell isolation', 'IACUC']
-            },
-            {
-                title: 'Soft Agar Colony Formation Assay',
-                description: 'Anchorage-independent growth assay for assessing cellular transformation and tumorigenicity',
-                category: 'cell',
-                duration: '21-28 days',
-                link: 'soft-agar-assay.html',
-                icon: '🧫',
-                tags: ['Soft agar', 'Colony formation', 'Transformation', 'Tumorigenicity', 'Anchorage-independent', 'Cancer', 'NBT staining', 'MTT']
-            },
-            {
-                title: 'Lentiviral Production and Infection',
-                description: 'Complete workflow for lentivirus production in 293T cells and target cell transduction with spinoculation',
-                category: 'molecular',
-                duration: '5-8 days',
-                link: 'lentivirus-production.html',
-                icon: '🦠',
-                tags: ['Lentivirus', 'Transfection', '293T', 'Transduction', 'Spinoculation', 'JetPRIME', 'FuGENE', 'VSVG', 'Polybrene', 'PEG precipitation', 'Ultracentrifugation', 'BSL-2']
-            },
-            {
-                title: 'Primary Mouse Astrocyte Isolation',
-                description: 'Trypsin-based isolation and culture of primary astrocytes from neonatal or adult mouse brain',
-                category: 'cell',
-                duration: '1-2 hours isolation + 7-14 days culture',
-                link: 'astrocyte-isolation.html',
-                icon: '⭐',
-                tags: ['Astrocytes', 'Primary cells', 'Brain', 'Trypsin', 'GFAP', 'Glial cells', 'Neonatal', 'Mouse', 'Cell isolation', 'Neuroscience', 'IACUC']
-            },
-            {
-                title: 'Mouse Neural Progenitor Culture',
-                description: 'Neurosphere assay for culturing neural stem and progenitor cells from embryonic telencephalon',
-                category: 'cell',
-                duration: '2-3 hours isolation + 48-72h sphere formation',
-                link: 'neural-progenitor-culture.html',
-                icon: '🧠',
-                tags: ['Neural progenitors', 'Neurospheres', 'Stem cells', 'EGF', 'FGF', 'Embryonic', 'Telencephalon', 'NSPCs', 'Nestin', 'Sox2', 'Mouse', 'IACUC']
             }
         ],
         get filteredProtocols() {
@@ -153,10 +47,18 @@
                 'molecular': 'bg-blue-100 text-blue-800',
                 'protein': 'bg-purple-100 text-purple-800',
                 'cell': 'bg-green-100 text-green-800',
-                'imaging': 'bg-pink-100 text-pink-800'
+                'imaging': 'bg-yellow-100 text-yellow-800'
             };
             return colors[category] || 'bg-gray-100 text-gray-800';
         },
+        getDifficultyColor(difficulty) {
+            const colors = {
+                'beginner': 'bg-green-500',
+                'intermediate': 'bg-yellow-500',
+                'advanced': 'bg-red-500'
+            };
+            return colors[difficulty] || 'bg-gray-500';
+        }
     }">
 
         <!-- Header -->
@@ -164,7 +66,7 @@
             <div class="container mx-auto px-4 py-12">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-4xl md:text-5xl font-bold mb-3">Dasgupta lab protocols; compiled and adapted by Roman</h1>
+                        <h1 class="text-4xl md:text-5xl font-bold mb-3">Laboratory Protocols</h1>
                         <p class="text-indigo-100 text-lg">Comprehensive molecular biology and protein analysis protocols</p>
                     </div>
                     <div class="hidden md:block text-6xl">🧪</div>
@@ -227,10 +129,18 @@
                             <p class="text-gray-600 mb-4 line-clamp-3" x-text="protocol.description"></p>
 
                             <!-- Info Grid -->
-                            <div class="mb-4">
+                            <div class="grid grid-cols-2 gap-3 mb-4">
                                 <div class="bg-gray-50 p-3 rounded-lg">
                                     <div class="text-xs text-gray-500 mb-1">Duration</div>
                                     <div class="font-semibold text-gray-800" x-text="protocol.duration"></div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="text-xs text-gray-500 mb-1">Difficulty</div>
+                                    <div class="flex items-center">
+                                        <div :class="getDifficultyColor(protocol.difficulty)"
+                                             class="w-2 h-2 rounded-full mr-2"></div>
+                                        <span class="font-semibold text-gray-800 capitalize" x-text="protocol.difficulty"></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -266,6 +176,34 @@
                 <p class="text-gray-500">Try adjusting your search or filter criteria</p>
             </div>
 
+            <!-- Legend Section -->
+            <div class="mt-12 bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Difficulty Levels</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Beginner</div>
+                            <div class="text-sm text-gray-600">Basic laboratory skills required</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Intermediate</div>
+                            <div class="text-sm text-gray-600">Some experience recommended</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-red-500 rounded-full mr-3"></div>
+                        <div>
+                            <div class="font-semibold text-gray-800">Advanced</div>
+                            <div class="text-sm text-gray-600">Significant experience required</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Quick Links Section -->
             <div class="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6">
                 <h3 class="text-xl font-bold text-gray-800 mb-4">Quick Access</h3>
@@ -274,7 +212,7 @@
                             class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
                         <div class="text-2xl mb-2">🧬</div>
                         <div class="font-semibold text-gray-800">Molecular Biology</div>
-                        <div class="text-sm text-gray-600">RNA, DNA, PCR, genotyping</div>
+                        <div class="text-sm text-gray-600">RNA, DNA, cDNA protocols</div>
                     </button>
                     <button @click="selectedCategory = 'protein'; searchQuery = ''"
                             class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
@@ -290,9 +228,9 @@
                     </button>
                     <button @click="selectedCategory = 'imaging'; searchQuery = ''"
                             class="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow text-left">
-                        <div class="text-2xl mb-2">🔬</div>
-                        <div class="font-semibold text-gray-800">Imaging & Microscopy</div>
-                        <div class="text-sm text-gray-600">H&E, IF, IHC staining</div>
+                        <div class="text-2xl mb-2">📷</div>
+                        <div class="font-semibold text-gray-800">Imaging</div>
+                        <div class="text-sm text-gray-600">Microscopy, IF, IHC</div>
                     </button>
                 </div>
             </div>
@@ -365,7 +303,7 @@
                     </div>
                 </div>
                 <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
-                    <p>&copy; 2025 Dasgupta Lab Protocols - Compiled by Roman. Built with Alpine.js and Tailwind CSS.</p>
+                    <p>&copy; 2025 Laboratory Protocols. Built with Alpine.js and Tailwind CSS.</p>
                 </div>
             </div>
         </footer>

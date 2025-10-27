@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Soft Agar Colony Formation Assay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-indigo-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Soft Agar Colony Formation Assay</h1>
+                <p class="text-indigo-100 mt-2">Anchorage-independent growth assay for transformation and tumorigenicity</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'preparation'"
+                            :class="activeSection === 'preparation' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Preparation
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'analysis'"
+                            :class="activeSection === 'analysis' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Analysis
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    The soft agar colony formation assay is a gold standard method for measuring anchorage-independent
+                    growth, a hallmark of cellular transformation and tumorigenicity. Normal cells require attachment
+                    to a solid substrate for growth, while transformed cells can proliferate in semi-solid medium.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Principle:</p>
+                    <p class="text-sm text-blue-800 mt-2">
+                        Cells are suspended in low-concentration agar (0.3-0.6%) layered over a higher-concentration
+                        base agar (0.5-1.0%). Transformed cells form colonies in suspension, while normal cells cannot
+                        proliferate without attachment. Colony formation is quantified after 2-4 weeks.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-indigo-900 mb-2">Applications</h3>
+                        <ul class="text-sm text-indigo-800 space-y-1">
+                            <li>• Assessing tumorigenic potential</li>
+                            <li>• Testing tumor suppressor function</li>
+                            <li>• Oncogene transformation studies</li>
+                            <li>• Drug screening for cancer cells</li>
+                            <li>• Evaluating metastatic potential</li>
+                            <li>• Quality control for cell lines</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Advantages</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• Highly predictive of in vivo tumorigenicity</li>
+                            <li>• Quantitative and reproducible</li>
+                            <li>• Can assess thousands of cells per well</li>
+                            <li>• Does not require animal models</li>
+                            <li>• Suitable for high-throughput screening</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+                    <p class="font-semibold text-yellow-900">Expected Timeline:</p>
+                    <ul class="text-sm text-yellow-800 mt-2 space-y-1">
+                        <li>• <strong>Day 0:</strong> Prepare agar layers and seed cells</li>
+                        <li>• <strong>Day 1-3:</strong> Monitor for contamination and agar integrity</li>
+                        <li>• <strong>Week 2-3:</strong> Colonies become visible (>50 µm)</li>
+                        <li>• <strong>Week 3-4:</strong> Count and analyze colonies</li>
+                        <li>• <strong>Total duration:</strong> 21-28 days</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Important Considerations</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• Agar must remain molten (42°C) but not so hot it kills cells</li>
+                        <li>• Work quickly to prevent agar from solidifying prematurely</li>
+                        <li>• Maintain sterile technique throughout - assay lasts 3-4 weeks</li>
+                        <li>• Use low-passage cells for reproducible results</li>
+                        <li>• Include positive and negative controls</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li><strong>Noble Agar</strong> or agarose (low melting point)</li>
+                            <li>Cell culture medium (DMEM, RPMI, etc.)</li>
+                            <li>Fetal bovine serum (FBS)</li>
+                            <li>Penicillin/Streptomycin</li>
+                            <li>L-Glutamine or GlutaMAX</li>
+                            <li>PBS (phosphate buffered saline)</li>
+                            <li>Trypsin-EDTA or cell dissociation reagent</li>
+                            <li>Nitroblue tetrazolium (NBT) or MTT (for staining)</li>
+                            <li>Sterile water or PBS for agar preparation</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment & Supplies</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>6-well cell culture plates</li>
+                            <li>Biological safety cabinet</li>
+                            <li>37°C CO₂ incubator with humidity control</li>
+                            <li>Water bath (42°C)</li>
+                            <li>Microwave or autoclave</li>
+                            <li>Hemocytometer or cell counter</li>
+                            <li>Sterile pipettes and tips</li>
+                            <li>Inverted microscope</li>
+                            <li>50 mL conical tubes</li>
+                            <li>Plate reader or colony counter (optional)</li>
+                            <li>Image analysis software (ImageJ, etc.)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Cell Requirements</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Test cells: Transformed or tumor cell lines</li>
+                            <li>Positive control: Known transformed cell line (HeLa, HT-1080)</li>
+                            <li>Negative control: Normal, non-transformed cells (NIH 3T3, MCF-10A)</li>
+                            <li>Cells should be in log-phase growth</li>
+                            <li>Viability >95% required</li>
+                            <li>Use cells at consistent passage number</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Volumes per 6-well Plate</h3>
+                        <div class="text-sm text-gray-700 space-y-1">
+                            <p><strong>Base Layer (1% agar):</strong> 2 mL per well</p>
+                            <p><strong>Top Layer (0.6% agar + cells):</strong> 1.5 mL per well</p>
+                            <p><strong>Feed medium:</strong> 0.5-1 mL per well (added weekly)</p>
+                            <p class="text-xs text-gray-600 mt-2">Note: Scale proportionally for other plate formats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preparation Section -->
+            <div x-show="activeSection === 'preparation'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Agar Preparation (Day Before or Day Of)</h2>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-yellow-900">Important: Prepare agar stocks in advance. They can be stored and remelted as needed.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">1. Prepare 2% Noble Agar Stock</h3>
+                            <button @click="toggleStep('prep-stock')"
+                                    :class="completedSteps['prep-stock'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-stock'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Weigh 2 g Noble Agar powder</li>
+                            <li>Add to 100 mL sterile water or PBS in autoclavable bottle</li>
+                            <li>Autoclave at 121°C for 15-20 minutes OR</li>
+                            <li>Microwave in 30-second bursts until fully dissolved (mix between bursts)</li>
+                            <li>Store at room temperature (will solidify)</li>
+                            <li>Can be stored for several months and remelted</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">2. Prepare 2× Complete Medium</h3>
+                            <button @click="toggleStep('prep-2x')"
+                                    :class="completedSteps['prep-2x'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-2x'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Prepare complete medium with double-strength supplements</li>
+                            <li>Example for DMEM: 2× DMEM powder + 20% FBS + 2× Pen/Strep + 2× L-glutamine</li>
+                            <li>Or: Mix 1:1 regular medium concentrate with water</li>
+                            <li>Sterile filter (0.22 µm)</li>
+                            <li>Store at 4°C</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">3. Prepare Base Agar (1% - Day of Plating)</h3>
+                            <button @click="toggleStep('prep-base')"
+                                    :class="completedSteps['prep-base'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-base'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Melt 2% agar stock in microwave or boiling water bath</li>
+                            <li>Pre-warm 2× complete medium to 42°C</li>
+                            <li>In BSC, mix equal volumes: 2% agar + 2× medium</li>
+                            <li>Example: 10 mL agar + 10 mL 2× medium = 20 mL of 1% base agar</li>
+                            <li>Mix thoroughly but gently (avoid bubbles)</li>
+                            <li>Keep at 42°C in water bath until ready to plate</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">4. Prepare Top Agar (0.6% - Day of Plating)</h3>
+                            <button @click="toggleStep('prep-top')"
+                                    :class="completedSteps['prep-top'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-top'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Melt 2% agar stock</li>
+                            <li>Pre-warm 2× complete medium to 42°C</li>
+                            <li>Mix 0.6% agar: 3 parts 2× medium + 1 part 2% agar</li>
+                            <li>Example: 15 mL 2× medium + 5 mL 2% agar = 20 mL of 0.6% agar</li>
+                            <li>Alternative: 6 mL agar + 14 mL 2× medium = 20 mL of 0.6%</li>
+                            <li>Keep at 42°C until ready to mix with cells</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-blue-900 mb-2">Quick Calculation Reference</h3>
+                        <div class="text-sm text-blue-800 space-y-2">
+                            <p><strong>For 6-well plate (6 wells):</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Base layer (1%): Need 12-14 mL total (2 mL × 6 wells + extra)</li>
+                                <li>Top layer (0.6%): Need 10-12 mL total (1.5 mL × 6 wells + extra)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Soft Agar Assay Protocol</h2>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-blue-900">Day 0: Plating (work quickly once agar is melted - it solidifies rapidly below 40°C)</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">1. Prepare Cells</h3>
+                            <button @click="toggleStep('protocol-cells')"
+                                    :class="completedSteps['protocol-cells'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-cells'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Harvest cells in log-phase growth by trypsinization</li>
+                            <li>Neutralize trypsin with complete medium</li>
+                            <li>Count cells and assess viability (should be >95%)</li>
+                            <li>Prepare single-cell suspension (no clumps)</li>
+                            <li>Typical concentration: <strong>5,000-10,000 cells per well</strong> (optimize for your cell line)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">2. Plate Base Agar Layer</h3>
+                            <button @click="toggleStep('protocol-base')"
+                                    :class="completedSteps['protocol-base'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-base'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Bring 1% base agar to BSC (keep at 42°C)</li>
+                            <li>Pipette <strong>2 mL per well</strong> into 6-well plate</li>
+                            <li>Swirl plate gently to ensure even coverage</li>
+                            <li>Allow to solidify at room temperature (10-15 minutes)</li>
+                            <li>Do NOT refrigerate - will crack</li>
+                            <li>Base layer should be firm before adding top layer</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">3. Mix Cells with Top Agar</h3>
+                            <button @click="toggleStep('protocol-mix')"
+                                    :class="completedSteps['protocol-mix'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-mix'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Dilute cells in pre-warmed (37°C) complete medium</li>
+                            <li>Calculate volume needed: cells should be in same volume as top agar</li>
+                            <li>Example: For 10 mL top agar, prepare cells in 10 mL medium</li>
+                            <li>In sterile tube, mix cells + 0.6% top agar (42°C) at 1:1 ratio</li>
+                            <li>Final: cells in 0.3% agar in complete medium</li>
+                            <li>Mix gently but thoroughly by pipetting</li>
+                            <li><strong>Work quickly - agar solidifies rapidly!</strong></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">4. Plate Top Layer with Cells</h3>
+                            <button @click="toggleStep('protocol-top')"
+                                    :class="completedSteps['protocol-top'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-top'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Immediately pipette <strong>1.5 mL cell/agar mixture per well</strong></li>
+                            <li>Dispense gently onto center of solidified base layer</li>
+                            <li>Tilt plate gently to spread evenly (don't swirl vigorously)</li>
+                            <li>Work well-by-well to prevent agar solidification in tube</li>
+                            <li>Allow top layer to solidify at room temperature (10-15 minutes)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">5. Add Feed Layer (Optional but Recommended)</h3>
+                            <button @click="toggleStep('protocol-feed')"
+                                    :class="completedSteps['protocol-feed'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-feed'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>After top layer solidifies, add 0.5-1 mL complete medium on top</li>
+                            <li>This prevents agar from drying out</li>
+                            <li>Provides additional nutrients</li>
+                            <li>Feed weekly by adding fresh medium (don't remove old medium)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">6. Incubation</h3>
+                            <button @click="toggleStep('protocol-incubate')"
+                                    :class="completedSteps['protocol-incubate'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-incubate'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Place plates in 37°C humidified CO₂ incubator</li>
+                            <li>Incubate for <strong>14-28 days</strong> (typically 21 days)</li>
+                            <li>Check plates every 2-3 days for contamination</li>
+                            <li>Monitor agar for drying (add medium if needed)</li>
+                            <li>Colonies typically visible by day 10-14 under microscope</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">7. Weekly Feeding</h3>
+                            <button @click="toggleStep('protocol-weekly')"
+                                    :class="completedSteps['protocol-weekly'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-weekly'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Once per week, add 0.5 mL fresh complete medium per well</li>
+                            <li>Do NOT remove existing medium - just add fresh on top</li>
+                            <li>This provides nutrients and prevents drying</li>
+                            <li>Be gentle - don't disturb agar layers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Section -->
+            <div x-show="activeSection === 'analysis'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Colony Quantification and Analysis</h2>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-green-900">Timing: Begin analysis after 14-21 days when colonies are clearly visible (&gt;50 µm diameter)</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Method 1: Direct Microscopic Counting (No Staining)</h3>
+                            <button @click="toggleStep('analysis-direct')"
+                                    :class="completedSteps['analysis-direct'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['analysis-direct'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Use inverted microscope with 4× or 10× objective</li>
+                            <li>Count colonies >50 µm diameter (>50 cells)</li>
+                            <li>Scan entire well systematically in a grid pattern</li>
+                            <li>Count each well in triplicate (technical replicates)</li>
+                            <li>Take representative images for documentation</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Method 2: Nitroblue Tetrazolium (NBT) Staining</h3>
+                            <button @click="toggleStep('analysis-nbt')"
+                                    :class="completedSteps['analysis-nbt'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['analysis-nbt'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Prepare NBT solution: 1 mg/mL NBT in PBS</li>
+                            <li>Add 0.5 mL NBT solution per well</li>
+                            <li>Incubate at 37°C for 2-4 hours</li>
+                            <li>Living colonies stain dark blue/purple</li>
+                            <li>Remove NBT and image plates on white background</li>
+                            <li>Count stained colonies visually or with image analysis software</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Method 3: MTT Staining (Colorimetric)</h3>
+                            <button @click="toggleStep('analysis-mtt')"
+                                    :class="completedSteps['analysis-mtt'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['analysis-mtt'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Add MTT reagent (0.5 mg/mL final) to wells</li>
+                            <li>Incubate 2-4 hours at 37°C</li>
+                            <li>Colonies stain purple</li>
+                            <li>Can extract formazan with DMSO for quantitative absorbance reading</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Image Analysis Quantification</h3>
+                            <button @click="toggleStep('analysis-image')"
+                                    :class="completedSteps['analysis-image'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['analysis-image'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Photograph entire well with consistent lighting</li>
+                            <li>Use ImageJ/Fiji or CellProfiler for automated counting</li>
+                            <li>Set size threshold (typically >50 µm diameter)</li>
+                            <li>Automated counting reduces user bias and speeds analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-3">Data Analysis and Reporting</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                        <li>Report as: <strong>Number of colonies per well</strong> or <strong>Colony formation efficiency (%)</strong></li>
+                        <li>Colony formation efficiency = (# colonies / # cells plated) × 100</li>
+                        <li>Use at least 3 biological replicates with 2-3 technical replicates each</li>
+                        <li>Include representative images at same magnification</li>
+                        <li>Statistical analysis: t-test, ANOVA, or non-parametric tests</li>
+                        <li>Consider both colony number AND colony size for comprehensive analysis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Problem</th>
+                                <th class="px-4 py-2 text-left">Possible Cause</th>
+                                <th class="px-4 py-2 text-left">Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">No or very few colonies</td>
+                                <td class="px-4 py-2">Cells not transformed<br>Too few cells plated<br>Low viability<br>Agar concentration too high</td>
+                                <td class="px-4 py-2">Verify cell transformation status with positive control<br>Increase cell number (try 5,000-20,000/well)<br>Check viability before plating<br>Reduce top agar to 0.3-0.35%</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Colonies too small</td>
+                                <td class="px-4 py-2">Insufficient incubation time<br>Nutrient depletion</td>
+                                <td class="px-4 py-2">Extend incubation to 28 days<br>Feed more frequently (2× per week)<br>Increase feed volume</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Agar dried out</td>
+                                <td class="px-4 py-2">Insufficient feed medium<br>Low humidity in incubator</td>
+                                <td class="px-4 py-2">Add more medium on top<br>Place water pan in incubator<br>Use plates on bottom shelves</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Agar cracked</td>
+                                <td class="px-4 py-2">Refrigeration<br>Agar too thick</td>
+                                <td class="px-4 py-2">Never refrigerate agar plates<br>Reduce agar layer thickness<br>Ensure complete solidification before incubating</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells settled to bottom</td>
+                                <td class="px-4 py-2">Agar too hot when mixed<br>Agar solidified too slowly</td>
+                                <td class="px-4 py-2">Cool agar to 40-42°C before mixing cells<br>Plate immediately after mixing<br>Work in cooler room if needed</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Uneven colony distribution</td>
+                                <td class="px-4 py-2">Cell clumping<br>Inadequate mixing</td>
+                                <td class="px-4 py-2">Ensure single-cell suspension<br>Mix cells thoroughly but gently<br>Pipette while dispensing</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Contamination</td>
+                                <td class="px-4 py-2">Breach of sterility<br>Long incubation period</td>
+                                <td class="px-4 py-2">Strict aseptic technique<br>Add pen/strep to media<br>Seal plate edges with parafilm<br>Use antibiotic/antimycotic</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Monolayer growth on plate bottom</td>
+                                <td class="px-4 py-2">Cells attached to plastic<br>Base layer too thin</td>
+                                <td class="px-4 py-2">Increase base layer thickness<br>Ensure base layer fully covers well<br>Check for agar gaps</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-green-900 mb-2">Optimization Tips</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                            <li>Test range of cell numbers: 1,000-20,000 per well</li>
+                            <li>Optimize agar concentration (0.3-0.6% top layer)</li>
+                            <li>Some cells form colonies faster (2 weeks vs 4 weeks)</li>
+                            <li>Use low-passage cells for consistency</li>
+                            <li>Include positive control (known transformed line)</li>
+                            <li>Include negative control (normal cells)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-2">Best Practices</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                            <li>Always prepare fresh agar/media mix</li>
+                            <li>Work quickly once agar is molten</li>
+                            <li>Maintain consistent temperature (42°C)</li>
+                            <li>Don't disturb plates during incubation</li>
+                            <li>Count colonies at consistent time point</li>
+                            <li>Use blinded counting when possible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from published methods and laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

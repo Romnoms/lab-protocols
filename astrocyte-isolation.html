@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Primary Mouse Astrocyte Isolation Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-cyan-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Primary Mouse Astrocyte Isolation</h1>
+                <p class="text-cyan-100 mt-2">Trypsin-based isolation of astrocytes from neonatal or adult mouse brain</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-cyan-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-cyan-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-cyan-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'culture'"
+                            :class="activeSection === 'culture' ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-cyan-500 hover:text-white transition">
+                        Culture & Maintenance
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-cyan-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    This protocol describes the isolation and culture of primary astrocytes from mouse brain.
+                    Astrocytes are the most abundant glial cell type in the brain and play critical roles in
+                    neuronal support, synaptic function, and CNS homeostasis.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Workflow Summary:</p>
+                    <ul class="text-sm text-blue-800 mt-2 space-y-1">
+                        <li>• <strong>Step 1:</strong> Euthanize mouse and harvest brain</li>
+                        <li>• <strong>Step 2:</strong> Remove meninges</li>
+                        <li>• <strong>Step 3:</strong> Trypsinization (15 min)</li>
+                        <li>• <strong>Step 4:</strong> Trituration and neutralization</li>
+                        <li>• <strong>Step 5:</strong> Centrifugation and plating</li>
+                        <li>• <strong>Duration:</strong> ~1-2 hours from dissection to plating</li>
+                        <li>• <strong>Culture time:</strong> 7-14 days for confluent astrocytes</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-cyan-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-cyan-900 mb-2">Applications</h3>
+                        <ul class="text-sm text-cyan-800 space-y-1">
+                            <li>• Neuron-astrocyte co-culture studies</li>
+                            <li>• Inflammatory response assays</li>
+                            <li>• Metabolic studies</li>
+                            <li>• Reactive astrogliosis modeling</li>
+                            <li>• Drug screening</li>
+                            <li>• Astrocyte-specific gene expression</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Key Features</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• Simple trypsin-based dissociation</li>
+                            <li>• High purity (>95% GFAP+)</li>
+                            <li>• Best from P0-P2 neonatal mice</li>
+                            <li>• Can be used from adult mice (lower yield)</li>
+                            <li>• Cells maintain astrocyte phenotype</li>
+                            <li>• Can be passaged 2-3 times</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+                    <p class="font-semibold text-yellow-900">Age Considerations:</p>
+                    <ul class="text-sm text-yellow-800 mt-2 space-y-1">
+                        <li>• <strong>P0-P2 (neonatal):</strong> Highest yield, easiest dissociation, preferred</li>
+                        <li>• <strong>P7-P10:</strong> Good yield, slightly more difficult</li>
+                        <li>• <strong>Adult (>P21):</strong> Lower yield, requires longer digestion, more debris</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Safety & Animal Care</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• Ensure proper IACUC approval for all animal procedures</li>
+                        <li>• Follow institutional guidelines for animal euthanasia</li>
+                        <li>• Work in biosafety cabinet for sterile technique</li>
+                        <li>• Wear appropriate PPE: lab coat, gloves, eye protection</li>
+                        <li>• Dispose of animal carcasses according to institutional policy</li>
+                        <li>• Genotyping: Save tail clip if needed for genotyping</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>DMEM high glucose (DMEM HG)</li>
+                            <li>Fetal bovine serum (FBS) or primary cell serum</li>
+                            <li>Penicillin/Streptomycin</li>
+                            <li>L-Glutamine or GlutaMAX</li>
+                            <li>0.25% Trypsin-EDTA or 0.05% Trypsin</li>
+                            <li>PBS (phosphate buffered saline)</li>
+                            <li>70% ethanol (for sterilization)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment & Supplies</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Biological safety cabinet (BSC)</li>
+                            <li>37°C CO₂ incubator</li>
+                            <li>37°C water bath</li>
+                            <li>Centrifuge</li>
+                            <li>Dissection microscope (optional but helpful)</li>
+                            <li>Dissection tools (scissors, forceps)</li>
+                            <li>10 cm Petri dishes (sterile)</li>
+                            <li>6 cm culture dishes</li>
+                            <li>15 mL conical tubes</li>
+                            <li>Pipettes (serological and micropipettes)</li>
+                            <li>Paper towels</li>
+                            <li>Dry ice</li>
+                            <li>Eppendorf tubes (for tail clips)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-3">Media Recipes</h3>
+                        <div class="text-sm text-blue-800 space-y-2">
+                            <p><strong>Dissection Medium:</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>DMEM high glucose</li>
+                                <li>No serum (plain DMEM)</li>
+                                <li>Keep on ice during dissection</li>
+                            </ul>
+                            <p class="mt-2"><strong>Astrocyte Culture Medium:</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>DMEM high glucose</li>
+                                <li>10% FBS (or primary cell serum)</li>
+                                <li>1% Penicillin/Streptomycin</li>
+                                <li>1% L-Glutamine or GlutaMAX</li>
+                                <li>Sterile filter (0.22 µm)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Animals</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li><strong>Preferred:</strong> P0-P2 neonatal mice</li>
+                            <li><strong>Alternative:</strong> P7-P10 or adult mice</li>
+                            <li>Can use any mouse strain</li>
+                            <li>Typical: 1-3 pups per preparation</li>
+                            <li>Expected yield: ~1-2 × 10⁶ cells per brain</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Astrocyte Isolation Protocol</h2>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-blue-900">Timing: ~1-2 hours from euthanasia to plating</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 1: Preparation</h3>
+                            <button @click="toggleStep('prep')"
+                                    :class="completedSteps['prep'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Pre-warm culture medium to 37°C</li>
+                            <li>Pre-warm water bath to 37°C</li>
+                            <li>Prepare ice bucket with dissection medium (DMEM HG, no serum)</li>
+                            <li>Sterilize dissection tools (autoclave or 70% ethanol)</li>
+                            <li>Set up biosafety cabinet with supplies</li>
+                            <li>Label 15 mL tubes (one per animal)</li>
+                            <li>Add 2 mL trypsin to each labeled tube, keep on ice</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 2: Euthanasia and Brain Harvest</h3>
+                            <button @click="toggleStep('euthanasia')"
+                                    :class="completedSteps['euthanasia'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['euthanasia'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Place mouse on paper towel on dry ice for rapid euthanasia</li>
+                            <li>Wait until mouse stops moving (hypothermia-induced euthanasia)</li>
+                            <li><strong>Alternative:</strong> Use CO₂ or cervical dislocation per IACUC protocol</li>
+                            <li>Decapitate mouse with sharp scissors</li>
+                            <li><strong>If needed for genotyping:</strong> Cut tail clip and place in labeled Eppendorf tube</li>
+                            <li>Spray head with 70% ethanol</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 3: Brain Extraction</h3>
+                            <button @click="toggleStep('extraction')"
+                                    :class="completedSteps['extraction'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['extraction'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Using scissors, cut skin from back of head toward nose</li>
+                            <li>Peel skin away to expose skull</li>
+                            <li>Insert scissors into foramen magnum (base of skull)</li>
+                            <li>Cut along midline from back to front of skull</li>
+                            <li>Carefully peel skull away using forceps</li>
+                            <li>Gently scoop brain out with curved forceps or spatula</li>
+                            <li>Place brain in 10 cm dish with ice-cold DMEM HG</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 4: Meninges Removal</h3>
+                            <button @click="toggleStep('meninges')"
+                                    :class="completedSteps['meninges'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['meninges'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Transfer brain to fresh DMEM in 10 cm dish</li>
+                            <li>Using fine forceps, carefully peel away meninges (thin membrane covering brain)</li>
+                            <li>Meninges appear as translucent tissue with blood vessels</li>
+                            <li>Work under dissection microscope if available</li>
+                            <li><strong>Critical:</strong> Complete meninges removal prevents fibroblast contamination</li>
+                            <li>For neonatal brains: meninges are very soft and thin</li>
+                            <li>Rinse brain gently in DMEM to remove remaining debris</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 5: Trypsinization</h3>
+                            <button @click="toggleStep('trypsin')"
+                                    :class="completedSteps['trypsin'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['trypsin'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Transfer cleaned brain to labeled 15 mL tube containing 2 mL trypsin</li>
+                            <li>Keep tube on ice until ready for digestion</li>
+                            <li>Place tube in 37°C water bath for <strong>15 minutes</strong></li>
+                            <li>Flick tube every 5 minutes to mix and ensure even digestion</li>
+                            <li>Brain tissue should start to look "softer" and more dissociated</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 6: Trituration</h3>
+                            <button @click="toggleStep('trituration')"
+                                    :class="completedSteps['trituration'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['trituration'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Remove tube from water bath</li>
+                            <li>Triturate (pipette up and down) for <strong>1 minute</strong> using 5 mL pipette</li>
+                            <li>Pipette gently at first, then more vigorously</li>
+                            <li>Break up any large clumps of tissue</li>
+                            <li>Solution should become cloudy with single-cell suspension</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 7: Neutralization and Washing</h3>
+                            <button @click="toggleStep('neutralization')"
+                                    :class="completedSteps['neutralization'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['neutralization'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Add 8 mL DMEM HG containing serum (10% FBS) to neutralize trypsin</li>
+                            <li>Mix gently by inverting tube several times</li>
+                            <li>Final volume: ~10 mL</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 8: Centrifugation</h3>
+                            <button @click="toggleStep('centrifuge')"
+                                    :class="completedSteps['centrifuge'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['centrifuge'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Centrifuge tube at <strong>2,000 RPM (400 × g) for 10 minutes</strong> at room temperature</li>
+                            <li>Cell pellet should be visible at bottom of tube</li>
+                            <li>Carefully decant supernatant without disturbing pellet</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 9: Resuspension and Plating</h3>
+                            <button @click="toggleStep('plating')"
+                                    :class="completedSteps['plating'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['plating'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Add 3 mL DMEM HG + serum medium to pellet</li>
+                            <li>Resuspend pellet by pipetting gently up and down</li>
+                            <li>Transfer entire cell suspension to labeled 6 cm culture dish</li>
+                            <li>Swirl gently to distribute cells evenly</li>
+                            <li>Place dish in 37°C, 5% CO₂ incubator</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 10: Initial Culture</h3>
+                            <button @click="toggleStep('initial-culture')"
+                                    :class="completedSteps['initial-culture'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['initial-culture'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Do not disturb cells for first 24 hours</li>
+                            <li>Cells will begin attaching within 2-4 hours</li>
+                            <li>After 24 hours, check cells under microscope</li>
+                            <li>You should see mixed population: astrocytes (flat, process-bearing), neurons (small, round), microglia (small, ramified)</li>
+                            <li>Change medium after 48 hours to remove debris and non-adherent cells</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Culture & Maintenance Section -->
+            <div x-show="activeSection === 'culture'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Astrocyte Culture and Maintenance</h2>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                    <p class="font-semibold text-green-900">Astrocyte Enrichment Strategy</p>
+                    <p class="text-sm text-green-800 mt-2">
+                        Initial cultures contain mixed cell types. Astrocytes proliferate and overgrow other cell types
+                        within 7-14 days, resulting in >95% purity.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Day 1-3: Initial Culture</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Mixed population of cells will attach</li>
+                            <li>Change medium on Day 2 or 3 to remove debris</li>
+                            <li>Gently aspirate medium and add 3 mL fresh astrocyte medium</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Day 4-7: Astrocyte Expansion</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Astrocytes begin to proliferate</li>
+                            <li>Change medium every 2-3 days</li>
+                            <li>Cells will form flat, polygonal morphology</li>
+                            <li>Some neurons and microglia still present</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Day 7-14: Confluence and Purification</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Astrocytes become confluent (cover entire dish surface)</li>
+                            <li>Other cell types are overgrown or detach</li>
+                            <li>Culture is now >95% astrocytes (GFAP+)</li>
+                            <li>Cells ready for experiments or passaging</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Passaging Astrocytes (Optional)</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Astrocytes can be passaged 2-3 times while maintaining phenotype</li>
+                            <li>Passage when cells reach 100% confluence</li>
+                            <li>Use 0.05% or 0.25% trypsin for 3-5 minutes at 37°C</li>
+                            <li>Split 1:3 to 1:5 ratio</li>
+                            <li>Higher passages may lose astrocyte markers and become more reactive</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Freezing Astrocytes</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Harvest confluent astrocytes by trypsinization</li>
+                            <li>Resuspend in freezing medium: 90% FBS + 10% DMSO</li>
+                            <li>Freeze at 1-2 × 10⁶ cells/mL in cryovials</li>
+                            <li>Use controlled-rate freezing (-1°C/min) to -80°C</li>
+                            <li>Transfer to liquid nitrogen for long-term storage</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-2">Astrocyte Characterization</h3>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• <strong>Morphology:</strong> Flat, polygonal, stellate with processes</li>
+                        <li>• <strong>GFAP:</strong> Glial fibrillary acidic protein (astrocyte marker)</li>
+                        <li>• <strong>S100β:</strong> Calcium-binding protein (astrocyte marker)</li>
+                        <li>• <strong>Glutamine synthetase:</strong> Enzyme marker</li>
+                        <li>• <strong>Negative for:</strong> Iba1 (microglia), NeuN (neurons), O4 (oligodendrocytes)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Problem</th>
+                                <th class="px-4 py-2 text-left">Possible Cause</th>
+                                <th class="px-4 py-2 text-left">Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">Low cell yield</td>
+                                <td class="px-4 py-2">Old mice<br>Incomplete dissociation<br>Meninges not removed</td>
+                                <td class="px-4 py-2">Use P0-P2 neonatal pups<br>Increase trituration time<br>Pool multiple brains<br>Ensure complete meninges removal</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">High fibroblast contamination</td>
+                                <td class="px-4 py-2">Meninges not fully removed<br>Adult mice used</td>
+                                <td class="px-4 py-2">Improve meninges removal technique<br>Use younger animals<br>Consider differential adhesion method</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells not attaching</td>
+                                <td class="px-4 py-2">Over-trypsinization<br>Cell death<br>Uncoated dishes</td>
+                                <td class="px-4 py-2">Reduce trypsin time to 10-12 min<br>Work quickly, keep cells cold<br>Pre-coat dishes with poly-L-lysine</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Slow astrocyte growth</td>
+                                <td class="px-4 py-2">Low serum quality<br>Wrong medium<br>Contamination</td>
+                                <td class="px-4 py-2">Use high-quality FBS (test different lots)<br>Use DMEM high glucose<br>Check for mycoplasma</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells detaching after confluence</td>
+                                <td class="px-4 py-2">Overconfluence<br>Medium not changed regularly</td>
+                                <td class="px-4 py-2">Passage or use cells at 90-100% confluence<br>Change medium every 2-3 days<br>Don't let cells become overgrown</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">High microglia contamination</td>
+                                <td class="px-4 py-2">Normal in mixed culture<br>Adult brain source</td>
+                                <td class="px-4 py-2">Microglia will be diluted out with passaging<br>Shake flasks (200 RPM, 2h) to dislodge microglia<br>Use FACS to sort GFAP+ cells</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-green-900 mb-2">Tips for Success</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                            <li>Use P0-P2 neonatal pups for highest yield and purity</li>
+                            <li>Work quickly during dissection (keep tissue cold)</li>
+                            <li>Complete meninges removal is critical</li>
+                            <li>Don't over-trypsinize (15 min is usually sufficient)</li>
+                            <li>Be patient - astrocytes take 7-14 days to reach purity</li>
+                            <li>Use high-quality, tested FBS</li>
+                            <li>Change medium regularly to remove debris</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-2">Quality Control</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                            <li>Check cell morphology daily under microscope</li>
+                            <li>Verify GFAP expression by immunocytochemistry</li>
+                            <li>Should have >95% GFAP+ cells after 10-14 days</li>
+                            <li>Test for mycoplasma contamination</li>
+                            <li>Monitor growth rate (should double every 2-3 days)</li>
+                            <li>Use cells at passage 1-3 for best phenotype</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Requires IACUC approval | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mouse Neural Progenitor Culture Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-fuchsia-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Mouse Neural Progenitor Culture (Neurosphere Assay)</h1>
+                <p class="text-fuchsia-100 mt-2">In vitro culture of neural stem/progenitor cells from embryonic mouse brain</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-fuchsia-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-fuchsia-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-fuchsia-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-fuchsia-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-fuchsia-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-fuchsia-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'maintenance'"
+                            :class="activeSection === 'maintenance' ? 'bg-fuchsia-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-fuchsia-500 hover:text-white transition">
+                        Maintenance
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-fuchsia-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-fuchsia-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    The neurosphere assay is a method for culturing neural stem and progenitor cells (NSPCs) from
+                    embryonic or postnatal mouse brain. Cells are grown in suspension as free-floating aggregates
+                    (neurospheres) in the presence of EGF and FGF growth factors.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Workflow Summary:</p>
+                    <ul class="text-sm text-blue-800 mt-2 space-y-1">
+                        <li>• <strong>Step 1:</strong> Dissect telencephalic vesicles from E13-E15 embryos</li>
+                        <li>• <strong>Step 2:</strong> Chemical dissociation (10 min at 37°C)</li>
+                        <li>• <strong>Step 3:</strong> Trituration to single cells</li>
+                        <li>• <strong>Step 4:</strong> Wash and resuspend in complete stem cell medium</li>
+                        <li>• <strong>Step 5:</strong> Culture in ultra-low attachment dishes</li>
+                        <li>• <strong>Duration:</strong> Neurospheres form in 48-72 hours</li>
+                        <li>• <strong>Passaging:</strong> Dissociate and replate every 5-7 days</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-fuchsia-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-fuchsia-900 mb-2">Applications</h3>
+                        <ul class="text-sm text-fuchsia-800 space-y-1">
+                            <li>• Neural stem cell self-renewal studies</li>
+                            <li>• Differentiation assays (neurons, astrocytes, oligodendrocytes)</li>
+                            <li>• Drug screening on neural progenitors</li>
+                            <li>• Developmental neurobiology</li>
+                            <li>• Brain tumor stem cell studies</li>
+                            <li>• Neurogenesis research</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Key Features</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• Maintains stem cell characteristics</li>
+                            <li>• Self-renewing and multipotent</li>
+                            <li>• Can be passaged for weeks</li>
+                            <li>• Express Nestin, Sox2, GFAP markers</li>
+                            <li>• Serum-free, defined medium</li>
+                            <li>• Rapid proliferation (48-72h doubling)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4">
+                    <p class="font-semibold text-yellow-900">Embryonic Age Considerations:</p>
+                    <ul class="text-sm text-yellow-800 mt-2 space-y-1">
+                        <li>• <strong>E13-E15:</strong> Optimal for neurosphere formation, high yield</li>
+                        <li>• <strong>E16-E18:</strong> Still viable but lower neurosphere-forming capacity</li>
+                        <li>• <strong>Postnatal (P0-P7):</strong> Can be used, but neurosphere formation decreases with age</li>
+                        <li>• <strong>Adult SVZ/SGZ:</strong> Requires specialized protocols, lower yield</li>
+                    </ul>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Safety & Animal Care</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• Ensure proper IACUC approval for all animal procedures</li>
+                        <li>• Timed pregnancies required (E13-E15 embryos)</li>
+                        <li>• Follow institutional guidelines for pregnant animal handling</li>
+                        <li>• Work in biosafety cabinet for sterile technique</li>
+                        <li>• Wear appropriate PPE: lab coat, gloves, eye protection</li>
+                        <li>• Dispose of animal tissues according to institutional policy</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>DMEM/F12 medium (1:1)</li>
+                            <li>N2 supplement (1× or 100×)</li>
+                            <li>B27 supplement (50× or 100×)</li>
+                            <li>Recombinant human EGF (20 ng/mL final)</li>
+                            <li>Recombinant human FGF-basic (20 ng/mL final)</li>
+                            <li>Penicillin/Streptomycin</li>
+                            <li>Chemical dissociation buffer (Sigma, Cat# C5914)</li>
+                            <li>Accutase or TrypLE (for passaging)</li>
+                            <li>PBS (phosphate buffered saline)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment & Supplies</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Biological safety cabinet (BSC)</li>
+                            <li>37°C CO₂ incubator</li>
+                            <li>37°C water bath</li>
+                            <li>Centrifuge</li>
+                            <li>Dissection microscope</li>
+                            <li>Dissection tools (scissors, forceps)</li>
+                            <li>10 cm Petri dishes (sterile, for dissection)</li>
+                            <li>Ultra-low attachment culture dishes (Corning)</li>
+                            <li>15 mL conical tubes</li>
+                            <li>1 mL pipette tips (for trituration)</li>
+                            <li>Hemocytometer or cell counter</li>
+                            <li>Ice bucket</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-blue-900 mb-3">Media Recipes</h3>
+                        <div class="text-sm text-blue-800 space-y-3">
+                            <div>
+                                <p class="font-semibold">Incomplete Stem Cell Medium:</p>
+                                <ul class="list-disc list-inside ml-4 mt-1">
+                                    <li>DMEM/F12 (1:1)</li>
+                                    <li>1% Penicillin/Streptomycin</li>
+                                    <li>Use for washing cells</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Complete Stem Cell Medium:</p>
+                                <ul class="list-disc list-inside ml-4 mt-1">
+                                    <li>DMEM/F12 (1:1)</li>
+                                    <li>1% N2 supplement (if 100× stock)</li>
+                                    <li>2% B27 supplement (if 50× stock)</li>
+                                    <li>1% Pen/Strep</li>
+                                    <li>20 ng/mL EGF (add fresh)</li>
+                                    <li>20 ng/mL FGF-basic (add fresh)</li>
+                                    <li>Sterile filter (0.22 µm)</li>
+                                    <li>Store at 4°C, use within 2 weeks</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-3">Growth Factor Preparation</h3>
+                        <div class="text-sm text-yellow-800 space-y-2">
+                            <p><strong>EGF Stock (100 µg/mL):</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Reconstitute in sterile PBS + 0.1% BSA</li>
+                                <li>Aliquot 50-100 µL, store at -20°C</li>
+                                <li>Dilute 1:5000 for 20 ng/mL final</li>
+                            </ul>
+                            <p class="mt-2"><strong>FGF Stock (100 µg/mL):</strong></p>
+                            <ul class="list-disc list-inside ml-4">
+                                <li>Reconstitute in sterile PBS + 0.1% BSA</li>
+                                <li>Aliquot 50-100 µL, store at -20°C</li>
+                                <li>Dilute 1:5000 for 20 ng/mL final</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Animals</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li><strong>Preferred:</strong> E13-E15 timed pregnant mice</li>
+                            <li>Can use any mouse strain</li>
+                            <li>Typical: 5-8 embryos per litter</li>
+                            <li>Expected yield: ~1-5 × 10⁶ cells per embryo</li>
+                            <li>Each embryo yields 2 telencephalic vesicles</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Recommended Dishes</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>6-well ultra-low attachment plate</li>
+                            <li>10 cm ultra-low attachment dish</li>
+                            <li>T25 ultra-low attachment flask</li>
+                            <li><strong>Critical:</strong> Must use ultra-low attachment surface</li>
+                            <li>Regular tissue culture dishes will cause cell adhesion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Neural Progenitor Isolation Protocol</h2>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-blue-900">Timing: ~2-3 hours from euthanasia to plating. Up to 5 vesicles can be processed per 15 mL tube.</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 1: Preparation</h3>
+                            <button @click="toggleStep('prep')"
+                                    :class="completedSteps['prep'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Pre-warm water bath to 37°C</li>
+                            <li>Pre-warm incomplete stem cell medium (DMEM/F12 + Pen/Strep)</li>
+                            <li>Prepare ice bucket with 10 cm dish containing PBS or incomplete medium</li>
+                            <li>Prepare chemical dissociation buffer: 1 mL per 15 mL tube (up to 5 vesicles/tube)</li>
+                            <li>Keep dissociation buffer on ice until ready to use</li>
+                            <li>Sterilize dissection tools</li>
+                            <li>Prepare complete stem cell medium (add fresh EGF and FGF)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 2: Embryo Harvest</h3>
+                            <button @click="toggleStep('harvest')"
+                                    :class="completedSteps['harvest'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['harvest'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Euthanize E13-E15 pregnant mouse per IACUC protocol</li>
+                            <li>Spray abdomen with 70% ethanol</li>
+                            <li>Make midline incision and expose uterine horns</li>
+                            <li>Remove entire uterus with embryos into dish with cold PBS</li>
+                            <li>Separate individual embryos from uterine tissue</li>
+                            <li>Remove embryos from embryonic sacs</li>
+                            <li>Decapitate embryos and collect heads in cold PBS on ice</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 3: Brain Dissection</h3>
+                            <button @click="toggleStep('dissection')"
+                                    :class="completedSteps['dissection'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['dissection'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Transfer embryonic head to fresh cold PBS in 10 cm dish</li>
+                            <li>Under dissection microscope, remove skin and skull carefully</li>
+                            <li>Expose the brain</li>
+                            <li>Carefully extract entire brain from skull</li>
+                            <li>Transfer brain to fresh cold medium</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 4: Telencephalon Isolation</h3>
+                            <button @click="toggleStep('telencephalon')"
+                                    :class="completedSteps['telencephalon'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['telencephalon'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Identify the two telencephalic vesicles (forebrain, bilateral structures)</li>
+                            <li>They are the largest, most anterior structures of the brain</li>
+                            <li>Using fine forceps, carefully separate telencephalic vesicles from rest of brain</li>
+                            <li>Remove meninges (thin membrane covering brain)</li>
+                            <li>Collect isolated vesicles in 15 mL tube with 1 mL cold chemical dissociation buffer</li>
+                            <li>Keep tube on ice during dissection</li>
+                            <li>Process up to 5 vesicles (from 2-3 embryos) per tube</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 5: Chemical Dissociation</h3>
+                            <button @click="toggleStep('dissociation')"
+                                    :class="completedSteps['dissociation'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['dissociation'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>After all vesicles collected, place tube in 37°C water bath</li>
+                            <li>Incubate for <strong>10 minutes at 37°C</strong></li>
+                            <li>Gently swirl tube occasionally during incubation</li>
+                            <li>Tissue will soften but remain largely intact</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 6: Neutralization and Washing</h3>
+                            <button @click="toggleStep('neutralization')"
+                                    :class="completedSteps['neutralization'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['neutralization'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Add equal volume (1 mL) of incomplete stem cell medium to tube</li>
+                            <li>Total volume now: 2 mL (1 mL buffer + 1 mL medium)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 7: Trituration</h3>
+                            <button @click="toggleStep('trituration')"
+                                    :class="completedSteps['trituration'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['trituration'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Using 1 mL pipette tip, triturate tissue <strong>15-20 times</strong></li>
+                            <li>Pipette gently at first, then more vigorously</li>
+                            <li>Avoid creating bubbles</li>
+                            <li>Continue until tissue is dissociated into single-cell suspension</li>
+                            <li>Solution should become cloudy and homogeneous</li>
+                            <li>No large tissue chunks should remain</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 8: Centrifugation</h3>
+                            <button @click="toggleStep('centrifuge')"
+                                    :class="completedSteps['centrifuge'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['centrifuge'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Centrifuge at <strong>1,000 RPM for 4 minutes at 4°C</strong></li>
+                            <li>Cell pellet should be visible at bottom of tube</li>
+                            <li>Carefully aspirate supernatant without disturbing pellet</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 9: Wash</h3>
+                            <button @click="toggleStep('wash')"
+                                    :class="completedSteps['wash'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['wash'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Resuspend pellet in 5-10 mL incomplete stem cell medium</li>
+                            <li>Centrifuge again at 1,000 RPM for 4 min at 4°C</li>
+                            <li>Aspirate supernatant</li>
+                            <li>This wash removes residual dissociation buffer</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 10: Resuspension and Plating</h3>
+                            <button @click="toggleStep('plating')"
+                                    :class="completedSteps['plating'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['plating'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Resuspend cell pellet in complete stem cell medium (with EGF + FGF)</li>
+                            <li>Count cells using hemocytometer</li>
+                            <li>Expected yield: ~1-5 × 10⁶ cells per embryo</li>
+                            <li>Plate at <strong>1-5 × 10⁴ cells/mL</strong> in ultra-low attachment dishes</li>
+                            <li>Volume depends on dish size:</li>
+                            <li class="ml-6">• 6-well plate: 2 mL per well</li>
+                            <li class="ml-6">• 10 cm dish: 10 mL</li>
+                            <li class="ml-6">• T25 flask: 5-10 mL</li>
+                            <li>Place in 37°C, 5% CO₂ incubator</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">Step 11: Neurosphere Formation</h3>
+                            <button @click="toggleStep('formation')"
+                                    :class="completedSteps['formation'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['formation'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Do not disturb cultures for first 24 hours</li>
+                            <li>Small neurospheres will start forming after 24-48 hours</li>
+                            <li>Neurospheres grow rapidly and reach 100-200 µm by 48-72 hours</li>
+                            <li>They appear as floating, refractile spheres</li>
+                            <li>Healthy neurospheres are round, bright, and smooth-edged</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Section -->
+            <div x-show="activeSection === 'maintenance'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Neurosphere Maintenance and Passaging</h2>
+
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                    <p class="font-semibold text-green-900">Passaging Schedule</p>
+                    <p class="text-sm text-green-800 mt-2">
+                        Neurospheres should be dissociated and passaged every 5-7 days to maintain healthy,
+                        proliferating progenitor cells. Do not allow neurospheres to grow too large (>300 µm)
+                        as cells in the center may become necrotic.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Feeding Neurospheres (Optional)</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Neurospheres can be maintained without feeding for 5-7 days</li>
+                            <li>If feeding: Add fresh complete medium with EGF/FGF at day 3-4</li>
+                            <li>Add 50% of original volume (e.g., if 2 mL, add 1 mL)</li>
+                            <li>Do not remove old medium - just add fresh</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Passaging Protocol (Every 5-7 Days)</h3>
+                        <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 ml-4">
+                            <li><strong>Collect neurospheres:</strong> Transfer suspension to 15 mL tube, allow spheres to settle by gravity (2-3 min)</li>
+                            <li><strong>Remove medium:</strong> Carefully aspirate supernatant, leaving neurospheres at bottom</li>
+                            <li><strong>Wash (optional):</strong> Add 5 mL incomplete medium, let settle, aspirate</li>
+                            <li><strong>Dissociation:</strong> Add Accutase or TrypLE (0.5-1 mL per 50-100 spheres)</li>
+                            <li><strong>Incubate:</strong> 5-10 minutes at 37°C with occasional gentle swirling</li>
+                            <li><strong>Trituration:</strong> Pipette 10-15 times with 1 mL tip to break up spheres into single cells</li>
+                            <li><strong>Neutralize:</strong> Add 5 mL incomplete medium</li>
+                            <li><strong>Centrifuge:</strong> 1,000 RPM for 4 min</li>
+                            <li><strong>Resuspend:</strong> In fresh complete medium with EGF/FGF</li>
+                            <li><strong>Count and replate:</strong> Plate at 1-5 × 10⁴ cells/mL in ultra-low attachment dishes</li>
+                            <li><strong>Passage number:</strong> Keep track of passage number (P1, P2, etc.)</li>
+                        </ol>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Freezing Neural Progenitors</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Dissociate neurospheres to single cells as in passaging protocol</li>
+                            <li>Resuspend at 1-5 × 10⁶ cells/mL in freezing medium:</li>
+                            <li class="ml-6">• 50% complete stem cell medium</li>
+                            <li class="ml-6">• 40% FBS</li>
+                            <li class="ml-6">• 10% DMSO</li>
+                            <li>Aliquot 1 mL per cryovial</li>
+                            <li>Freeze at -1°C/min to -80°C (use CoolCell or Mr. Frosty)</li>
+                            <li>Transfer to liquid nitrogen for long-term storage</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Differentiation (Optional)</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li><strong>Neuronal differentiation:</strong> Withdraw EGF/FGF, plate on laminin-coated dishes, add retinoic acid or BDNF</li>
+                            <li><strong>Astrocyte differentiation:</strong> Add 1% FBS, withdraw growth factors, culture 7-14 days</li>
+                            <li><strong>Oligodendrocyte differentiation:</strong> Add T3, PDGF, FGF, on laminin-coated dishes</li>
+                            <li>Confirm differentiation by immunocytochemistry for lineage markers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-2">Neural Progenitor Characterization</h3>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• <strong>Nestin:</strong> Intermediate filament protein, neural stem cell marker</li>
+                        <li>• <strong>Sox2:</strong> Transcription factor, maintains stemness</li>
+                        <li>• <strong>GFAP:</strong> Can be expressed in neural stem cells</li>
+                        <li>• <strong>Ki67:</strong> Proliferation marker, most cells should be positive</li>
+                        <li>• <strong>Negative for:</strong> NeuN (mature neurons), O4 (oligodendrocytes), CD11b (microglia)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Problem</th>
+                                <th class="px-4 py-2 text-left">Possible Cause</th>
+                                <th class="px-4 py-2 text-left">Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">No neurosphere formation</td>
+                                <td class="px-4 py-2">Wrong embryonic age<br>Missing growth factors<br>Cells plated on adherent dish</td>
+                                <td class="px-4 py-2">Use E13-E15 embryos<br>Verify EGF and FGF were added<br>Must use ultra-low attachment dishes<br>Check growth factor activity</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Very small neurospheres</td>
+                                <td class="px-4 py-2">Plating density too high<br>Insufficient growth factors</td>
+                                <td class="px-4 py-2">Reduce plating density to 1-2 × 10⁴/mL<br>Add fresh EGF/FGF<br>Use higher quality growth factors</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Neurospheres too large/dark centers</td>
+                                <td class="px-4 py-2">Not passaged frequently enough<br>Necrotic core forming</td>
+                                <td class="px-4 py-2">Passage every 5-7 days before spheres >300 µm<br>Don't allow overgrowth<br>Dissociate to single cells</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells adhering to dish</td>
+                                <td class="px-4 py-2">Not using ultra-low attachment<br>Serum contamination</td>
+                                <td class="px-4 py-2">Must use Corning ultra-low attachment dishes<br>Ensure medium is serum-free<br>Check for cross-contamination</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Spheres falling apart</td>
+                                <td class="px-4 py-2">Over-trituration<br>Excessive enzyme digestion</td>
+                                <td class="px-4 py-2">Reduce trituration force/number<br>Shorten dissociation time<br>Use gentler enzyme (Accutase)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Neurospheres not proliferating after passage</td>
+                                <td class="px-4 py-2">High passage number<br>Over-digestion during passage<br>Growth factor degraded</td>
+                                <td class="px-4 py-2">Use cells at P1-P10 for best proliferation<br>Reduce enzyme exposure time<br>Use fresh EGF/FGF aliquots<br>Store medium at 4°C, use within 2 weeks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-green-900 mb-2">Tips for Success</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                            <li>Use E13-E15 embryos for best neurosphere formation</li>
+                            <li>Work quickly during dissection (keep tissue cold)</li>
+                            <li>Complete meninges removal to reduce contamination</li>
+                            <li>Do not over-digest tissue (10 min is usually sufficient)</li>
+                            <li>Must use ultra-low attachment dishes</li>
+                            <li>Add fresh EGF and FGF for every passage</li>
+                            <li>Passage regularly (don't let spheres get too large)</li>
+                            <li>Maintain passage records</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-2">Quality Control</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                            <li>Monitor neurosphere size and number</li>
+                            <li>Healthy spheres: round, bright, smooth edges</li>
+                            <li>Verify Nestin and Sox2 expression</li>
+                            <li>Check proliferation (Ki67 staining)</li>
+                            <li>Test differentiation potential (tripotency)</li>
+                            <li>Use cells at low passage (P1-P10) for experiments</li>
+                            <li>Test for mycoplasma contamination</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from Dasgupta laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Requires IACUC approval | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

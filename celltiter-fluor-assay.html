@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>CellTiter-Fluor Cell Viability Assay Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        /* Mobile table improvements */
+        @media (max-width: 640px) {
+            table {
+                font-size: 0.875rem;
+            }
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-indigo-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">CellTiter-Fluor™ Cell Viability Assay</h1>
+                <p class="text-indigo-100 mt-2">96-Well Plate Protocol for Cell Plating and Viability Measurement</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'plate-prep'"
+                            :class="activeSection === 'plate-prep' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Plate Preparation
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Assay Protocol
+                    </button>
+                    <button @click="activeSection = 'reading'"
+                            :class="activeSection === 'reading' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Reading & Analysis
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Assay Overview</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        The CellTiter-Fluor™ Cell Viability Assay is a nonlytic, fluorescence-based assay that measures
+                        the relative number of live cells by detecting a conserved protease activity within intact viable cells.
+                        The fluorogenic substrate (GF-AFC) enters living cells where it is cleaved by the live-cell protease
+                        to generate a fluorescent signal proportional to the number of viable cells.
+                    </p>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                        <p class="font-semibold text-red-800">SAFETY & IMPORTANT NOTES</p>
+                        <ul class="text-red-700 text-sm mt-2 space-y-1">
+                            <li>• Always wear appropriate PPE: lab coat, gloves, eye protection</li>
+                            <li>• Work in a biological safety cabinet when handling cells</li>
+                            <li>• DMSO is present in the substrate - handle with care</li>
+                            <li>• Shield plates from ambient light during incubation</li>
+                            <li>• Do not incubate longer than 3 hours</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">⏱️ Time Required</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Plate setup: 30-60 min</li>
+                                <li>• Treatment period: Variable</li>
+                                <li>• Assay incubation: 1.5-2 hours</li>
+                                <li>• Reading: 5-10 min</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">🔬 Key Features</h3>
+                            <ul class="text-sm text-green-800 space-y-1">
+                                <li>• Nonlytic assay</li>
+                                <li>• Single reagent addition</li>
+                                <li>• High sensitivity</li>
+                                <li>• Compatible with multiplexing</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">📊 Applications</h3>
+                            <ul class="text-sm text-purple-800 space-y-1">
+                                <li>• Drug cytotoxicity screening</li>
+                                <li>• Cell proliferation assays</li>
+                                <li>• Compound testing</li>
+                                <li>• Dose-response curves</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                        <p class="font-semibold text-yellow-900 mb-2">⚠️ Critical: Edge Effect Prevention</p>
+                        <p class="text-yellow-800 text-sm">
+                            <strong>Always fill the perimeter wells of the 96-well plate with PBS only (no cells).</strong>
+                            This prevents edge effects caused by differential evaporation and temperature gradients that
+                            can affect the outer wells. Only the inner 60 wells (rows B-G, columns 2-11) should contain
+                            cells and experimental conditions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Assay Principle</h3>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                            <li><strong>Substrate Entry:</strong> Cell-permeant GF-AFC substrate crosses the membrane of viable cells</li>
+                            <li><strong>Enzymatic Cleavage:</strong> Live-cell protease cleaves the substrate to release fluorescent AFC</li>
+                            <li><strong>Signal Generation:</strong> Fluorescence intensity is proportional to the number of viable cells</li>
+                            <li><strong>Dead Cell Exclusion:</strong> Dead cells with compromised membranes lose protease activity and don't generate signal</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-indigo-50 p-4 rounded-lg">
+                        <p class="font-semibold text-indigo-900 mb-2">Detection Parameters:</p>
+                        <ul class="text-sm text-indigo-800 space-y-1">
+                            <li>• <strong>Excitation:</strong> 380-400 nm</li>
+                            <li>• <strong>Emission:</strong> 505 nm</li>
+                            <li>• <strong>Readout:</strong> Fluorescence (RFU - Relative Fluorescence Units)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">CellTiter-Fluor™ Assay Components</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>CellTiter-Fluor™ Assay Buffer (Promega)</li>
+                                <li>GF-AFC Substrate, 100 mM in DMSO (Promega)</li>
+                                <li>Product Cat.# G6080, G6081, or G6082</li>
+                            </ul>
+                            <div class="bg-blue-50 p-3 rounded mt-3">
+                                <p class="text-xs text-blue-800"><strong>Storage:</strong> Store at -20°C. Thaw completely before use.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Biological safety cabinet (BSC)</li>
+                                <li>CO₂ incubator (37°C, 5% CO₂)</li>
+                                <li>Fluorescence plate reader with appropriate filters</li>
+                                <li>Multichannel pipettor (8- or 12-channel)</li>
+                                <li>Reagent reservoir</li>
+                                <li>Orbital plate shaker (optional)</li>
+                                <li>Hemocytometer or cell counter</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Cell Culture Supplies</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>96-well tissue culture plates (clear or black-walled, clear bottom)</li>
+                                <li>Cells in culture (trypsinized and counted)</li>
+                                <li>Complete cell culture medium</li>
+                                <li>Sterile PBS (for perimeter wells)</li>
+                                <li>Trypsin-EDTA (for cell harvest)</li>
+                                <li>Serological pipettes (5, 10, 25 mL)</li>
+                                <li>Sterile reagent reservoirs</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Additional Reagents</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Test compounds/treatments</li>
+                                <li>Vehicle controls (DMSO, ethanol, etc.)</li>
+                                <li>Positive cytotoxicity control (optional)</li>
+                                <li>0.4% Trypan blue (for viability check)</li>
+                                <li>70% ethanol (for disinfection)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-lg mt-6">
+                        <h3 class="text-lg font-semibold text-purple-900 mb-3">Lab-Specific Reagent Preparation</h3>
+                        <div class="bg-white p-3 rounded border-2 border-purple-200">
+                            <p class="font-semibold text-purple-900 mb-2">Working Reagent Dilution (Lab Protocol):</p>
+                            <p class="text-sm text-purple-800 mb-2">
+                                In our lab, we use a <strong>1:1000 dilution</strong> of the CellTiter-Fluor™ reagent:
+                            </p>
+                            <ul class="text-sm text-purple-800 space-y-1 ml-4">
+                                <li>• Dilute the GF-AFC substrate <strong>1:1000</strong> in CellTiter-Fluor™ Assay Buffer</li>
+                                <li>• Example: 10 µL substrate + 10 mL buffer</li>
+                                <li>• Add <strong>25 µL</strong> of this diluted reagent per well</li>
+                                <li>• Each well contains 200 µL media + cells before reagent addition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plate Preparation Section -->
+            <div x-show="activeSection === 'plate-prep'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">96-Well Plate Preparation</h2>
+
+                    <div class="space-y-6">
+                        <!-- Step 1: PBS Perimeter -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 1: Fill Perimeter Wells with PBS</h3>
+                                <button @click="toggleStep('pbs-perimeter')"
+                                        :class="isCompleted('pbs-perimeter') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('pbs-perimeter') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                                <p class="font-semibold text-red-800">CRITICAL STEP - Edge Effect Prevention</p>
+                                <p class="text-red-700 text-sm mt-1">
+                                    Always fill perimeter wells with PBS to minimize evaporation and temperature gradient effects.
+                                    This significantly improves data quality and reproducibility.
+                                </p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700 mb-4">
+                                <li>Take a sterile 96-well tissue culture plate</li>
+                                <li>Using a multichannel pipettor, add <strong>200 µL sterile PBS</strong> to:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li><strong>Row A</strong> (wells A1-A12) - entire top row</li>
+                                        <li><strong>Row H</strong> (wells H1-H12) - entire bottom row</li>
+                                        <li><strong>Column 1</strong> (wells B1-G1) - left column (excluding corners)</li>
+                                        <li><strong>Column 12</strong> (wells B12-G12) - right column (excluding corners)</li>
+                                    </ul>
+                                </li>
+                                <li>Total perimeter wells: 36 wells filled with PBS</li>
+                                <li>Working wells available: 60 wells (rows B-G, columns 2-11)</li>
+                            </ol>
+
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <p class="font-semibold text-gray-900 mb-3 text-center">96-Well Plate Layout</p>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-xs border-collapse">
+                                        <thead>
+                                            <tr class="bg-gray-200">
+                                                <th class="border border-gray-400 px-2 py-1"></th>
+                                                <th class="border border-gray-400 px-2 py-1">1</th>
+                                                <th class="border border-gray-400 px-2 py-1">2</th>
+                                                <th class="border border-gray-400 px-2 py-1">3</th>
+                                                <th class="border border-gray-400 px-2 py-1">4</th>
+                                                <th class="border border-gray-400 px-2 py-1">5</th>
+                                                <th class="border border-gray-400 px-2 py-1">6</th>
+                                                <th class="border border-gray-400 px-2 py-1">7</th>
+                                                <th class="border border-gray-400 px-2 py-1">8</th>
+                                                <th class="border border-gray-400 px-2 py-1">9</th>
+                                                <th class="border border-gray-400 px-2 py-1">10</th>
+                                                <th class="border border-gray-400 px-2 py-1">11</th>
+                                                <th class="border border-gray-400 px-2 py-1">12</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">A</td>
+                                                <td colspan="12" class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS (200 µL)</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">B</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">C</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">D</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">E</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">F</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">G</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                                <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center">Cells + Media (200 µL)</td>
+                                                <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">H</td>
+                                                <td colspan="12" class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS (200 µL)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3 grid md:grid-cols-2 gap-2 text-xs">
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-blue-200 border border-gray-400 mr-2"></div>
+                                        <span>PBS only (perimeter wells)</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-4 h-4 bg-green-100 border border-gray-400 mr-2"></div>
+                                        <span>Cells + media (working wells)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Cell Preparation -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 2: Prepare Cell Suspension</h3>
+                                <button @click="toggleStep('cell-prep')"
+                                        :class="isCompleted('cell-prep') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('cell-prep') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Harvest cells by trypsinization (see Cell Culture Protocol)</li>
+                                <li>Neutralize trypsin with complete medium containing serum</li>
+                                <li>Collect cell suspension and centrifuge at 200-300 × g for 5 minutes</li>
+                                <li>Aspirate supernatant and resuspend pellet in fresh complete medium</li>
+                                <li>Count cells using hemocytometer or automated cell counter</li>
+                                <li>Check viability using trypan blue exclusion (should be ≥90%)</li>
+                                <li>Calculate cell concentration and dilute to desired density</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                                <p class="font-semibold text-blue-900 mb-2">Recommended Cell Densities (per well in 200 µL):</p>
+                                <table class="w-full text-sm">
+                                    <thead class="bg-blue-100">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Cell Type</th>
+                                            <th class="px-3 py-2 text-left">Typical Density</th>
+                                            <th class="px-3 py-2 text-left">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-blue-200">
+                                        <tr>
+                                            <td class="px-3 py-2">Fast-growing adherent</td>
+                                            <td class="px-3 py-2">2,000-5,000 cells/well</td>
+                                            <td class="px-3 py-2">Allow 24-48 hr to attach</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">Slow-growing adherent</td>
+                                            <td class="px-3 py-2">5,000-10,000 cells/well</td>
+                                            <td class="px-3 py-2">Allow 48-72 hr to attach</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">Suspension cells</td>
+                                            <td class="px-3 py-2">10,000-20,000 cells/well</td>
+                                            <td class="px-3 py-2">Plate immediately</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-xs text-blue-700 mt-2">⚠️ Optimize cell density for your specific cell line and experimental timeframe</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Plate Cells -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 3: Plate Cells in Working Wells</h3>
+                                <button @click="toggleStep('plate-cells')"
+                                        :class="isCompleted('plate-cells') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('plate-cells') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Mix cell suspension thoroughly by gentle pipetting (avoid bubbles)</li>
+                                <li>Transfer cell suspension to sterile reagent reservoir</li>
+                                <li>Using multichannel pipettor, add <strong>200 µL</strong> of cell suspension to working wells
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Inner 60 wells only (rows B-G, columns 2-11)</li>
+                                        <li>Do NOT add cells to perimeter wells (already contain PBS)</li>
+                                    </ul>
+                                </li>
+                                <li>Mix cell suspension frequently to ensure even distribution</li>
+                                <li>Gently tap sides of plate to ensure cells are evenly distributed</li>
+                                <li>Check wells under microscope to verify even cell distribution</li>
+                                <li>Label plate with:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Cell line name and passage number</li>
+                                        <li>Cell density</li>
+                                        <li>Date and time</li>
+                                        <li>Your initials</li>
+                                    </ul>
+                                </li>
+                                <li>Place plate in 37°C, 5% CO₂ incubator</li>
+                                <li>Allow cells to attach and equilibrate:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Adherent cells: 4-24 hours</li>
+                                        <li>Suspension cells: 1-2 hours</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">Important Tips:</p>
+                                <ul class="text-sm text-yellow-800 mt-1 space-y-1">
+                                    <li>• Pipette cells gently to avoid shearing stress</li>
+                                    <li>• Work quickly but carefully to prevent cell settling in reservoir</li>
+                                    <li>• Avoid introducing bubbles (interfere with readings)</li>
+                                    <li>• For adherent cells, do not disturb plate during attachment period</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Add Treatments -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 4: Add Treatments (Optional)</h3>
+                                <button @click="toggleStep('add-treatments')"
+                                        :class="isCompleted('add-treatments') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('add-treatments') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-gray-700 mb-3">If testing compounds or treatments:</p>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>After cells have attached/equilibrated, add test compounds</li>
+                                <li>Prepare compound dilutions in appropriate solvent (DMSO, ethanol, etc.)</li>
+                                <li>Add compounds to achieve desired final concentration in 200 µL total volume</li>
+                                <li>Include appropriate controls:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li><strong>Vehicle control:</strong> Cells + solvent only (no compound)</li>
+                                        <li><strong>Untreated control:</strong> Cells in media only</li>
+                                        <li><strong>Positive control:</strong> Known cytotoxic compound (optional)</li>
+                                        <li><strong>Media only:</strong> No cells (background control)</li>
+                                    </ul>
+                                </li>
+                                <li>Perform treatments in triplicate or more replicates</li>
+                                <li>Gently mix plate after adding compounds (orbital shaker, 30 seconds)</li>
+                                <li>Return plate to incubator for desired treatment duration</li>
+                            </ol>
+
+                            <div class="bg-gray-50 p-3 rounded-lg mt-3">
+                                <p class="text-sm font-semibold text-gray-900 mb-2">Example Plate Layout with Treatments:</p>
+                                <div class="text-xs text-gray-700">
+                                    <p>• Columns 2-3: Untreated controls</p>
+                                    <p>• Columns 4-5: Vehicle controls</p>
+                                    <p>• Columns 6-11: Compound treatments (serial dilutions or different compounds)</p>
+                                    <p>• Include media-only wells for background subtraction</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assay Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">CellTiter-Fluor™ Assay Procedure</h2>
+
+                    <div class="space-y-6">
+                        <!-- Step 1: Reagent Preparation -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 1: Prepare CellTiter-Fluor™ Working Reagent</h3>
+                                <button @click="toggleStep('reagent-prep')"
+                                        :class="isCompleted('reagent-prep') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('reagent-prep') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg mb-4">
+                                <p class="font-semibold text-purple-900 mb-2">🔬 Lab-Specific Protocol: 1:1000 Dilution</p>
+                                <p class="text-sm text-purple-800 mb-3">
+                                    In our lab, we use a 1:1000 dilution and add only 25 µL per well (instead of the standard
+                                    equal volume method). This conserves reagent while maintaining excellent sensitivity.
+                                </p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Remove CellTiter-Fluor™ components from -20°C freezer</li>
+                                <li>Thaw completely in 37°C water bath</li>
+                                <li>Vortex GF-AFC substrate thoroughly to ensure homogeneity</li>
+                                <li>Briefly centrifuge substrate tube to recover all volume</li>
+                                <li>Prepare working reagent with <strong>1:1000 dilution</strong>:
+                                    <div class="bg-gray-50 p-3 rounded-lg mt-2 mb-2">
+                                        <p class="font-semibold text-gray-900 mb-2">For one 96-well plate (60 working wells + ~10% extra):</p>
+                                        <ul class="text-sm space-y-1">
+                                            <li>• Calculate total volume needed: 60 wells × 25 µL = 1,500 µL</li>
+                                            <li>• Add 10% extra: 1,500 µL × 1.1 = 1,650 µL total</li>
+                                            <li>• <strong>Add 1.65 µL GF-AFC Substrate to 1.65 mL Assay Buffer</strong></li>
+                                            <li>• Final dilution: 1:1000</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-blue-50 p-3 rounded-lg">
+                                        <p class="font-semibold text-blue-900 mb-2">Alternative volumes:</p>
+                                        <ul class="text-sm text-blue-800">
+                                            <li>• Small batch: 10 µL substrate + 10 mL buffer (for multiple plates)</li>
+                                            <li>• Exact for 1 plate: 1.65 µL substrate + 1.65 mL buffer</li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>Mix by vortexing until substrate is thoroughly dissolved
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Solution may initially appear "milky" - this is normal</li>
+                                        <li>Continue vortexing until completely dissolved</li>
+                                    </ul>
+                                </li>
+                                <li>Transfer diluted reagent to sterile reagent reservoir</li>
+                                <li>Protect from light (cover with foil or use amber container)</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">Storage of Prepared Reagent:</p>
+                                <ul class="text-sm text-yellow-800 mt-1">
+                                    <li>• Use within 24 hours if stored at room temperature</li>
+                                    <li>• Can store at 4°C for up to 7 days</li>
+                                    <li>• Always protect from light</li>
+                                    <li>• Do not freeze once diluted</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Add Reagent to Plate -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 2: Add CellTiter-Fluor™ Reagent to Wells</h3>
+                                <button @click="toggleStep('add-reagent')"
+                                        :class="isCompleted('add-reagent') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('add-reagent') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Remove plate from incubator</li>
+                                <li>Check cells briefly under microscope (optional):
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Verify cell morphology</li>
+                                        <li>Check for contamination</li>
+                                        <li>Ensure cells are attached (for adherent cells)</li>
+                                    </ul>
+                                </li>
+                                <li>Using multichannel pipettor, add <strong>25 µL</strong> of CellTiter-Fluor™ working reagent to each well
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Add to ALL wells (including perimeter PBS wells)</li>
+                                        <li>Pipette gently down the side of wells to avoid disturbing cells</li>
+                                        <li>Work systematically (row by row or column by column)</li>
+                                        <li>Final volume per well: 225 µL (200 µL + 25 µL reagent)</li>
+                                    </ul>
+                                </li>
+                                <li>Mix plate briefly:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Option A: Orbital shaker at low speed for 30 seconds</li>
+                                        <li>Option B: Gently tap sides of plate</li>
+                                        <li>Avoid creating bubbles or splashing between wells</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-red-900">IMPORTANT:</p>
+                                <ul class="text-sm text-red-800 mt-1">
+                                    <li>• Work quickly to minimize time cells are outside incubator</li>
+                                    <li>• Do not create bubbles in wells (interferes with fluorescence reading)</li>
+                                    <li>• If bubbles form, pop them with sterile pipette tip or leave to settle</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Incubation -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Step 3: Incubate Plate</h3>
+                                <button @click="toggleStep('incubate')"
+                                        :class="isCompleted('incubate') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('incubate') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg mb-4">
+                                <p class="font-semibold text-purple-900 mb-2">🔬 Lab Protocol: 1.5-2 Hour Incubation</p>
+                                <p class="text-sm text-purple-800">
+                                    In our lab, we incubate for <strong>1.5-2 hours at 37°C</strong> in the cell culture incubator
+                                    before reading. This provides optimal signal development with our 1:1000 dilution.
+                                </p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Cover plate with lid</li>
+                                <li>Wrap plate in aluminum foil to protect from light
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Light exposure can degrade the fluorescent product</li>
+                                        <li>Ensure foil doesn't interfere with gas exchange</li>
+                                    </ul>
+                                </li>
+                                <li>Place plate in <strong>37°C, 5% CO₂ incubator</strong></li>
+                                <li>Incubate for <strong>1.5 to 2 hours</strong>
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Optimal time may vary by cell line - optimize if needed</li>
+                                        <li>Minimum incubation: 1.5 hours</li>
+                                        <li>Maximum incubation: 3 hours (do not exceed)</li>
+                                    </ul>
+                                </li>
+                                <li>Ensure plate remains level and undisturbed during incubation</li>
+                                <li>Set timer to avoid over-incubation</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                                <p class="font-semibold text-blue-900 mb-2">Alternative Incubation Conditions:</p>
+                                <table class="w-full text-sm">
+                                    <thead class="bg-blue-100">
+                                        <tr>
+                                            <th class="px-3 py-2 text-left">Temperature</th>
+                                            <th class="px-3 py-2 text-left">Time</th>
+                                            <th class="px-3 py-2 text-left">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-blue-200">
+                                        <tr>
+                                            <td class="px-3 py-2">37°C (recommended)</td>
+                                            <td class="px-3 py-2">1.5-2 hours</td>
+                                            <td class="px-3 py-2">Optimal protease activity</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">Room temperature</td>
+                                            <td class="px-3 py-2">2-3 hours</td>
+                                            <td class="px-3 py-2">Longer time needed, less sensitive</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2">37°C (short)</td>
+                                            <td class="px-3 py-2">30-60 min</td>
+                                            <td class="px-3 py-2">Lower signal, less optimal</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="text-xs text-blue-700 mt-2">⚠️ Incubation at 37°C in CO₂ incubator is strongly recommended</p>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-yellow-900">⏰ Timing Tips:</p>
+                                <ul class="text-sm text-yellow-800 mt-1">
+                                    <li>• Set up plate reader during incubation period</li>
+                                    <li>• Ensure fluorometer is warmed up and ready</li>
+                                    <li>• Prepare plate reader protocol (filters, gain settings)</li>
+                                    <li>• Have data analysis template ready</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reading & Analysis Section -->
+            <div x-show="activeSection === 'reading'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Plate Reading and Data Analysis</h2>
+
+                    <div class="space-y-6">
+                        <!-- Fluorometer Setup -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Fluorometer Settings</h3>
+                                <button @click="toggleStep('setup-reader')"
+                                        :class="isCompleted('setup-reader') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('setup-reader') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-indigo-50 p-4 rounded-lg mb-4">
+                                <p class="font-semibold text-indigo-900 mb-2">Fluorescence Detection Parameters:</p>
+                                <table class="w-full text-sm">
+                                    <tbody class="divide-y divide-indigo-200">
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">Fluorophore</td>
+                                            <td class="px-3 py-2">AFC (Aminofluorocoumarin)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">Excitation Wavelength</td>
+                                            <td class="px-3 py-2"><strong>380-400 nm</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">Emission Wavelength</td>
+                                            <td class="px-3 py-2"><strong>505 nm</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">Readout</td>
+                                            <td class="px-3 py-2">Fluorescence Intensity (RFU)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-3 py-2 font-semibold">Read Mode</td>
+                                            <td class="px-3 py-2">Top read (recommended) or bottom read</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Turn on fluorescence plate reader and allow to warm up (10-15 minutes)</li>
+                                <li>Set excitation filter to 380-400 nm</li>
+                                <li>Set emission filter to 505 nm</li>
+                                <li>Adjust gain/sensitivity settings:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Start with automatic gain optimization</li>
+                                        <li>Or use manual gain based on positive control wells</li>
+                                        <li>Aim for highest signal without saturation</li>
+                                    </ul>
+                                </li>
+                                <li>Set integration time (typically 0.5-1 second)</li>
+                                <li>Configure plate layout in reader software</li>
+                            </ol>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-yellow-900">Important:</p>
+                                <p class="text-sm text-yellow-800 mt-1">
+                                    Deviation from optimal filter settings may adversely affect assay sensitivity and performance.
+                                    If exact filters are not available, use the closest available wavelengths.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Reading the Plate -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Reading the Plate</h3>
+                                <button @click="toggleStep('read-plate')"
+                                        :class="isCompleted('read-plate') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('read-plate') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>After 1.5-2 hour incubation, remove plate from incubator</li>
+                                <li>Remove foil covering (plate can now be exposed to ambient light briefly)</li>
+                                <li>Check for bubbles in wells:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>If bubbles present, try to pop with sterile pipette tip</li>
+                                        <li>Or let plate sit 2-3 minutes for bubbles to dissipate</li>
+                                        <li>Bubbles can interfere with fluorescence reading</li>
+                                    </ul>
+                                </li>
+                                <li>Wipe bottom of plate with lint-free cloth or Kim-wipe (if bottom-read)</li>
+                                <li>Place plate in fluorescence reader</li>
+                                <li>Ensure plate is properly aligned and seated</li>
+                                <li>Start reading protocol</li>
+                                <li>Save raw data immediately after reading</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-3 rounded-lg mt-3">
+                                <p class="text-sm font-semibold text-blue-900">Reading Tips:</p>
+                                <ul class="text-sm text-blue-800 mt-1 space-y-1">
+                                    <li>• Read all plates from same experiment with same instrument settings</li>
+                                    <li>• Record all settings (gain, integration time, filters) for reproducibility</li>
+                                    <li>• If signal is too weak, you can re-incubate plate for 30-60 more minutes</li>
+                                    <li>• If signal is saturated, dilute samples and re-read (or adjust gain if possible)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Data Analysis -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Data Analysis</h3>
+                                <button @click="toggleStep('analyze-data')"
+                                        :class="isCompleted('analyze-data') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('analyze-data') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-gray-900 mb-2">Step 1: Background Subtraction</p>
+                                    <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                                        <li>Calculate average fluorescence of media-only wells (no cells)</li>
+                                        <li>Subtract this background from all sample wells</li>
+                                        <li>Formula: <code class="bg-white px-2 py-1 rounded">Corrected RFU = Sample RFU - Average Background RFU</code></li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-gray-900 mb-2">Step 2: Calculate Viability (Relative to Control)</p>
+                                    <div class="text-sm text-gray-700 space-y-2">
+                                        <p>Express data as percentage of untreated control:</p>
+                                        <div class="bg-white p-3 rounded border border-gray-300">
+                                            <p class="font-mono text-xs">% Viability = (Treated Sample RFU / Average Control RFU) × 100</p>
+                                        </div>
+                                        <p class="text-xs text-gray-600">Where Control RFU = average fluorescence of untreated/vehicle control wells</p>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-gray-900 mb-2">Step 3: Statistical Analysis</p>
+                                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                        <li>Calculate mean and standard deviation for replicates</li>
+                                        <li>Perform appropriate statistical tests (t-test, ANOVA, etc.)</li>
+                                        <li>Calculate IC₅₀ values if dose-response curves</li>
+                                        <li>Assess data quality (CV%, Z-factor if applicable)</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="font-semibold text-gray-900 mb-2">Step 4: Quality Control Checks</p>
+                                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                        <li>✓ Untreated control wells show high, consistent signal</li>
+                                        <li>✓ Background (no-cell) wells show low signal</li>
+                                        <li>✓ Signal-to-background ratio ≥ 3:1 (preferably ≥10:1)</li>
+                                        <li>✓ CV% between replicates &lt; 20%</li>
+                                        <li>✓ Perimeter PBS wells excluded from analysis</li>
+                                        <li>✓ No obvious edge effects in working wells</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg mt-4">
+                                <p class="font-semibold text-green-900 mb-2">Expected Results:</p>
+                                <ul class="text-sm text-green-800 space-y-1">
+                                    <li>• <strong>Viable cells:</strong> High fluorescence signal (proportional to cell number)</li>
+                                    <li>• <strong>Dead/dying cells:</strong> Low fluorescence signal (loss of protease activity)</li>
+                                    <li>• <strong>Dose-response:</strong> Decreasing fluorescence with increasing cytotoxic compound concentration</li>
+                                    <li>• <strong>Linear range:</strong> Signal proportional to cell number from ~500-10,000 cells/well</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting Guide</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Common Issues and Solutions</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">Low or no signal</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Too few cells<br>
+                                                • Cells not viable<br>
+                                                • Insufficient incubation<br>
+                                                • Wrong filters/settings
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Increase cell density<br>
+                                                • Check cell viability before plating<br>
+                                                • Extend incubation to 2-3 hours<br>
+                                                • Verify excitation (380-400nm) and emission (505nm) filters
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">High background signal</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Serum contains protease activity<br>
+                                                • Media fluorescence<br>
+                                                • Contamination
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Use low-protease serum lot<br>
+                                                • Include media-only wells for background subtraction<br>
+                                                • Check for bacterial/fungal contamination
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">Edge effects</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Perimeter wells not filled with PBS<br>
+                                                • Evaporation<br>
+                                                • Temperature gradients
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Always fill perimeter with PBS (critical!)<br>
+                                                • Use humidified incubator<br>
+                                                • Avoid plate stacking in incubator<br>
+                                                • Allow plate to equilibrate before reading
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">High variability between replicates</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Uneven cell distribution<br>
+                                                • Bubbles in wells<br>
+                                                • Poor mixing of reagent
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Mix cell suspension frequently during plating<br>
+                                                • Remove bubbles before reading<br>
+                                                • Mix reagent thoroughly; vortex before use<br>
+                                                • Mix plate gently after reagent addition
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">Signal saturation</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Too many cells<br>
+                                                • Gain too high<br>
+                                                • Over-incubation
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Reduce cell density<br>
+                                                • Decrease instrument gain<br>
+                                                • Reduce incubation time<br>
+                                                • Optimize cell number for linear range
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">Unexpected cell death in controls</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • DMSO toxicity<br>
+                                                • Reagent toxicity<br>
+                                                • Prolonged incubation
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Keep DMSO &lt; 0.5% final concentration<br>
+                                                • The assay reagent is nonlytic - should not kill cells<br>
+                                                • Do not exceed 3 hour incubation
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">No difference between treated and untreated</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Compound not cytotoxic<br>
+                                                • Wrong concentration<br>
+                                                • Insufficient treatment time
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Verify compound activity with known positive control<br>
+                                                • Test wider concentration range<br>
+                                                • Extend treatment duration<br>
+                                                • Check compound solubility
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2 align-top">Precipitate in wells</td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Substrate not fully dissolved<br>
+                                                • Compound precipitation
+                                            </td>
+                                            <td class="px-4 py-2 align-top">
+                                                • Vortex reagent thoroughly before use<br>
+                                                • Ensure complete thawing at 37°C<br>
+                                                • Use appropriate compound solvents<br>
+                                                • Pre-dissolve compounds properly
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-3">Optimization Recommendations</h3>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+                                <div>
+                                    <p class="font-semibold mb-2">For New Cell Lines:</p>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Perform cell number titration (500-10,000 cells/well)</li>
+                                        <li>Test incubation time (30 min, 1 hr, 1.5 hr, 2 hr, 3 hr)</li>
+                                        <li>Determine optimal seeding density and assay timepoint</li>
+                                        <li>Establish signal-to-background ratio for your cell line</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <p class="font-semibold mb-2">For New Compounds:</p>
+                                    <ul class="list-disc list-inside space-y-1">
+                                        <li>Test multiple concentrations (dose-response)</li>
+                                        <li>Include vehicle control at highest solvent concentration</li>
+                                        <li>Test multiple timepoints if kinetics unknown</li>
+                                        <li>Check for compound fluorescence interference</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                            <p class="font-semibold text-yellow-900 mb-2">Best Practices Summary:</p>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>✓ Always fill perimeter wells with PBS</li>
+                                <li>✓ Use cells with &gt;90% viability</li>
+                                <li>✓ Protect plate from light during incubation</li>
+                                <li>✓ Include appropriate controls (untreated, vehicle, media-only)</li>
+                                <li>✓ Perform experiments with technical replicates (n≥3)</li>
+                                <li>✓ Maintain consistent timing between replicates</li>
+                                <li>✓ Record all instrument settings for reproducibility</li>
+                                <li>✓ Store prepared reagent protected from light</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from Promega CellTiter-Fluor™ Technical Bulletin TB371</p>
+                <p class="text-sm mt-2">Lab-specific modifications: 1:1000 dilution, 25 µL/well, 1.5-2 hr incubation</p>
+                <p class="text-sm mt-2">For Research Use Only | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

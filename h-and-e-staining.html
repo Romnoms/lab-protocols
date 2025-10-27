@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&E Staining Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-50 to-rose-100 min-h-screen">
+    <div x-data="{
+        activeSection: 'overview',
+        activeSampleType: 'paraffin',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-pink-600 to-rose-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2">🔬 H&E Staining Protocol</h1>
+                        <p class="text-pink-100">Hematoxylin and Eosin Staining for Tissue Sections</p>
+                    </div>
+                    <a href="index.html" class="bg-white text-pink-600 px-6 py-3 rounded-lg font-semibold hover:bg-pink-50 transition">
+                        ← All Protocols
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-40">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-4 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'protocol'; activeSampleType = 'paraffin'"
+                            :class="activeSection === 'protocol' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'tips'"
+                            :class="activeSection === 'tips' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Tips & Notes
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'"
+                            class="px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container mx-auto px-4 py-8">
+            <div class="max-w-5xl mx-auto">
+                <!-- Overview Section -->
+                <div x-show="activeSection === 'overview'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Protocol Overview</h2>
+                        <p class="text-gray-700 mb-4">
+                            Hematoxylin and Eosin (H&E) staining is the most widely used staining method in histology.
+                            Hematoxylin stains nuclei blue-purple, while eosin stains cytoplasm and extracellular matrix pink.
+                        </p>
+
+                        <div class="grid md:grid-cols-2 gap-6 mt-6">
+                            <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-pink-800 mb-3">⏱️ Duration</h3>
+                                <ul class="space-y-2 text-pink-900">
+                                    <li><strong>Paraffin sections:</strong> ~1-1.5 hours</li>
+                                    <li><strong>Cryo sections:</strong> ~1-1.5 hours</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-rose-50 to-rose-100 p-6 rounded-lg">
+                                <h3 class="text-xl font-bold text-rose-800 mb-3">🎯 Key Steps</h3>
+                                <ul class="space-y-2 text-rose-900">
+                                    <li>1. Deparaffinization (paraffin) or Rehydration (cryo)</li>
+                                    <li>2. Hematoxylin staining</li>
+                                    <li>3. Eosin staining</li>
+                                    <li>4. Dehydration and mounting</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mt-6">
+                            <p class="font-semibold text-blue-800">💡 What it stains:</p>
+                            <ul class="text-blue-700 text-sm mt-2 space-y-1 list-disc list-inside">
+                                <li><strong>Hematoxylin:</strong> Nuclei (blue-purple)</li>
+                                <li><strong>Eosin:</strong> Cytoplasm, collagen, muscle fibers (pink-red)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materials Section -->
+                <div x-show="activeSection === 'materials'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Reagents</h3>
+                                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                                    <li>Xylene (3 coplin jars)</li>
+                                    <li>100% Ethanol (3 coplin jars)</li>
+                                    <li>95% Ethanol</li>
+                                    <li>70% Ethanol</li>
+                                    <li>50% Ethanol</li>
+                                    <li>20% Ethanol</li>
+                                    <li>Distilled water (ddH₂O)</li>
+                                    <li>Hematoxylin solution</li>
+                                    <li>Eosin solution</li>
+                                    <li>2% Acetic acid</li>
+                                    <li>Bluing solution</li>
+                                    <li>Histomount mounting medium</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Equipment</h3>
+                                <ul class="space-y-2 text-gray-700 list-disc list-inside">
+                                    <li>Coplin jars (for staining solutions)</li>
+                                    <li>Slide rack</li>
+                                    <li>Timer</li>
+                                    <li>Running water source (warm recommended)</li>
+                                    <li>Coverslips</li>
+                                    <li>Slide storage box</li>
+                                    <li>Fume hood (for xylene steps)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol Section -->
+                <div x-show="activeSection === 'protocol'" class="space-y-6">
+                    <!-- Sample Type Selection -->
+                    <div class="bg-white rounded-lg shadow-md p-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Select Sample Type:</h3>
+                        <div class="flex space-x-4">
+                            <button @click="activeSampleType = 'paraffin'"
+                                    :class="activeSampleType === 'paraffin' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                    class="px-6 py-2 rounded-lg font-semibold transition">
+                                Paraffin Sections
+                            </button>
+                            <button @click="activeSampleType = 'cryo'"
+                                    :class="activeSampleType === 'cryo' ? 'bg-pink-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                    class="px-6 py-2 rounded-lg font-semibold transition">
+                                Cryo Sections
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paraffin Protocol -->
+                    <div x-show="activeSampleType === 'paraffin'" class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Paraffin Section Protocol</h2>
+
+                            <!-- Deparaffinization -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                                    Deparaffinization
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-depara-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-depara-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-depara-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-depara-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-depara-3')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-depara-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hydration -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                                    Hydration
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-3')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-4')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-5')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">50% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-6')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-6']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">20% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hydra-7')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hydra-7']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 4 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hematoxylin Staining -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">3</span>
+                                    Hematoxylin Staining
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Hematoxylin - few seconds to 1 minute</p>
+                                            <p class="text-sm text-gray-600 mt-1">⚠️ Time depends on solution age. Typically 20-45 seconds for fresh, up to 1 min for older solutions</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-3')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">2% Acetic acid - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-4')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-5')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Bluing solution - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-hema-6')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-hema-6']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Eosin Staining -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">4</span>
+                                    Eosin Staining
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-eosin-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-eosin-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Eosin - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-eosin-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-eosin-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dehydration -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">5</span>
+                                    Dehydration
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-dehydr-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-dehydr-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-dehydr-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-dehydr-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-dehydr-3')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-dehydr-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-dehydr-4')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-dehydr-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-dehydr-5')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-dehydr-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Clearing -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">6</span>
+                                    Clearing
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-clear-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-clear-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-clear-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-clear-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-clear-3')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-clear-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mounting -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">7</span>
+                                    Mounting and Storage
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-mount-1')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-mount-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Add Histomount mounting medium and place coverslip</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('paraffin-mount-2')">
+                                        <input type="checkbox" :checked="completedSteps['paraffin-mount-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Store sections at room temperature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cryo Protocol -->
+                    <div x-show="activeSampleType === 'cryo'" class="space-y-6">
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-4">Cryo Section Protocol</h2>
+
+                            <!-- Rehydration -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">1</span>
+                                    Rehydration
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 4-5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">20% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-3')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">50% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-4')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-5')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-6')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-6']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-7')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-7']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-8')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-8']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-9')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-9']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-10')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-10']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">50% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-11')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-11']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">20% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-rehydr-12')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-rehydr-12']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 4-5 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hematoxylin Staining -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">2</span>
+                                    Hematoxylin Staining
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Hematoxylin - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-3')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">2% Acetic acid - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-4')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-5')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Bluing solution - 1.5 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-hema-6')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-hema-6']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Eosin Staining -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">3</span>
+                                    Eosin Staining
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-eosin-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-eosin-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Eosin - 2 minutes (dip slides)</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-eosin-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-eosin-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Running H₂O - 1 minute (dip slides)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dehydration -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">4</span>
+                                    Dehydration
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-dehydr-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-dehydr-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">70% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-dehydr-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-dehydr-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">95% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-dehydr-3')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-dehydr-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 1 minute</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-dehydr-4')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-dehydr-4']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-dehydr-5')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-dehydr-5']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">100% EtOH - 2 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Clearing -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">5</span>
+                                    Clearing
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-clear-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-clear-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-clear-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-clear-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-clear-3')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-clear-3']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Xylene - 5 minutes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mounting -->
+                            <div class="mb-8">
+                                <h3 class="text-xl font-semibold text-pink-700 mb-4 flex items-center">
+                                    <span class="bg-pink-100 text-pink-700 rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">6</span>
+                                    Mounting and Storage
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-mount-1')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-mount-1']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Add Histomount mounting medium and place coverslip</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-pink-50 transition cursor-pointer"
+                                         @click="toggleStep('cryo-mount-2')">
+                                        <input type="checkbox" :checked="completedSteps['cryo-mount-2']" class="mt-1 h-5 w-5 text-pink-600">
+                                        <div class="flex-1">
+                                            <p class="text-gray-800 font-medium">Store sections at room temperature</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tips & Notes Section -->
+                <div x-show="activeSection === 'tips'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Tips & Notes</h2>
+
+                        <div class="space-y-4">
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                                <p class="font-semibold text-blue-800">Hematoxylin Timing</p>
+                                <p class="text-blue-700 text-sm mt-1">
+                                    The hematoxylin staining time depends on how many times the solution has been used.
+                                    Fresh hematoxylin may require only 20-45 seconds, while older solutions may need up to 1 minute.
+                                    Always monitor staining intensity under a microscope if possible.
+                                </p>
+                            </div>
+
+                            <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                                <p class="font-semibold text-green-800">Use Warm Water</p>
+                                <p class="text-green-700 text-sm mt-1">
+                                    Using warm running water for rinses helps improve staining quality and reduces background.
+                                </p>
+                            </div>
+
+                            <div class="bg-purple-50 border-l-4 border-purple-500 p-4">
+                                <p class="font-semibold text-purple-800">Dipping vs. Immersion</p>
+                                <p class="text-purple-700 text-sm mt-1">
+                                    When the protocol says "dip slides," gently move slides up and down in the solution.
+                                    This agitation helps ensure even staining and thorough washing.
+                                </p>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <p class="font-semibold text-yellow-800">Work in Fume Hood</p>
+                                <p class="text-yellow-700 text-sm mt-1">
+                                    Always work with xylene in a fume hood. Xylene fumes are toxic and should not be inhaled.
+                                </p>
+                            </div>
+
+                            <div class="bg-rose-50 border-l-4 border-rose-500 p-4">
+                                <p class="font-semibold text-rose-800">Bluing Solution Purpose</p>
+                                <p class="text-rose-700 text-sm mt-1">
+                                    The bluing solution helps develop the blue-purple color of hematoxylin staining.
+                                    This step is crucial for optimal nuclear contrast.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Troubleshooting Section -->
+                <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting Guide</h2>
+
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Weak or No Nuclear Staining</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Hematoxylin solution is old or exhausted</li>
+                                        <li>Insufficient staining time</li>
+                                        <li>Inadequate bluing</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Use fresh hematoxylin or increase staining time</li>
+                                        <li>Ensure proper bluing (pH adjustment)</li>
+                                        <li>Check that fixation was adequate</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Overstained (Too Dark)</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Hematoxylin staining time too long</li>
+                                        <li>Eosin staining time too long</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Reduce staining time in future runs</li>
+                                        <li>Can differentiate in acid alcohol if caught early</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Weak Eosin Staining</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Eosin solution is old</li>
+                                        <li>Insufficient staining time</li>
+                                        <li>Too much water carryover from previous step</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Use fresh eosin</li>
+                                        <li>Increase staining time</li>
+                                        <li>Ensure proper draining between steps</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Precipitate on Slides</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Staining solutions are dirty or contaminated</li>
+                                        <li>Insufficient washing</li>
+                                        <li>Slides not completely deparaffinized</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Filter staining solutions</li>
+                                        <li>Change xylene and ethanol solutions regularly</li>
+                                        <li>Ensure thorough washing between steps</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold text-pink-700 mb-3">Tissue Falls Off Slides</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <p class="text-gray-700 mb-2"><strong>Possible Causes:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Slides not properly coated or charged</li>
+                                        <li>Insufficient drying after sectioning</li>
+                                        <li>Poor tissue adhesion</li>
+                                    </ul>
+                                    <p class="text-gray-700 mb-2 mt-3"><strong>Solutions:</strong></p>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                                        <li>Use positively charged or coated slides</li>
+                                        <li>Bake slides at 60°C for 30-60 minutes before staining</li>
+                                        <li>Ensure gentle agitation during washes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safety Notice -->
+                <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-6 mt-8">
+                    <div class="flex items-start">
+                        <div class="text-3xl mr-4">⚠️</div>
+                        <div>
+                            <h3 class="text-lg font-bold text-red-800 mb-2">Safety Information</h3>
+                            <ul class="text-red-700 text-sm space-y-1 list-disc list-inside">
+                                <li>Always work with xylene in a fume hood - fumes are toxic</li>
+                                <li>Wear appropriate PPE (lab coat, gloves, safety glasses)</li>
+                                <li>Hematoxylin can stain skin - wear gloves at all times</li>
+                                <li>Dispose of xylene and ethanol as hazardous waste</li>
+                                <li>Keep all staining solutions away from open flames</li>
+                                <li>Ensure adequate ventilation in the staining area</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Top Button -->
+                <div class="mt-8 text-center">
+                    <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                            class="bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        ↑ Back to Top
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-8 mt-16">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-bold mb-3">About This Protocol</h4>
+                        <p class="text-sm">
+                            Standard Hematoxylin and Eosin (H&E) staining protocol for both paraffin-embedded
+                            and cryosectioned tissue samples.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Quick Links</h4>
+                        <ul class="text-sm space-y-2">
+                            <li><a href="index.html" class="hover:text-white transition">← All Protocols</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'overview'" class="hover:text-white transition">Protocol Overview</a></li>
+                            <li><a href="#" @click.prevent="activeSection = 'troubleshooting'" class="hover:text-white transition">Troubleshooting</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-3">Contact</h4>
+                        <p class="text-sm">
+                            Román A Cáceres<br><br>
+                            University of Cincinnati:<br>
+                            Cacerera@mail.uc.edu<br><br>
+                            Emory University:<br>
+                            Racacer@emory.edu
+                        </p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+                    <p>For Research Use Only. Last updated: October 2025</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Primary Mouse Hepatocyte Isolation Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: {},
+        toggleStep(id) {
+            this.completedSteps[id] = !this.completedSteps[id];
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-teal-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Primary Mouse Hepatocyte Isolation</h1>
+                <p class="text-teal-100 mt-2">Two-step collagenase perfusion method via vena cava cannulation</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-teal-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-teal-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'preparation'"
+                            :class="activeSection === 'preparation' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-teal-500 hover:text-white transition">
+                        Preparation
+                    </button>
+                    <button @click="activeSection = 'protocol'"
+                            :class="activeSection === 'protocol' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-teal-500 hover:text-white transition">
+                        Protocol
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-teal-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+
+                <p class="text-gray-700 mb-4">
+                    This protocol describes isolation of primary hepatocytes from mouse liver using a two-step
+                    collagenase perfusion technique with retrograde perfusion through the inferior vena cava.
+                    Viable hepatocytes are purified using Percoll density gradient centrifugation.
+                </p>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                    <p class="font-semibold text-blue-900">Expected Yield:</p>
+                    <ul class="text-sm text-blue-800 mt-2 space-y-1">
+                        <li>• <strong>30-50 × 10⁶ viable hepatocytes</strong> per mouse</li>
+                        <li>• <strong>Viability:</strong> Typically >95%</li>
+                        <li>• <strong>Purity:</strong> >90% hepatocytes</li>
+                        <li>• <strong>Duration:</strong> ~2-3 hours per mouse</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-teal-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-teal-900 mb-2">Applications</h3>
+                        <ul class="text-sm text-teal-800 space-y-1">
+                            <li>• Drug metabolism studies</li>
+                            <li>• Hepatotoxicity assays</li>
+                            <li>• Metabolic pathway analysis</li>
+                            <li>• Primary hepatocyte culture</li>
+                            <li>• Liver disease modeling</li>
+                            <li>• Gene expression studies</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-green-900 mb-2">Principle</h3>
+                        <ul class="text-sm text-green-800 space-y-1">
+                            <li>• <strong>Step 1:</strong> Ca²⁺-free EGTA perfusion disrupts cell-cell junctions</li>
+                            <li>• <strong>Step 2:</strong> Liberase TM digests extracellular matrix</li>
+                            <li>• <strong>Purification:</strong> Percoll gradient separates viable hepatocytes</li>
+                            <li>• <strong>Viability:</strong> Trypan blue exclusion assay</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-semibold text-red-900">Safety & Animal Care</p>
+                    <ul class="text-sm text-red-800 mt-2 space-y-1">
+                        <li>• Ensure proper IACUC approval for all animal procedures</li>
+                        <li>• Follow institutional guidelines for animal handling and euthanasia</li>
+                        <li>• Wear appropriate PPE: lab coat, gloves, eye protection</li>
+                        <li>• Work in biosafety cabinet for sterile isolation</li>
+                        <li>• Dispose of biological waste properly</li>
+                        <li>• Liberase and enzymes - handle according to SDS</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li><strong>Liberase TM</strong> (Roche, Cat# 5401127001)</li>
+                            <li>EGTA (ethylene glycol-bis(β-aminoethyl ether)-N,N,N',N'-tetraacetic acid)</li>
+                            <li>HEPES buffer</li>
+                            <li>NaCl, KCl, Na₂HPO₄, glucose</li>
+                            <li>CaCl₂ (for Liberase buffer)</li>
+                            <li>Percoll (GE Healthcare)</li>
+                            <li>Hank's Balanced Salt Solution (HBSS)</li>
+                            <li>William's Medium E or DMEM</li>
+                            <li>Fetal bovine serum (FBS)</li>
+                            <li>Penicillin/Streptomycin</li>
+                            <li>0.4% Trypan blue solution</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment & Supplies</h3>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                            <li>Peristaltic pump or gravity perfusion apparatus</li>
+                            <li>Water bath (37-42°C)</li>
+                            <li>Dissection board and surgical instruments</li>
+                            <li>23G or 24G butterfly catheter/IV catheter</li>
+                            <li>Silk suture (4-0 or 5-0)</li>
+                            <li>Sterile scissors, forceps, clamps</li>
+                            <li>100 µm and 70 µm cell strainers</li>
+                            <li>50 mL conical tubes (sterile)</li>
+                            <li>Centrifuge (clinical or benchtop)</li>
+                            <li>Hemocytometer or cell counter</li>
+                            <li>Biological safety cabinet</li>
+                            <li>Inverted microscope</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 p-4 rounded-lg mt-6">
+                    <h3 class="text-lg font-semibold text-yellow-900 mb-3">Buffer Recipes</h3>
+
+                    <div class="space-y-3 text-sm text-yellow-800">
+                        <div class="border-b border-yellow-200 pb-2">
+                            <p class="font-semibold">Perfusion Buffer 1 (Ca²⁺-free EGTA Buffer) - 500 mL:</p>
+                            <ul class="list-disc list-inside ml-4 mt-1">
+                                <li>NaCl: 8.3 g (142 mM)</li>
+                                <li>KCl: 0.5 g (6.7 mM)</li>
+                                <li>HEPES: 2.4 g (10 mM)</li>
+                                <li>EGTA: 0.19 g (0.5 mM)</li>
+                                <li>Adjust pH to 7.4, sterile filter</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-b border-yellow-200 pb-2">
+                            <p class="font-semibold">Perfusion Buffer 2 (Liberase Buffer) - 100 mL:</p>
+                            <ul class="list-disc list-inside ml-4 mt-1">
+                                <li>Same as Buffer 1 but without EGTA</li>
+                                <li>Add CaCl₂: 0.056 g (5 mM)</li>
+                                <li>Add Liberase TM: 0.2-0.4 Wünsch units/mL</li>
+                                <li>Prepare fresh, keep at 37°C</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-b border-yellow-200 pb-2">
+                            <p class="font-semibold">Wash Buffer (HBSS + supplements):</p>
+                            <ul class="list-disc list-inside ml-4 mt-1">
+                                <li>HBSS</li>
+                                <li>10% FBS</li>
+                                <li>1% Penicillin/Streptomycin</li>
+                                <li>Keep at 4°C</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <p class="font-semibold">Percoll Solutions:</p>
+                            <ul class="list-disc list-inside ml-4 mt-1">
+                                <li><strong>Stock:</strong> 100% Percoll</li>
+                                <li><strong>Working (50%):</strong> 25 mL Percoll + 25 mL 2× HBSS</li>
+                                <li><strong>Working (25%):</strong> 12.5 mL Percoll + 37.5 mL 1× HBSS</li>
+                                <li>Prepare fresh, keep at 4°C</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preparation Section -->
+            <div x-show="activeSection === 'preparation'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Pre-Procedure Preparation</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">1. Prepare Buffers (1 day before or morning of)</h3>
+                            <button @click="toggleStep('prep-buffers')"
+                                    :class="completedSteps['prep-buffers'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-buffers'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Prepare Perfusion Buffer 1 (EGTA buffer) - sterile filter, store at 4°C</li>
+                            <li>Prepare base for Perfusion Buffer 2 (without Liberase) - sterile filter, store at 4°C</li>
+                            <li>Prepare Wash Buffer - keep at 4°C</li>
+                            <li>DO NOT add Liberase until just before use</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">2. Set Up Perfusion System</h3>
+                            <button @click="toggleStep('prep-perfusion')"
+                                    :class="completedSteps['prep-perfusion'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-perfusion'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Set up peristaltic pump with sterile tubing</li>
+                            <li>Attach 23G or 24G butterfly catheter to tubing</li>
+                            <li>Test pump flow rate: 3-5 mL/min recommended</li>
+                            <li>Fill tubing with Buffer 1 to remove air bubbles</li>
+                            <li>Clamp tubing until ready to use</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">3. Warm Buffers and Equipment</h3>
+                            <button @click="toggleStep('prep-warm')"
+                                    :class="completedSteps['prep-warm'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-warm'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Pre-warm Perfusion Buffer 1 to 37-42°C in water bath</li>
+                            <li>Pre-warm base of Perfusion Buffer 2 to 37-42°C</li>
+                            <li>Add Liberase TM to Buffer 2 just before use (final: 0.2-0.4 Wünsch units/mL)</li>
+                            <li>Mix gently and keep at 37°C</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">4. Prepare Dissection Area</h3>
+                            <button @click="toggleStep('prep-dissection')"
+                                    :class="completedSteps['prep-dissection'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-dissection'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Autoclave dissection instruments</li>
+                            <li>Prepare dissection board</li>
+                            <li>Lay out sterile gauze, sutures, scissors, forceps</li>
+                            <li>Have 70% ethanol spray ready</li>
+                            <li>Set up biosafety cabinet with sterile cell strainers and tubes</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">5. Prepare Percoll Gradients</h3>
+                            <button @click="toggleStep('prep-percoll')"
+                                    :class="completedSteps['prep-percoll'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['prep-percoll'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Prepare 50% Percoll solution (see Materials section)</li>
+                            <li>Prepare 25% Percoll solution</li>
+                            <li>Keep on ice until use</li>
+                            <li>Will be used after hepatocyte isolation for purification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Protocol Section -->
+            <div x-show="activeSection === 'protocol'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Hepatocyte Isolation Protocol</h2>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4">
+                    <p class="text-sm font-semibold text-blue-900">Timing: Allow 2-3 hours from anesthesia to final cell count</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">1. Anesthesia and Surgical Preparation</h3>
+                            <button @click="toggleStep('protocol-anesthesia')"
+                                    :class="completedSteps['protocol-anesthesia'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-anesthesia'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Anesthetize mouse according to IACUC protocol (isoflurane, ketamine/xylazine, etc.)</li>
+                            <li>Confirm deep anesthesia (no toe pinch reflex)</li>
+                            <li>Spray abdomen with 70% ethanol</li>
+                            <li>Place mouse on dissection board in supine position</li>
+                            <li>Secure limbs with tape or pins</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">2. Expose Inferior Vena Cava (IVC)</h3>
+                            <button @click="toggleStep('protocol-expose')"
+                                    :class="completedSteps['protocol-expose'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-expose'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Make midline incision from pubis to xiphoid process</li>
+                            <li>Make lateral incisions to create T-shape opening</li>
+                            <li>Reflect skin and abdominal wall to expose liver and intestines</li>
+                            <li>Gently move intestines to the left to expose the IVC</li>
+                            <li>Clear connective tissue around IVC (below liver) using cotton swabs</li>
+                            <li>Identify portal vein (will be cut later for drainage)</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">3. Cannulate Inferior Vena Cava</h3>
+                            <button @click="toggleStep('protocol-cannulate')"
+                                    :class="completedSteps['protocol-cannulate'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-cannulate'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Use 23G or 24G butterfly catheter connected to perfusion tubing</li>
+                            <li>Make small nick in IVC wall (below liver, above renal veins)</li>
+                            <li>Insert catheter tip into IVC lumen, advance toward liver</li>
+                            <li>Secure catheter with suture around IVC and catheter</li>
+                            <li>Tie suture gently to hold catheter in place without collapsing vessel</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">4. Perfusion - Step 1 (EGTA Buffer)</h3>
+                            <button @click="toggleStep('protocol-perfusion1')"
+                                    :class="completedSteps['protocol-perfusion1'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-perfusion1'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Cut portal vein to allow outflow (creates open circulation)</li>
+                            <li>Immediately start perfusion with warm Buffer 1 (EGTA buffer, 37-42°C)</li>
+                            <li>Flow rate: 3-5 mL/min</li>
+                            <li>Duration: 3-5 minutes</li>
+                            <li>Liver should blanch and become pale as blood is cleared</li>
+                            <li>Observe fluid draining from portal vein cut</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">5. Perfusion - Step 2 (Liberase Buffer)</h3>
+                            <button @click="toggleStep('protocol-perfusion2')"
+                                    :class="completedSteps['protocol-perfusion2'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-perfusion2'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Switch perfusion to Buffer 2 (Liberase + Ca²⁺, 37-42°C)</li>
+                            <li>Continue perfusion at same flow rate</li>
+                            <li>Duration: 5-8 minutes (or until liver becomes soft)</li>
+                            <li>Liver should appear "mushy" and develop mottled appearance</li>
+                            <li>Gently touch liver surface - should feel very soft</li>
+                            <li>Stop perfusion when digestion is complete</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">6. Liver Excision and Cell Release</h3>
+                            <button @click="toggleStep('protocol-excision')"
+                                    :class="completedSteps['protocol-excision'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-excision'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Carefully remove liver from mouse using scissors and forceps</li>
+                            <li>Transfer liver to sterile Petri dish containing cold Wash Buffer</li>
+                            <li>Move to biosafety cabinet</li>
+                            <li>Remove gall bladder if still attached</li>
+                            <li>Tear open liver capsule gently with forceps</li>
+                            <li>Use sterile spatula or forceps to gently agitate liver and release cells</li>
+                            <li>Pipette suspension gently to help dissociate tissue</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">7. Filter Cell Suspension</h3>
+                            <button @click="toggleStep('protocol-filter')"
+                                    :class="completedSteps['protocol-filter'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-filter'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Pass cell suspension through 100 µm cell strainer into 50 mL conical tube</li>
+                            <li>Use cold Wash Buffer to rinse all cells through strainer</li>
+                            <li>Optional: Filter again through 70 µm strainer for cleaner preparation</li>
+                            <li>Collect filtrate in sterile 50 mL tubes on ice</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">8. Low-Speed Centrifugation</h3>
+                            <button @click="toggleStep('protocol-centrifuge1')"
+                                    :class="completedSteps['protocol-centrifuge1'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-centrifuge1'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Centrifuge at <strong>50 × g for 3 minutes at 4°C</strong></li>
+                            <li>Hepatocytes pellet at low speed due to large size</li>
+                            <li>Carefully aspirate supernatant (contains dead cells, debris, non-parenchymal cells)</li>
+                            <li>Resuspend pellet in cold Wash Buffer</li>
+                            <li>Repeat centrifugation 2-3 times until supernatant is clear</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">9. Percoll Gradient Purification</h3>
+                            <button @click="toggleStep('protocol-percoll')"
+                                    :class="completedSteps['protocol-percoll'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-percoll'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Resuspend washed hepatocytes in 25% Percoll solution</li>
+                            <li>Layer onto 50% Percoll cushion in 50 mL tube</li>
+                            <li>Centrifuge at <strong>100 × g for 10 minutes at 4°C</strong> (no brake)</li>
+                            <li>Viable hepatocytes pellet at bottom</li>
+                            <li>Dead cells and debris remain at interface and in supernatant</li>
+                            <li>Carefully aspirate supernatant and interface layer</li>
+                            <li>Resuspend pellet in cold Wash Buffer</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">10. Final Wash and Resuspension</h3>
+                            <button @click="toggleStep('protocol-final-wash')"
+                                    :class="completedSteps['protocol-final-wash'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-final-wash'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Centrifuge at 50 × g for 3 minutes at 4°C</li>
+                            <li>Aspirate supernatant</li>
+                            <li>Resuspend in appropriate culture medium or assay buffer</li>
+                            <li>Common media: William's Medium E + 10% FBS + 1% Pen/Strep</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">11. Cell Counting and Viability Assessment</h3>
+                            <button @click="toggleStep('protocol-counting')"
+                                    :class="completedSteps['protocol-counting'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-counting'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li>Take small aliquot for cell counting</li>
+                            <li>Mix 1:1 with 0.4% trypan blue</li>
+                            <li>Count using hemocytometer or automated counter</li>
+                            <li>Calculate: <strong>Viability (%) = (Viable cells / Total cells) × 100</strong></li>
+                            <li>Expected: <strong>30-50 × 10⁶ cells per mouse, >95% viability</strong></li>
+                            <li>Hepatocytes are large (20-30 µm diameter) and polygonal</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="text-lg font-semibold text-gray-800">12. Plating or Storage</h3>
+                            <button @click="toggleStep('protocol-plating')"
+                                    :class="completedSteps['protocol-plating'] ? 'bg-green-500' : 'bg-gray-300'"
+                                    class="px-3 py-1 rounded text-white text-sm">
+                                <span x-text="completedSteps['protocol-plating'] ? '✓ Done' : 'Mark Done'"></span>
+                            </button>
+                        </div>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-700 ml-4">
+                            <li><strong>For immediate use:</strong> Plate on collagen-coated dishes at 5-10 × 10⁴ cells/cm²</li>
+                            <li>Allow to attach for 2-4 hours before experiments</li>
+                            <li>Change medium after attachment to remove dead cells</li>
+                            <li><strong>For cryopreservation:</strong> Freeze slowly in freezing medium (FBS + 10% DMSO)</li>
+                            <li>Note: Primary hepatocytes do not passage well; use within 3-5 days</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="overflow-x-auto mb-6">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left">Problem</th>
+                                <th class="px-4 py-2 text-left">Possible Cause</th>
+                                <th class="px-4 py-2 text-left">Solution</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-4 py-2">Low cell yield</td>
+                                <td class="px-4 py-2">Insufficient digestion<br>Liberase activity low<br>Poor perfusion</td>
+                                <td class="px-4 py-2">Increase Liberase concentration (0.3-0.4 units/mL)<br>Extend perfusion time by 1-2 min<br>Check catheter placement<br>Use fresh Liberase</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Low viability (&lt;80%)</td>
+                                <td class="px-4 py-2">Over-digestion<br>Buffers too warm<br>Rough handling</td>
+                                <td class="px-4 py-2">Reduce Liberase time<br>Monitor liver softness<br>Keep buffers at 37-40°C max<br>Handle cells gently, avoid vortexing</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Liver did not blanch</td>
+                                <td class="px-4 py-2">Catheter not in IVC lumen<br>Portal vein not cut<br>Blood clot blocking flow</td>
+                                <td class="px-4 py-2">Check catheter position, adjust if needed<br>Ensure portal vein is fully cut<br>Increase flow rate slightly</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Liver not soft after Liberase</td>
+                                <td class="px-4 py-2">Liberase inactive<br>Insufficient perfusion time<br>No Ca²⁺ in Buffer 2</td>
+                                <td class="px-4 py-2">Use fresh Liberase<br>Extend perfusion 2-3 more minutes<br>Verify CaCl₂ added to Buffer 2</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">High debris in prep</td>
+                                <td class="px-4 py-2">Over-digestion<br>Incomplete filtering</td>
+                                <td class="px-4 py-2">Reduce Liberase time<br>Filter through 70 µm and 100 µm sequentially<br>Perform additional washes</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Cells not attaching to culture dish</td>
+                                <td class="px-4 py-2">Dish not coated<br>Low viability<br>Wrong plating density</td>
+                                <td class="px-4 py-2">Pre-coat dishes with collagen type I (50 µg/mL, 1hr)<br>Check viability before plating<br>Plate at 5-10 × 10⁴/cm²</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-900 mb-2">Quality Control Tips</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                        <li>Successful isolation: Hepatocytes should be large (20-30 µm), round to polygonal, with clear cytoplasm and distinct nucleus</li>
+                        <li>Viability >95% is ideal; 85-95% is acceptable; &lt;85% indicates problems</li>
+                        <li>Purity can be assessed by cell morphology and size (hepatocytes much larger than NPCs)</li>
+                        <li>Functional tests: Albumin secretion, urea synthesis, CYP450 activity</li>
+                        <li>Keep cells cold (4°C) throughout isolation until plating to preserve viability</li>
+                        <li>Primary hepatocytes are post-mitotic - do not passage, use within 3-5 days</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol adapted from published methods and laboratory procedures</p>
+                <p class="text-sm mt-2">For Research Use Only | Requires IACUC approval | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

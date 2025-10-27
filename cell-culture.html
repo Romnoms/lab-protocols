@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mammalian Cell Culture Protocol</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+    <style>
+        /* Mobile table improvements */
+        @media (max-width: 640px) {
+            table {
+                font-size: 0.875rem;
+            }
+            .overflow-x-auto {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        activeSubsection: 'routine',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }" class="min-h-screen">
+
+        <!-- Header -->
+        <header class="bg-green-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold">Mammalian Cell Culture Maintenance Protocol</h1>
+                <p class="text-green-100 mt-2">Complete Guide to Cell Culture, Passaging, and Cryopreservation</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex overflow-x-auto py-3 space-x-2">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'materials'"
+                            :class="activeSection === 'materials' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Materials
+                    </button>
+                    <button @click="activeSection = 'maintenance'"
+                            :class="activeSection === 'maintenance' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Maintenance
+                    </button>
+                    <button @click="activeSection = 'passaging'; activeSubsection = 'when'"
+                            :class="activeSection === 'passaging' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Passaging
+                    </button>
+                    <button @click="activeSection = 'cryopreservation'; activeSubsection = 'freezing'"
+                            :class="activeSection === 'cryopreservation' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Freezing/Thawing
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Troubleshooting
+                    </button>
+                    <button @click="activeSection = 'best-practices'"
+                            :class="activeSection === 'best-practices' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-green-500 hover:text-white transition">
+                        Best Practices
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Overview</h2>
+                    <p class="text-gray-700 mb-4">
+                        This protocol covers standard procedures for maintaining mammalian cells in culture, including
+                        routine maintenance, media changes, passaging/subculturing, and cryopreservation techniques for
+                        both adherent and suspension cells.
+                    </p>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                        <p class="font-semibold text-red-800">SAFETY</p>
+                        <p class="text-red-700 text-sm">
+                            Always wear appropriate PPE: lab coat, gloves, and eye protection. Work with human or primate
+                            cell lines in BSL-2 facility. Dispose of biological waste in appropriate biohazard containers.
+                            Handle liquid nitrogen with cryogenic gloves and face protection. DMSO can facilitate absorption
+                            of toxic compounds - use with care.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-blue-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">🧫 Routine Maintenance</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Daily monitoring</li>
+                                <li>• Media changes every 2-3 days</li>
+                                <li>• Maintain log phase growth</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-900 mb-2">🔬 Passaging</h3>
+                            <ul class="text-sm text-green-800 space-y-1">
+                                <li>• Passage at 80-90% confluence</li>
+                                <li>• Trypsin or gentle dissociation</li>
+                                <li>• Split ratios: 1:3 to 1:10</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-100 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">❄️ Cryopreservation</h3>
+                            <ul class="text-sm text-purple-800 space-y-1">
+                                <li>• Freeze slowly (-1°C/min)</li>
+                                <li>• Thaw rapidly (37°C bath)</li>
+                                <li>• Store in liquid nitrogen</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-300 rounded-lg overflow-hidden">
+                        <h3 class="text-lg font-semibold bg-gray-100 px-4 py-3">Incubation Conditions</h3>
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-sm">Parameter</th>
+                                    <th class="px-4 py-2 text-left text-sm">Standard Conditions</th>
+                                    <th class="px-4 py-2 text-left text-sm">Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">Temperature</td>
+                                    <td class="px-4 py-2 text-sm">37°C</td>
+                                    <td class="px-4 py-2 text-sm">Physiological temperature</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">CO₂</td>
+                                    <td class="px-4 py-2 text-sm">5%</td>
+                                    <td class="px-4 py-2 text-sm">Maintains pH 7.2-7.4</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 text-sm">Humidity</td>
+                                    <td class="px-4 py-2 text-sm">95%</td>
+                                    <td class="px-4 py-2 text-sm">Prevents media evaporation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials Section -->
+            <div x-show="activeSection === 'materials'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Required Materials</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Equipment</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Biological safety cabinet (BSC) / Laminar flow hood</li>
+                                <li>CO₂ incubator (37°C, 5% CO₂)</li>
+                                <li>Inverted microscope</li>
+                                <li>Water bath (37°C)</li>
+                                <li>Centrifuge</li>
+                                <li>Hemocytometer or automated cell counter</li>
+                                <li>Pipettes (serological and micropipettes)</li>
+                                <li>Controlled-rate freezing container (CoolCell, Mr. Frosty)</li>
+                                <li>-80°C freezer</li>
+                                <li>Liquid nitrogen storage tank</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Reagents & Consumables</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li>Cell culture medium (appropriate for cell line)</li>
+                                <li>Fetal bovine serum (FBS)</li>
+                                <li>Trypsin-EDTA (0.25% or 0.05%)</li>
+                                <li>Gentle cell dissociation reagent (Accutase, TrypLE, Versene)</li>
+                                <li>PBS without Ca²⁺/Mg²⁺</li>
+                                <li>DMSO (dimethyl sulfoxide)</li>
+                                <li>Culture vessels (flasks, dishes, plates)</li>
+                                <li>Cryovials (1-2 mL, sterile)</li>
+                                <li>70% ethanol for surface disinfection</li>
+                                <li>0.4% Trypan blue (for viability)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Culture Vessel Volumes</h3>
+                            <table class="w-full text-sm">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Vessel</th>
+                                        <th class="px-3 py-2 text-left">Medium Volume</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr><td class="px-3 py-2">T25 flask</td><td class="px-3 py-2">5-7 mL</td></tr>
+                                    <tr><td class="px-3 py-2">T75 flask</td><td class="px-3 py-2">12-15 mL</td></tr>
+                                    <tr><td class="px-3 py-2">T150 flask</td><td class="px-3 py-2">25-35 mL</td></tr>
+                                    <tr><td class="px-3 py-2">T175 flask</td><td class="px-3 py-2">25-30 mL</td></tr>
+                                    <tr><td class="px-3 py-2">T525 flask</td><td class="px-3 py-2">75-100 mL</td></tr>
+                                    <tr><td class="px-3 py-2">T875 flask</td><td class="px-3 py-2">125-175 mL</td></tr>
+                                    <tr><td class="px-3 py-2">6-well plate (per well)</td><td class="px-3 py-2">2-3 mL</td></tr>
+                                    <tr><td class="px-3 py-2">10 cm dish</td><td class="px-3 py-2">10-12 mL</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Freezing Medium Options</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                <li><strong>Option 1:</strong> 90% FBS + 10% DMSO</li>
+                                <li><strong>Option 2:</strong> 50% medium + 40% FBS + 10% DMSO</li>
+                                <li><strong>Option 3 (Serum-free):</strong> 90% complete medium + 10% DMSO</li>
+                                <li><strong>Option 4:</strong> Commercial freezing medium (CryoStor, etc.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maintenance Section -->
+            <div x-show="activeSection === 'maintenance'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Routine Cell Culture Maintenance</h2>
+
+                    <div class="space-y-6">
+                        <!-- Daily Monitoring -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Daily Monitoring</h3>
+                                <button @click="toggleStep('daily-monitor')"
+                                        :class="isCompleted('daily-monitor') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('daily-monitor') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-blue-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold text-blue-900 mb-2">Check medium color (phenol red indicator):</p>
+                                <ul class="text-sm text-blue-800 space-y-1">
+                                    <li>• <strong>Red/pink</strong> = alkaline pH (too high, poor cell growth)</li>
+                                    <li>• <strong>Orange/salmon</strong> = optimal pH 7.2-7.4 ✓</li>
+                                    <li>• <strong>Yellow</strong> = acidic pH (cells overgrown or contaminated)</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="font-semibold mb-2">Examine cell morphology under microscope:</p>
+                                <ul class="text-sm text-gray-700 space-y-1">
+                                    <li>• <strong>Adherent cells:</strong> Consistent attachment, characteristic shapes</li>
+                                    <li>• <strong>Suspension cells:</strong> Evenly dispersed, round, refractile</li>
+                                    <li>• <strong>Healthy cells:</strong> Bright and refractile</li>
+                                    <li>• <strong>Dead cells:</strong> Dark and granular</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-yellow-900">Check for contamination:</p>
+                                <ul class="text-sm text-yellow-800 mt-1">
+                                    <li>• Bacterial: Medium becomes cloudy/turbid</li>
+                                    <li>• Fungal: Visible mycelia or spores under microscope</li>
+                                    <li>• Mycoplasma: No visible signs (requires specific testing)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Media Change -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Media Change (Adherent Cells)</h3>
+                                <button @click="toggleStep('media-change')"
+                                        :class="isCompleted('media-change') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('media-change') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg mb-3">
+                                <p class="font-semibold text-green-900 mb-2">Frequency: Every 2-3 days or when media color changes</p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Pre-warm fresh medium to 37°C in water bath</li>
+                                <li>Work in biosafety cabinet using aseptic technique</li>
+                                <li>Aspirate spent medium from culture vessel</li>
+                                <li>(Optional) Gently wash cells with PBS to remove metabolic waste</li>
+                                <li>Add fresh pre-warmed medium (see volumes in Materials section)</li>
+                                <li>Gently rock flask to distribute medium evenly</li>
+                                <li>Return flask to incubator</li>
+                                <li>Label flask with date of media change</li>
+                            </ol>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-3">
+                                <p class="text-sm font-semibold text-red-900">IMPORTANT:</p>
+                                <ul class="text-sm text-red-800 mt-1">
+                                    <li>• Never reuse pipettes between flasks (prevents cross-contamination)</li>
+                                    <li>• Avoid excessive agitation when handling flasks</li>
+                                    <li>• Do not overfill vessels (prevents spillage and contamination)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Passaging Section -->
+            <div x-show="activeSection === 'passaging'" class="space-y-6">
+                <!-- Subsection Navigation -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="activeSubsection = 'when'"
+                                :class="activeSubsection === 'when' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            When to Passage
+                        </button>
+                        <button @click="activeSubsection = 'trypsin'"
+                                :class="activeSubsection === 'trypsin' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Trypsinization
+                        </button>
+                        <button @click="activeSubsection = 'gentle'"
+                                :class="activeSubsection === 'gentle' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Gentle Dissociation
+                        </button>
+                        <button @click="activeSubsection = 'suspension'"
+                                :class="activeSubsection === 'suspension' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Suspension Cells
+                        </button>
+                        <button @click="activeSubsection = 'counting'"
+                                :class="activeSubsection === 'counting' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Cell Counting
+                        </button>
+                    </div>
+                </div>
+
+                <!-- When to Passage -->
+                <div x-show="activeSubsection === 'when'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">When to Passage Cells</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-900 mb-2">Adherent Cells</h3>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Passage when cells reach <strong>80-90% confluence</strong></li>
+                                <li>• Before cells become contact-inhibited</li>
+                                <li>• While cells are in logarithmic (log) phase of growth</li>
+                                <li>• Viability should be <strong>&gt;90%</strong> at time of subculturing</li>
+                                <li>• DO NOT allow cells to become overconfluent</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-900 mb-2">Suspension Cells</h3>
+                            <ul class="text-sm text-purple-800 space-y-1">
+                                <li>• Passage when cells reach optimal density for the cell line</li>
+                                <li>• Typically <strong>0.5-2 × 10⁶ cells/mL</strong></li>
+                                <li>• Before cells enter stationary phase</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg mt-6">
+                        <h3 class="font-semibold text-gray-900 mb-2">Passaging Frequency</h3>
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">Cell Type</th>
+                                    <th class="px-3 py-2 text-left">Frequency</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr><td class="px-3 py-2">Most mammalian cell lines</td><td class="px-3 py-2">Every 2-4 days</td></tr>
+                                <tr><td class="px-3 py-2">Fast-growing lines</td><td class="px-3 py-2">Every 1-2 days</td></tr>
+                                <tr><td class="px-3 py-2">Slow-growing lines</td><td class="px-3 py-2">Every 5-7 days</td></tr>
+                            </tbody>
+                        </table>
+                        <p class="text-xs text-gray-600 mt-2">⚠️ Do NOT passage adherent cells more than once every 48 hours</p>
+                    </div>
+                </div>
+
+                <!-- Trypsinization -->
+                <div x-show="activeSubsection === 'trypsin'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Passaging Adherent Cells (Trypsinization)</h2>
+
+                    <div class="space-y-4">
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3">
+                            <p class="text-sm font-semibold text-yellow-900">Materials: Trypsin-EDTA, PBS (no Ca²⁺/Mg²⁺), complete medium with serum</p>
+                        </div>
+
+                        <ol class="list-decimal list-inside space-y-3 text-sm text-gray-700">
+                            <li><strong>Examine cultures</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>View cells under inverted microscope</li>
+                                    <li>Confirm 80-90% confluence</li>
+                                    <li>Check for contamination, ensure viability &gt;90%</li>
+                                </ul>
+                            </li>
+                            <li><strong>Prepare reagents</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>Pre-warm trypsin-EDTA to room temperature or 37°C</li>
+                                    <li>Pre-warm complete medium to 37°C</li>
+                                    <li>Label new culture vessel(s)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Remove medium</strong>: Aspirate spent medium, tilt flask to remove all traces</li>
+                            <li><strong>Wash cells</strong>: Add PBS (2 mL per 10 cm²), gently rock flask, aspirate completely
+                                <div class="bg-blue-50 p-2 rounded mt-2">
+                                    <p class="text-xs text-blue-800">PBS volumes: T25 (3-5 mL) | T75 (5-10 mL) | T175 (10-15 mL)</p>
+                                </div>
+                            </li>
+                            <li><strong>Add trypsin</strong>: Add minimal volume (1 mL per 25 cm²), rotate to cover monolayer, decant excess
+                                <div class="bg-blue-50 p-2 rounded mt-2">
+                                    <p class="text-xs text-blue-800">Trypsin volumes: T25 (1 mL) | T75 (2-3 mL) | T175 (5 mL)</p>
+                                </div>
+                            </li>
+                            <li><strong>Incubate</strong>: Return to 37°C incubator for 2-10 minutes (depends on cell line), tap gently after 5 min</li>
+                            <li><strong>Check detachment</strong>: Examine under microscope - cells should appear rounded and floating
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>If cells remain attached, return to incubator for 1-2 more minutes</li>
+                                    <li>Avoid over-trypsinization (damages cells)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Neutralize trypsin</strong>: Add complete medium with serum (≥ trypsin volume), pipette gently to create single-cell suspension</li>
+                            <li><strong>Seed new culture</strong>: Dilute cells into new flask with fresh medium
+                                <div class="bg-green-50 p-3 rounded mt-2">
+                                    <p class="font-semibold text-green-900 text-sm mb-1">Standard Split Ratios:</p>
+                                    <ul class="text-xs text-green-800">
+                                        <li>• <strong>1:2</strong> - slow-growing cells, want high density</li>
+                                        <li>• <strong>1:3 to 1:5</strong> - routine maintenance (most common)</li>
+                                        <li>• <strong>1:6 to 1:10</strong> - fast-growing cells, want low density</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li><strong>Incubate</strong>: Gently rock flask, place in 37°C incubator, allow cells to attach 4-24 hours</li>
+                            <li><strong>Record keeping</strong>: Label with cell line, passage number (e.g., P15), date, initials</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Gentle Dissociation -->
+                <div x-show="activeSubsection === 'gentle'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Gentle Cell Dissociation (Sensitive Cells)</h2>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
+                        <p class="font-semibold text-purple-900 mb-2">When to use gentle dissociation:</p>
+                        <ul class="text-sm text-purple-800 space-y-1">
+                            <li>• Cells sensitive to trypsin</li>
+                            <li>• Weakly adherent cells</li>
+                            <li>• Stem cells, primary cells, neurons</li>
+                            <li>• Serum-free cultures</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                        <h3 class="font-semibold text-blue-900 mb-2">Common Gentle Dissociation Reagents:</h3>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• <strong>Accutase</strong> - proteolytic and collagenolytic enzyme blend</li>
+                            <li>• <strong>TrypLE</strong> - recombinant trypsin alternative</li>
+                            <li>• <strong>Versene (EDTA)</strong> - chelates Ca²⁺/Mg²⁺, very gentle</li>
+                            <li>• <strong>Cell Dissociation Buffer</strong> - enzyme-free, very gentle</li>
+                            <li>• <strong>Dispase</strong> - gentle protease for clumps and tissue</li>
+                        </ul>
+                    </div>
+
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Examine cultures under microscope, confirm appropriate confluence</li>
+                        <li>Pre-warm dissociation reagent to room temperature or 37°C</li>
+                        <li>Aspirate spent medium from flask</li>
+                        <li>(Optional) Wash cells with PBS - some reagents work better without washing</li>
+                        <li>Add dissociation reagent (same volumes as trypsin)</li>
+                        <li>Incubate at room temperature or 37°C for <strong>5-15 minutes</strong> (check manufacturer's instructions)</li>
+                        <li>Gently tap flask periodically to aid detachment</li>
+                        <li>Check detachment under microscope</li>
+                        <li>Add complete medium directly to flask (most gentle reagents don't require neutralization)</li>
+                        <li>Pipette gently to create single-cell suspension</li>
+                        <li>Transfer to new vessel and incubate</li>
+                    </ol>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-3 mt-4">
+                        <p class="text-sm font-semibold text-green-900">Advantages:</p>
+                        <ul class="text-sm text-green-800 mt-1">
+                            <li>• Less harmful to cell surface proteins and receptors</li>
+                            <li>• Often do not require neutralization with serum</li>
+                            <li>• Can be used with serum-free cultures</li>
+                            <li>• Better viability for sensitive cell types</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Suspension Cells -->
+                <div x-show="activeSubsection === 'suspension'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Passaging Suspension Cells</h2>
+
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-4">
+                        <p class="text-sm font-semibold text-green-900">Suspension cells do not require trypsinization since they are already in suspension.</p>
+                    </div>
+
+                    <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                        <li>Remove flask from incubator</li>
+                        <li>Mix cell suspension by gentle pipetting</li>
+                        <li>Take small sample for cell counting</li>
+                        <li>Count cells and determine density</li>
+                        <li>Calculate volume needed for desired seeding density</li>
+                        <li>Transfer calculated volume to new flask</li>
+                        <li>Add fresh medium to achieve desired final volume and cell concentration</li>
+                        <li>Typical seeding density: <strong>2-5 × 10⁵ cells/mL</strong></li>
+                        <li>Return to incubator</li>
+                    </ol>
+
+                    <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                        <p class="font-semibold text-blue-900 mb-2">Example Calculation:</p>
+                        <div class="text-sm text-blue-800 space-y-1">
+                            <p>Current density: 2 × 10⁶ cells/mL in 10 mL = 2 × 10⁷ total cells</p>
+                            <p>Target density: 3 × 10⁵ cells/mL in 30 mL total volume</p>
+                            <p>Cells needed: 3 × 10⁵ × 30 = 9 × 10⁶ cells</p>
+                            <p>Volume to transfer: 9 × 10⁶ ÷ 2 × 10⁶ = <strong>4.5 mL</strong></p>
+                            <p>Add <strong>25.5 mL fresh medium</strong> to reach 30 mL total</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cell Counting -->
+                <div x-show="activeSubsection === 'counting'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Cell Counting Methods</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Using Hemocytometer</h3>
+                            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                <li>Mix cell suspension thoroughly</li>
+                                <li>Take 10 μL sample</li>
+                                <li>Load hemocytometer chamber</li>
+                                <li>Count cells in 4 corner squares (each 1 mm²)</li>
+                                <li>Calculate: Cells/mL = (Average count) × 10⁴ × (dilution factor)</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">Automated Counter</h3>
+                            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                <li>Follow manufacturer's instructions</li>
+                                <li>Typically requires 10-20 μL sample</li>
+                                <li>Provides cell concentration and viability automatically</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg mt-6">
+                        <h3 class="text-lg font-semibold text-yellow-900 mb-3">Trypan Blue Exclusion (Viability)</h3>
+                        <ol class="list-decimal list-inside space-y-1 text-sm text-yellow-800">
+                            <li>Mix 10 μL cell suspension + 10 μL 0.4% trypan blue (1:1 dilution)</li>
+                            <li>Load hemocytometer</li>
+                            <li>Count viable (clear) and non-viable (blue) cells separately</li>
+                            <li>Viability (%) = (Viable cells / Total cells) × 100</li>
+                            <li>Should be <strong>&gt;90%</strong> for passaging</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cryopreservation Section -->
+            <div x-show="activeSection === 'cryopreservation'" class="space-y-6">
+                <!-- Subsection Navigation -->
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="activeSubsection = 'freezing'"
+                                :class="activeSubsection === 'freezing' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Freezing Cells
+                        </button>
+                        <button @click="activeSubsection = 'thawing'"
+                                :class="activeSubsection === 'thawing' ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700'"
+                                class="px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition">
+                            Thawing Cells
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Freezing -->
+                <div x-show="activeSubsection === 'freezing'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Freezing Cells (Cryopreservation)</h2>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <p class="font-semibold text-blue-900 mb-2">When to freeze cells:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• Passage cells 1-2 days before freezing</li>
+                            <li>• Cells should be in logarithmic growth phase</li>
+                            <li>• Confluence: &gt;80% for adherent cells</li>
+                            <li>• Viability: &gt;90%</li>
+                            <li>• Use low passage number cells (typically P5-P15)</li>
+                        </ul>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Freezing Medium Options</h3>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li><strong>Option 1 (FBS-based):</strong><br>90% FBS + 10% DMSO</li>
+                                <li><strong>Option 2 (FBS-based):</strong><br>50% medium + 40% FBS + 10% DMSO</li>
+                                <li><strong>Option 3 (Serum-free):</strong><br>90% complete medium + 10% DMSO</li>
+                                <li><strong>Option 4 (Commercial):</strong><br>Vendor-supplied freezing medium (CryoStor, Synth-a-Freeze, etc.)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-yellow-900 mb-2">Preparation Notes</h3>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• Prepare freezing medium fresh on day of use</li>
+                                <li>• Keep cold (on ice or 4°C) until ready to use</li>
+                                <li>• Add DMSO last and mix thoroughly</li>
+                                <li>• For serum-free cultures, use Option 3 or 4</li>
+                                <li>• Target concentration: 1-5 × 10⁶ cells/mL</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Freezing Protocol</h3>
+                        <ol class="list-decimal list-inside space-y-3 text-sm text-gray-700">
+                            <li><strong>Prepare cells</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>Passage cells as normal (trypsinization or gentle dissociation)</li>
+                                    <li>Collect cell suspension in sterile centrifuge tube</li>
+                                </ul>
+                            </li>
+                            <li><strong>Pellet cells</strong>: Centrifuge at 200-300 × g for 5 minutes at room temperature, carefully aspirate supernatant</li>
+                            <li><strong>Resuspend in freezing medium</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>Resuspend pellet in ice-cold freezing medium</li>
+                                    <li>Target concentration: 1-5 × 10⁶ cells/mL</li>
+                                    <li>Example: 10 × 10⁶ cells at 2 × 10⁶/mL = 5 mL freezing medium</li>
+                                </ul>
+                            </li>
+                            <li><strong>Aliquot into cryovials</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>Label vials: cell line, passage, concentration, date, initials</li>
+                                    <li>Aliquot 1 mL per cryovial</li>
+                                    <li>Work quickly to minimize time in DMSO at room temperature</li>
+                                </ul>
+                            </li>
+                            <li><strong>Controlled-rate freezing</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>Place cryovials in freezing container (CoolCell, Mr. Frosty)</li>
+                                    <li>Add isopropanol to container if required</li>
+                                    <li>Place in -80°C freezer</li>
+                                    <li>Container ensures <strong>-1°C/minute</strong> cooling rate</li>
+                                    <li>Leave at -80°C for 24 hours minimum</li>
+                                </ul>
+                            </li>
+                            <li><strong>Long-term storage</strong>
+                                <ul class="list-disc list-inside ml-5 mt-1">
+                                    <li>After 24 hours, transfer to liquid nitrogen storage</li>
+                                    <li>Store in vapor phase (-150°C to -190°C)</li>
+                                    <li>Record location in cell bank inventory</li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                            <p class="text-sm font-semibold text-red-900">CRITICAL NOTES:</p>
+                            <ul class="text-sm text-red-800 mt-1">
+                                <li>• Freeze cells slowly (1°C/min) but thaw quickly (rapid warming)</li>
+                                <li>• DMSO is toxic at room temperature - work quickly during aliquoting</li>
+                                <li>• Never refreeze thawed cells</li>
+                                <li>• Keep detailed records of frozen stocks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thawing -->
+                <div x-show="activeSubsection === 'thawing'" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Thawing Cryopreserved Cells</h2>
+
+                    <div class="bg-purple-50 border-l-4 border-purple-500 p-4 mb-4">
+                        <p class="text-sm font-semibold text-purple-900">KEY PRINCIPLE: Thaw rapidly but freeze slowly</p>
+                    </div>
+
+                    <ol class="list-decimal list-inside space-y-3 text-sm text-gray-700">
+                        <li><strong>Prepare reagents</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1">
+                                <li>Pre-warm complete medium to 37°C</li>
+                                <li>Prepare culture vessel with pre-warmed medium (T25: 5 mL, T75: 12 mL)</li>
+                                <li>Set water bath to 37°C</li>
+                            </ul>
+                        </li>
+                        <li><strong>Retrieve cryovial</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1">
+                                <li>Remove from liquid nitrogen storage</li>
+                                <li>Handle with cryogenic gloves</li>
+                                <li>Transport on dry ice if moving between locations</li>
+                            </ul>
+                        </li>
+                        <li><strong>Rapid thaw</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1">
+                                <li>Immediately place cryovial in 37°C water bath</li>
+                                <li>Gently swirl vial in water bath</li>
+                                <li>Thaw until only small ice crystal remains (60-90 seconds)</li>
+                                <li>Do NOT allow to thaw completely in water bath</li>
+                                <li>Wipe vial with 70% ethanol before opening</li>
+                            </ul>
+                        </li>
+                        <li><strong>Transfer to hood</strong>: Move to biosafety cabinet, work quickly to minimize DMSO exposure time</li>
+                        <li><strong>Dilute cells</strong>
+                            <div class="grid md:grid-cols-2 gap-3 mt-2">
+                                <div class="bg-green-50 p-3 rounded">
+                                    <p class="font-semibold text-green-900 text-xs mb-1">Method A (Direct seeding - less trauma):</p>
+                                    <ul class="text-xs text-green-800 space-y-1">
+                                        <li>• Transfer entire contents to prepared vessel</li>
+                                        <li>• Rock gently to mix</li>
+                                        <li>• Cells attach within 4-24 hours</li>
+                                        <li>• Change medium after 24 hours to remove DMSO</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="font-semibold text-blue-900 text-xs mb-1">Method B (Centrifugation - removes DMSO immediately):</p>
+                                    <ul class="text-xs text-blue-800 space-y-1">
+                                        <li>• Transfer to 15 mL tube with 10 mL medium</li>
+                                        <li>• Centrifuge at 200-300 × g for 5 min</li>
+                                        <li>• Aspirate supernatant (contains DMSO)</li>
+                                        <li>• Resuspend in fresh medium, transfer to vessel</li>
+                                        <li>• Recommended for suspension cells</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li><strong>Incubate</strong>: Place in 37°C, 5% CO₂ incubator, do not disturb for at least 24 hours</li>
+                        <li><strong>Assess recovery</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1">
+                                <li>After 24 hours, examine under microscope</li>
+                                <li>Adherent cells should be attaching</li>
+                                <li>Change medium to remove dead cells and remaining DMSO</li>
+                                <li>Continue normal culture maintenance</li>
+                            </ul>
+                        </li>
+                        <li><strong>First passage after thawing</strong>
+                            <ul class="list-disc list-inside ml-5 mt-1">
+                                <li>Allow cells to reach 80-90% confluence before first passage (3-7 days)</li>
+                                <li>First passage may have lower viability (70-80% acceptable)</li>
+                                <li>Subsequent passages should return to normal &gt;90% viability</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mt-4">
+                        <p class="text-sm font-semibold text-yellow-900">IMPORTANT:</p>
+                        <ul class="text-sm text-yellow-800 mt-1">
+                            <li>• Remove DMSO within 24 hours (media change or centrifugation)</li>
+                            <li>• Do not passage cells immediately after thawing</li>
+                            <li>• Some cell death is normal; viability improves with passages</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting Common Problems</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Passaging Issues</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">Cells not attaching after passage</td>
+                                            <td class="px-4 py-2">Trypsinization too harsh<br>Medium lacks serum</td>
+                                            <td class="px-4 py-2">Reduce trypsin time<br>Pre-coat flask with ECM proteins<br>Check medium contains serum</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Clumping after trypsinization</td>
+                                            <td class="px-4 py-2">Incomplete dissociation<br>DNA from dead cells</td>
+                                            <td class="px-4 py-2">Pipette more thoroughly<br>Increase trypsinization time<br>DNase treatment</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Slow growth rate</td>
+                                            <td class="px-4 py-2">Wrong incubator settings<br>High passage number</td>
+                                            <td class="px-4 py-2">Check CO₂ (should be 5%)<br>Verify medium is appropriate<br>Thaw new low-passage stock</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Cells differentiating or morphology changing</td>
+                                            <td class="px-4 py-2">Overconfluent<br>Too high passage</td>
+                                            <td class="px-4 py-2">Passage before confluence<br>Increase split ratio<br>Thaw new vial from frozen stock</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Cryopreservation Issues</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Problem</th>
+                                            <th class="px-4 py-2 text-left">Possible Cause</th>
+                                            <th class="px-4 py-2 text-left">Solution</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">Low viability after thawing</td>
+                                            <td class="px-4 py-2">Slow thawing<br>Freezing rate incorrect</td>
+                                            <td class="px-4 py-2">Thaw more rapidly (full immersion 37°C)<br>Use centrifugation to remove DMSO<br>Check controlled-rate freezing</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Cells not recovering after thaw</td>
+                                            <td class="px-4 py-2">DMSO exposure too long<br>Cells frozen at wrong phase</td>
+                                            <td class="px-4 py-2">Work quickly during thawing<br>Remove DMSO within 24 hours<br>Freeze only log-phase cells</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800 mb-3">Contamination</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-4 py-2 text-left">Type</th>
+                                            <th class="px-4 py-2 text-left">Signs</th>
+                                            <th class="px-4 py-2 text-left">Prevention</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y">
+                                        <tr>
+                                            <td class="px-4 py-2">Bacterial</td>
+                                            <td class="px-4 py-2">Cloudy medium, rapid pH drop</td>
+                                            <td class="px-4 py-2">Strict aseptic technique<br>Discard contaminated cultures</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Fungal</td>
+                                            <td class="px-4 py-2">Visible mycelia or spores</td>
+                                            <td class="px-4 py-2">Clean incubator regularly<br>Discard contaminated cultures</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="px-4 py-2">Mycoplasma</td>
+                                            <td class="px-4 py-2">No visible signs</td>
+                                            <td class="px-4 py-2">Test every 2-3 months<br>Use validated cell sources<br>Quarantine new cells</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Practices Section -->
+            <div x-show="activeSection === 'best-practices'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Best Practices & Quality Control</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-green-900 mb-3">DO ✓</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-green-800">
+                                <li>Maintain cells in logarithmic phase of growth</li>
+                                <li>Pre-warm all media and solutions to 37°C</li>
+                                <li>Label all flasks clearly with cell line, passage number, and date</li>
+                                <li>Keep detailed records in laboratory notebook</li>
+                                <li>Use appropriate vessel coatings if required (collagen, fibronectin, poly-D-lysine)</li>
+                                <li>Monitor cell morphology daily</li>
+                                <li>Freeze stocks at low passage numbers</li>
+                                <li>Test for mycoplasma every 2-3 months</li>
+                                <li>Use STR profiling to verify cell line identity</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-red-900 mb-3">DON'T ✗</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-red-800">
+                                <li>Overgrow cells (leads to differentiation or senescence)</li>
+                                <li>Reuse pipettes between flasks</li>
+                                <li>Allow cells to enter stationary phase</li>
+                                <li>Passage cells more frequently than every 48 hours</li>
+                                <li>Use cells beyond recommended passage number</li>
+                                <li>Forget to record passage numbers</li>
+                                <li>Add trypsin to cells in the presence of serum</li>
+                                <li>Leave cells in trypsin longer than necessary</li>
+                                <li>Refreeze thawed cells</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-blue-900 mb-3">Aseptic Technique</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-blue-800">
+                                <li>Always work in biological safety cabinet</li>
+                                <li>Spray gloves, bottles, flasks with 70% ethanol before placing in hood</li>
+                                <li>Never place items above open culture vessels</li>
+                                <li>Keep work area uncluttered</li>
+                                <li>Clean BSC before and after use with 70% ethanol</li>
+                                <li>UV sterilize BSC for 15-30 minutes before use (optional)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-purple-900 mb-3">Quality Control</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-purple-800">
+                                <li><strong>Morphology:</strong> Check daily under microscope</li>
+                                <li><strong>Growth rate:</strong> Monitor population doubling time</li>
+                                <li><strong>Viability:</strong> Should be &gt;90% for healthy cultures</li>
+                                <li><strong>Mycoplasma testing:</strong> Every 2-3 months</li>
+                                <li><strong>STR profiling:</strong> Verify cell line identity periodically</li>
+                                <li><strong>Passage records:</strong> Maintain detailed logs</li>
+                                <li><strong>Frozen stocks:</strong> Create at regular intervals</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-yellow-900 mb-3">Record Keeping</h3>
+                            <p class="text-sm text-yellow-800 mb-2 font-semibold">Cell Culture Log should include:</p>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-yellow-800">
+                                <li>Date</li>
+                                <li>Cell line name and passage number</li>
+                                <li>Procedure performed (passage, media change, freezing, thawing)</li>
+                                <li>Split ratio (for passaging)</li>
+                                <li>Confluence or cell density</li>
+                                <li>Viability percentage</li>
+                                <li>Morphology observations</li>
+                                <li>Any anomalies or concerns</li>
+                                <li>Initials of person performing work</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-indigo-900 mb-3">General Guidelines</h3>
+                            <ul class="list-disc list-inside space-y-1 text-sm text-indigo-800">
+                                <li>L-Glutamine is essential but labile - use within 1-2 weeks or use GlutaMAX</li>
+                                <li>Most mammalian cells double every 18-24 hours under optimal conditions</li>
+                                <li>Some cell lines require specialized media, supplements, or coated surfaces</li>
+                                <li>Always refer to ATCC or provider datasheet for cell line-specific requirements</li>
+                                <li>Maintain master cell bank (low passage) and working cell bank (higher passage)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-6 mt-12">
+            <div class="container mx-auto px-4">
+                <p class="text-sm">Protocol compiled from online resources and best practices</p>
+                <p class="text-sm mt-2">For Research Use Only | Last updated: January 2025</p>
+                <p class="text-sm mt-2"><a href="index.html" class="text-blue-400 hover:text-blue-300">← Back to Protocol Index</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
