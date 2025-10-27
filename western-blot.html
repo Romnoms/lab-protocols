@@ -531,6 +531,64 @@
                             </div>
                         </div>
 
+                        <!-- Sample Preparation -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="text-xl font-semibold text-gray-800">Prepare Samples for Loading</h3>
+                                <button @click="toggleStep('sample-prep')"
+                                        :class="isCompleted('sample-prep') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('sample-prep') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                                <p class="text-sm font-semibold text-yellow-900">Prepare 5X loading dye with β-mercaptoethanol ahead of time:</p>
+                                <p class="text-sm text-yellow-800 mt-1">• 1 mL 5X loading dye (from 4°C fridge) + 50 μL β-mercaptoethanol</p>
+                                <p class="text-sm text-yellow-800">• 5X dye will smell like rotten eggs if βME added correctly</p>
+                                <p class="text-sm text-yellow-800">• Store at room temperature or 4°C, use within 1 month</p>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li><strong>Calculate volumes needed per sample</strong>
+                                    <div class="bg-blue-50 p-3 rounded-lg mt-2 mb-2">
+                                        <p class="font-semibold text-blue-900 mb-1">Example: Loading 20 μg protein per lane</p>
+                                        <p class="text-sm text-blue-800">• If sample = 2 μg/μL: need 10 μL sample</p>
+                                        <p class="text-sm text-blue-800">• Add 10 μL Millipore H₂O (to reach 20 μL)</p>
+                                        <p class="text-sm text-blue-800">• Final: 20 μL sample + 5 μL loading dye = 25 μL per lane</p>
+                                    </div>
+                                </li>
+                                <li><strong>Mix sample volume and Millipore H₂O volume in labeled Eppendorf tubes</strong>
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Label tubes clearly with sample names</li>
+                                        <li>Pipette calculated sample volume</li>
+                                        <li>Add Millipore H₂O to bring to 20 μL total</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Add 5 μL 5X loading dye with βME</strong> to each tube</li>
+                                <li><strong>Vortex samples</strong> briefly to mix thoroughly</li>
+                                <li><strong>Spin down</strong> samples briefly in microcentrifuge (2-3 seconds)</li>
+                                <li><strong>Cap samples</strong> securely and place in <strong>95°C heat block for 5 minutes</strong>
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>This denatures proteins for SDS-PAGE</li>
+                                        <li>Ensure caps are tightly closed to prevent evaporation</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Allow samples to cool completely</strong> before removing caps
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Prevents sample loss from pressure buildup</li>
+                                        <li>Takes 2-3 minutes on ice or at room temperature</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Spin down</strong> samples again briefly to collect condensation</li>
+                                <li>Samples are now ready to load on gel (keep on ice if not loading immediately)</li>
+                            </ol>
+
+                            <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-4">
+                                <p class="text-sm font-semibold text-red-900">SAFETY: β-mercaptoethanol is toxic and smells strongly. Work in fume hood when possible. Wear gloves!</p>
+                            </div>
+                        </div>
+
                         <!-- Gel Casting -->
                         <div>
                             <div class="flex items-center justify-between mb-3">
