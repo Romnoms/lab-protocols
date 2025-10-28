@@ -504,20 +504,43 @@
                         storage: '4°C for 2 weeks',
                         ingredients: [
                             { component: 'Neurobasal Medium', concentration: '-', amount: '48.5 mL' },
-                            { component: 'B27 Supplement (50X)', concentration: '1X', amount: '1 mL' },
+                            { component: 'B27 Supplement without Vitamin A (50X)', concentration: '1X', amount: '1 mL' },
                             { component: 'L-glutamine (200 mM)', concentration: '2 mM', amount: '0.5 mL' },
                             { component: 'Penicillin-Streptomycin', concentration: '1X', amount: 'included' },
                             { component: 'EGF (stock 20 μg/mL)', concentration: '20 ng/mL', amount: 'Add fresh' },
                             { component: 'FGF-2 (stock 20 μg/mL)', concentration: '10 ng/mL', amount: 'Add fresh' }
                         ],
                         steps: [
-                            'Combine Neurobasal, B27, and L-glutamine',
+                            'Combine Neurobasal, B27 without Vitamin A, and L-glutamine',
                             'Store base media at 4°C',
                             'Add growth factors (EGF and FGF-2) fresh each time',
                             'Warm to 37°C before use'
                         ],
-                        notes: 'EGF and FGF-2 are unstable and must be added fresh. Do not store complete media with growth factors for more than 1 week.',
-                        tags: ['neurosphere', 'neural progenitors', 'growth factors', 'Neurobasal']
+                        notes: 'EGF and FGF-2 are unstable and must be added fresh. Do not store complete media with growth factors for more than 1 week. B27 without Vitamin A is used to prevent interference with retinoid signaling pathways.',
+                        tags: ['neurosphere', 'neural progenitors', 'growth factors', 'Neurobasal', 'B27-VitA']
+                    },
+                    {
+                        name: 'Serum Free Media (DMEM/F12-based)',
+                        category: 'cell-culture',
+                        protocol: 'Neural Progenitor Culture',
+                        volume: '50 mL',
+                        storage: '4°C for 2 weeks',
+                        ingredients: [
+                            { component: 'DMEM/F12 (1:1)', concentration: '-', amount: '48.5 mL' },
+                            { component: 'B27 Supplement without Vitamin A (50X)', concentration: '1X', amount: '1 mL' },
+                            { component: 'L-glutamine (200 mM)', concentration: '2 mM', amount: '0.5 mL' },
+                            { component: 'Penicillin-Streptomycin', concentration: '1X', amount: 'included' },
+                            { component: 'EGF (stock 20 μg/mL)', concentration: '20 ng/mL', amount: 'Add fresh' },
+                            { component: 'FGF-2 (stock 20 μg/mL)', concentration: '10 ng/mL', amount: 'Add fresh' }
+                        ],
+                        steps: [
+                            'Combine DMEM/F12, B27 without Vitamin A, and L-glutamine',
+                            'Store base media at 4°C',
+                            'Add growth factors (EGF and FGF-2) fresh each time',
+                            'Warm to 37°C before use'
+                        ],
+                        notes: 'EGF and FGF-2 are unstable and must be added fresh. Do not store complete media with growth factors for more than 1 week. DMEM/F12 alternative to Neurobasal for neural progenitor culture.',
+                        tags: ['serum free', 'neural progenitors', 'growth factors', 'DMEM/F12', 'B27-VitA']
                     },
                     {
                         name: 'Astrocyte Culture Medium',
