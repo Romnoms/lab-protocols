@@ -671,6 +671,313 @@
                         ],
                         notes: 'Keep all reagents on ice. Add enzyme last. Mix for multiple samples to ensure consistency.',
                         tags: ['cDNA synthesis', 'reverse transcription', 'RT', 'master mix']
+                    },
+                    {
+                        name: '100mM PMSF Stock',
+                        category: 'lysis',
+                        protocol: 'Western Blot',
+                        volume: '10 mL',
+                        storage: '-20°C for 6 months (light-sensitive)',
+                        ingredients: [
+                            { component: 'PMSF powder', concentration: '100 mM', amount: '174.2 mg' },
+                            { component: 'DMSO (anhydrous)', concentration: '-', amount: '10 mL' }
+                        ],
+                        steps: [
+                            'Measure PMSF powder and place in 15 mL conical tube',
+                            'Add 10 mL DMSO',
+                            'Vortex thoroughly to dissolve',
+                            'Aliquot 1 mL per tube',
+                            'Wrap tubes in aluminum foil (light-sensitive)',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Use at 1:100 dilution in RIPA buffer (10 μL per 1 mL RIPA). PMSF is a serine protease inhibitor. Unstable in aqueous solutions (half-life ~30 min at pH 7). DMSO stock is more stable.',
+                        tags: ['PMSF', 'protease inhibitor', 'serine protease', 'DMSO']
+                    },
+                    {
+                        name: '1M DTT Stock',
+                        category: 'lysis',
+                        protocol: 'Western Blot',
+                        volume: '1 mL',
+                        storage: '-20°C for 1 year (aliquoted)',
+                        ingredients: [
+                            { component: '1,4-Dithiothreitol (DTT)', concentration: '1 M', amount: '154.2 mg' },
+                            { component: '10mM Sodium Acetate pH 5.2', concentration: '-', amount: '1 mL' }
+                        ],
+                        steps: [
+                            'Dissolve DTT in 10mM sodium acetate pH 5.2',
+                            'Vortex until completely dissolved',
+                            'Aliquot 50-100 μL per tube',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Use at 1:1000 dilution in RIPA buffer (1 μL per 1 mL RIPA for 1mM final). DTT is a strong reducing agent that prevents disulfide bond formation. Do NOT refreeze after thawing.',
+                        tags: ['DTT', 'reducing agent', 'disulfide reduction']
+                    },
+                    {
+                        name: '200mM Sodium Orthovanadate (Activated)',
+                        category: 'lysis',
+                        protocol: 'Western Blot',
+                        volume: '50 mL',
+                        storage: '-20°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Sodium orthovanadate (Na₃VO₄)', concentration: '200 mM', amount: '1.84 g' },
+                            { component: 'Purified water', concentration: '-', amount: '45 mL' },
+                            { component: 'NaOH or HCl (1 N)', concentration: '-', amount: 'for pH adjustment' }
+                        ],
+                        steps: [
+                            'Dissolve Na₃VO₄ in 45 mL water with stirring',
+                            'Adjust pH to 10 with 1N NaOH or HCl (solution turns yellow)',
+                            'Boil until solution turns colorless (~10 min)',
+                            'Cool to room temperature',
+                            'Readjust pH to 10',
+                            'Repeat boiling/cooling/pH adjustment until solution remains colorless at pH 10',
+                            'Adjust final volume to 50 mL',
+                            'Aliquot 1 mL per tube',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Powerful phosphatase inhibitor. Upon thawing, heat briefly at 90-100°C and vortex to redissolve crystals. Use at various dilutions depending on application.',
+                        tags: ['sodium orthovanadate', 'phosphatase inhibitor', 'tyrosine phosphatase']
+                    },
+                    {
+                        name: '10X APS (Ammonium Persulfate)',
+                        category: 'electrophoresis',
+                        protocol: 'Western Blot',
+                        volume: '10 mL',
+                        storage: '4°C for 1 month',
+                        ingredients: [
+                            { component: 'Ammonium persulfate (APS)', concentration: '10% (w/v)', amount: '1 g' },
+                            { component: 'ddH₂O', concentration: '-', amount: '10 mL' }
+                        ],
+                        steps: [
+                            'Dissolve 1 g APS in 10 mL water',
+                            'Vortex to mix completely',
+                            'Aliquot 1 mL per tube',
+                            'Label "10X APS" with date',
+                            'Store at 4°C'
+                        ],
+                        notes: 'APS initiates polymerization of acrylamide gels. Make fresh monthly. Used with TEMED for gel polymerization. Do NOT freeze.',
+                        tags: ['APS', 'gel polymerization', 'polyacrylamide', 'SDS-PAGE']
+                    },
+                    {
+                        name: 'Ponceau S Stain',
+                        category: 'transfer',
+                        protocol: 'Western Blot',
+                        volume: '100 mL',
+                        storage: 'Room temperature indefinitely (reusable)',
+                        ingredients: [
+                            { component: 'Ponceau S powder', concentration: '0.1% (w/v)', amount: '0.1 g' },
+                            { component: 'Glacial acetic acid', concentration: '5% (v/v)', amount: '5 mL' },
+                            { component: 'ddH₂O', concentration: '-', amount: 'to 100 mL' }
+                        ],
+                        steps: [
+                            'Dissolve 0.1 g Ponceau S in ~80 mL water',
+                            'Add 5 mL glacial acetic acid',
+                            'Stir until completely dissolved',
+                            'Filter with Whatman paper if needed',
+                            'Adjust volume to 100 mL',
+                            'Store in designated bottle'
+                        ],
+                        notes: 'Reversible protein stain for membranes. Stains protein bands red/pink. Use to verify transfer efficiency before blocking. Can be reused many times. Destain with TBS-T.',
+                        tags: ['Ponceau S', 'membrane stain', 'transfer verification', 'reversible']
+                    },
+                    {
+                        name: 'Tail Digestion Buffer',
+                        category: 'pcr',
+                        protocol: 'Mouse Genotyping',
+                        volume: '500 mL',
+                        storage: 'Room temperature indefinitely',
+                        ingredients: [
+                            { component: '1M Tris-HCl pH 8.0', concentration: '10 mM', amount: '5 mL' },
+                            { component: '0.5M EDTA pH 8.0', concentration: '10 mM', amount: '10 mL' },
+                            { component: '5M NaCl', concentration: '50 mM', amount: '5 mL' },
+                            { component: '10% SDS (autoclaved water)', concentration: '0.5%', amount: '25 mL' },
+                            { component: 'Autoclaved H₂O', concentration: '-', amount: '455 mL' }
+                        ],
+                        steps: [
+                            'Add all components EXCEPT SDS to 500 mL bottle',
+                            'Autoclave the solution',
+                            'After cooling, add 25 mL 10% SDS',
+                            'Mix by shaking',
+                            'Store at room temperature'
+                        ],
+                        notes: 'Used for digesting mouse tail clips. Add proteinase K to 100 μg/mL final concentration immediately before use. Digest at 55°C overnight.',
+                        tags: ['tail digestion', 'genotyping', 'DNA extraction', 'proteinase K']
+                    },
+                    {
+                        name: '10mg/mL Proteinase K Stock',
+                        category: 'pcr',
+                        protocol: 'Mouse Genotyping',
+                        volume: '5 mL',
+                        storage: '-20°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Proteinase K powder', concentration: '10 mg/mL', amount: '50 mg' },
+                            { component: '1M Tris-HCl pH 7.5', concentration: '10 mM', amount: '50 μL' },
+                            { component: '1M CaCl₂', concentration: '20 mM', amount: '100 μL' },
+                            { component: '50% Glycerol', concentration: '50%', amount: '4.85 mL' }
+                        ],
+                        steps: [
+                            'Combine Tris-HCl, CaCl₂, and glycerol in tube',
+                            'Add proteinase K powder',
+                            'Mix gently until dissolved (do NOT vortex vigorously)',
+                            'Aliquot 500 μL per tube using filtered tips',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Use at 1:100 dilution in tail digestion buffer (100 μg/mL final). Proteinase K digests proteins to release DNA. Glycerol prevents freezing and allows storage at -20°C.',
+                        tags: ['proteinase K', 'DNA extraction', 'protein digestion', 'genotyping']
+                    },
+                    {
+                        name: '10X Agarose Gel Sample Buffer (BB + XC)',
+                        category: 'pcr',
+                        protocol: 'Mouse Genotyping',
+                        volume: '5 mL',
+                        storage: '4°C indefinitely',
+                        ingredients: [
+                            { component: 'Bromophenol blue', concentration: '-', amount: '12.5 mg' },
+                            { component: 'Xylene cyanol', concentration: '-', amount: '12.5 mg' },
+                            { component: '1M Tris pH 7.5', concentration: '-', amount: '247.5 μL' },
+                            { component: '50% Glycerol', concentration: '-', amount: '3 mL' },
+                            { component: 'ddH₂O', concentration: '-', amount: '2 mL' }
+                        ],
+                        steps: [
+                            'Dissolve bromophenol blue and xylene cyanol in water',
+                            'Add Tris pH 7.5',
+                            'Add glycerol',
+                            'Adjust volume with water to 5 mL',
+                            'Mix well',
+                            'Aliquot 1 mL per tube',
+                            'Store at 4°C'
+                        ],
+                        notes: 'Bromophenol blue runs at ~300 bp, xylene cyanol at ~4000 bp on 1% agarose gel. Use 1 μL loading buffer per 10 μL DNA sample. Glycerol makes sample sink into wells.',
+                        tags: ['loading buffer', 'bromophenol blue', 'xylene cyanol', 'agarose gel']
+                    },
+                    {
+                        name: '10X PCR Buffer (KCl-based)',
+                        category: 'pcr',
+                        protocol: 'Mouse Genotyping',
+                        volume: '36 mL',
+                        storage: '-20°C (aliquoted)',
+                        ingredients: [
+                            { component: '3M KCl', concentration: '500 mM', amount: '6 mL' },
+                            { component: '1M Tris pH 9.0', concentration: '100 mM', amount: '3.6 mL' },
+                            { component: '1M MgCl₂', concentration: '25 mM', amount: '0.9 mL' },
+                            { component: 'Autoclaved H₂O', concentration: '-', amount: '25.5 mL' }
+                        ],
+                        steps: [
+                            'Combine all components',
+                            'Mix thoroughly',
+                            'Filter sterilize with 0.22 μm filter',
+                            'Aliquot 1.2 mL per tube',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Generic PCR buffer for use with Taq polymerase. Adjust MgCl₂ concentration (15-25mM) based on primer requirements. Use at 1:10 dilution in PCR reactions.',
+                        tags: ['PCR buffer', 'Taq polymerase', 'KCl', 'magnesium']
+                    },
+                    {
+                        name: 'EGF Stock (10 μg/mL)',
+                        category: 'cell-culture',
+                        protocol: 'Neural Progenitor Culture',
+                        volume: '10 mL',
+                        storage: '-80°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Mouse EGF (lyophilized)', concentration: '10 μg/mL', amount: '100 μg vial' },
+                            { component: '0.5% BSA in PBS (filtered)', concentration: '-', amount: '10 mL' }
+                        ],
+                        steps: [
+                            'Prepare 0.5% BSA in PBS and filter sterilize',
+                            'Add 10 mL filtered BSA-PBS to EGF vial',
+                            'Mix gently to dissolve',
+                            'Pre-chill aliquot tubes on ice',
+                            'Aliquot 500 μL per tube',
+                            'Label "mEGF 10 μg/mL" with date',
+                            'Store at -80°C'
+                        ],
+                        notes: 'Working concentration: 20 ng/mL (1:500 dilution). Epidermal growth factor promotes neural progenitor proliferation. Thaw on ice, do NOT refreeze.',
+                        tags: ['EGF', 'growth factor', 'neural progenitors', 'neurosphere']
+                    },
+                    {
+                        name: 'hbFGF Stock (10 μg/mL)',
+                        category: 'cell-culture',
+                        protocol: 'Neural Progenitor Culture',
+                        volume: '2.5 mL',
+                        storage: '-80°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Human basic FGF (lyophilized)', concentration: '10 μg/mL', amount: '25 μg vial' },
+                            { component: '0.5% BSA in PBS (filtered)', concentration: '-', amount: '2.5 mL' }
+                        ],
+                        steps: [
+                            'Prepare 0.5% BSA in PBS and filter sterilize',
+                            'Add 2.5 mL filtered BSA-PBS to hbFGF vial',
+                            'Mix gently to dissolve',
+                            'Pre-chill aliquot tubes on ice',
+                            'Aliquot 250 μL per tube',
+                            'Label "hbFGF 10 μg/mL" with date',
+                            'Store at -80°C'
+                        ],
+                        notes: 'Working concentration: 10 ng/mL (1:1000 dilution). Human basic fibroblast growth factor promotes neural progenitor survival and proliferation. Thaw on ice, do NOT refreeze.',
+                        tags: ['FGF', 'bFGF', 'growth factor', 'neural progenitors', 'neurosphere']
+                    },
+                    {
+                        name: 'Polybrene Stock (800 μg/mL)',
+                        category: 'cell-culture',
+                        protocol: 'Lentivirus Production',
+                        volume: '20 mL',
+                        storage: '-20°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Polybrene (Hexadimethrine bromide)', concentration: '800 μg/mL', amount: '16 mg' },
+                            { component: '0.9% NaCl (sterile)', concentration: '-', amount: '20 mL' }
+                        ],
+                        steps: [
+                            'Weigh 16 mg polybrene',
+                            'Dissolve in 20 mL sterile 0.9% NaCl',
+                            'Filter-sterilize using 0.22 μm syringe filter',
+                            'Aliquot 1 mL per tube',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Use at 1:100 dilution (8 μg/mL final). Polybrene is a cationic polymer that enhances viral transduction by neutralizing charge repulsion between virus and cell membrane.',
+                        tags: ['polybrene', 'lentivirus', 'transduction enhancer', 'infection']
+                    },
+                    {
+                        name: 'Puromycin Stock (1 mg/mL)',
+                        category: 'cell-culture',
+                        protocol: 'Lentivirus Production',
+                        volume: '3 mL',
+                        storage: '-20°C (aliquoted)',
+                        ingredients: [
+                            { component: 'Puromycin dihydrochloride', concentration: '1 mg/mL', amount: '3 mg' },
+                            { component: 'Sterile H₂O', concentration: '-', amount: '3 mL' }
+                        ],
+                        steps: [
+                            'Weigh 3 mg puromycin',
+                            'Dissolve in 3 mL sterile water',
+                            'Filter-sterilize using 0.22 μm syringe filter',
+                            'Aliquot 1 mL per tube',
+                            'Store at -20°C'
+                        ],
+                        notes: 'Working concentration: 1-10 μg/mL (1:1000 to 1:100 dilution). Antibiotic for selecting cells with puromycin resistance gene. Determine optimal concentration by kill curve.',
+                        tags: ['puromycin', 'selection antibiotic', 'lentivirus', 'resistance']
+                    },
+                    {
+                        name: '4% Paraformaldehyde (PFA)',
+                        category: 'staining',
+                        protocol: 'H&E / IF / IHC',
+                        volume: '300 mL',
+                        storage: '4°C for 1 week',
+                        ingredients: [
+                            { component: 'Paraformaldehyde powder', concentration: '4% (w/v)', amount: '12 g' },
+                            { component: '1X PBS', concentration: '-', amount: '300 mL' },
+                            { component: '1N NaOH', concentration: '-', amount: '~8-9 μL per 100 mL' }
+                        ],
+                        steps: [
+                            'SAFETY: Wear mask and work in fume hood - PFA is toxic!',
+                            'Heat 250 mL PBS to 60-70°C',
+                            'Add 12 g PFA powder while stirring',
+                            'Stir until solution becomes clear',
+                            'Add PBS to bring volume to 300 mL',
+                            'Add 8-9 μL 1N NaOH per 100 mL to adjust pH',
+                            'Filter with Whatman paper using funnel',
+                            'Store at 4°C'
+                        ],
+                        notes: 'HAZARD: PFA is toxic and carcinogenic! Always work in fume hood. Use for tissue/cell fixation. Do NOT autoclave (will polymerize). Make fresh weekly for best results.',
+                        tags: ['PFA', 'paraformaldehyde', 'fixative', 'histology', 'hazardous']
                     }
                 ],
                 get filteredRecipes() {
