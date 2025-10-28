@@ -250,16 +250,16 @@
                         name: '20X Phosphatase Inhibitor Stock',
                         category: 'lysis',
                         protocol: 'Western Blot',
-                        volume: '4-8 mL',
+                        volume: '1 mL',
                         storage: '-20°C for 1 year (aliquoted)',
                         ingredients: [
-                            { component: 'PhosSTOP™ tablets', concentration: '1 tablet / 2 mL', amount: '2-4 tablets' },
-                            { component: 'Autoclaved water', concentration: '-', amount: '4-8 mL' }
+                            { component: 'PhosSTOP™ tablets', concentration: '2 tablets / 1 mL', amount: '2 tablets' },
+                            { component: 'Autoclaved water', concentration: '-', amount: '1 mL' }
                         ],
                         steps: [
-                            'Add 1 PhosSTOP™ tablet per 2 mL water',
+                            'Add 2 PhosSTOP™ tablets per 1 mL water',
                             'Vortex vigorously until fully dissolved',
-                            'Aliquot 200-400 μL into 1.5 mL tubes',
+                            'Aliquot 50 μL into 1.5 mL tubes',
                             'Label: "20X Phosphatase Inhibitor" + date',
                             'Store at -20°C'
                         ],
@@ -292,20 +292,26 @@
                         name: '5X SDS Loading Dye (with β-mercaptoethanol)',
                         category: 'electrophoresis',
                         protocol: 'Western Blot',
-                        volume: '1 mL',
-                        storage: '-20°C for 6 months',
+                        volume: '10 mL',
+                        storage: '-20°C for 6 months (without βME); add βME fresh',
                         ingredients: [
-                            { component: '5X Loading Dye', concentration: '-', amount: '1 mL' },
-                            { component: 'β-mercaptoethanol', concentration: '5% (v/v)', amount: '50 μL' }
+                            { component: '1.5 M Tris pH 6.8', concentration: '-', amount: '3.75 mL' },
+                            { component: '20% SDS', concentration: '-', amount: '1.5 mL' },
+                            { component: '100% Glycerol', concentration: '-', amount: '3 mL' },
+                            { component: 'ddH₂O', concentration: '-', amount: '1.25 mL' },
+                            { component: 'Bromophenol Blue', concentration: '-', amount: '~5 mg (pinch)' },
+                            { component: 'β-mercaptoethanol (add before use)', concentration: '5% (v/v)', amount: '0.05 mL per 0.95 mL aliquot' }
                         ],
                         steps: [
-                            'In fume hood, add 50 μL β-mercaptoethanol to 1 mL 5X loading dye',
-                            'Mix well by vortexing',
-                            'Note the characteristic "rotten eggs" smell',
-                            'Store at -20°C in tightly capped tube'
+                            'Combine 1.5M Tris pH 6.8, 20% SDS, and glycerol',
+                            'Add ddH₂O and mix well',
+                            'Add Bromophenol Blue until deep blue color',
+                            'Aliquot 950 μL portions',
+                            'Store base dye at -20°C',
+                            'Add 50 μL β-mercaptoethanol to each aliquot before use (in fume hood)'
                         ],
-                        notes: 'HAZARD: β-mercaptoethanol is toxic! Work in fume hood. Add to samples at 1:5 ratio (e.g., 5 μL dye per 20 μL sample). Heat samples at 95°C for 5 min after adding.',
-                        tags: ['loading dye', 'reducing agent', 'beta-mercaptoethanol']
+                        notes: 'HAZARD: β-mercaptoethanol is toxic! Work in fume hood when adding. Add to samples at 1:5 ratio (e.g., 5 μL dye per 20 μL sample). Heat samples at 95°C for 5 min after adding.',
+                        tags: ['loading dye', 'reducing agent', 'beta-mercaptoethanol', 'SDS']
                     },
                     {
                         name: 'Transfer Buffer (Towbin)',
@@ -337,17 +343,17 @@
                         volume: '1 L',
                         storage: 'Room temperature for 6 months',
                         ingredients: [
-                            { component: 'Tris base', concentration: '200 mM', amount: '24.2 g' },
+                            { component: 'Tris base', concentration: '500 mM', amount: '60.57 g' },
                             { component: 'NaCl', concentration: '1.5 M', amount: '87.6 g' },
                             { component: 'ddH₂O', concentration: '-', amount: '~900 mL' },
-                            { component: 'HCl (conc.)', concentration: '-', amount: 'to adjust pH to 7.6' },
+                            { component: 'HCl (conc.)', concentration: '-', amount: 'to adjust pH to 7.8' },
                             { component: 'Tween-20', concentration: '1%', amount: '10 mL (add to 1X)' }
                         ],
                         steps: [
                             'Add ~800 mL ddH₂O to beaker',
                             'Add Tris base and NaCl',
                             'Stir until dissolved',
-                            'Adjust pH to 7.6 with concentrated HCl',
+                            'Adjust pH to 7.8 with concentrated HCl',
                             'Bring to 1 L with ddH₂O',
                             'For 1X TBS-T: Dilute 100 mL 10X TBS with 890 mL water and 10 mL Tween-20'
                         ],
