@@ -73,17 +73,26 @@
             <div class="space-y-6">
                 <template x-for="recipe in filteredRecipes" :key="recipe.name">
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <!-- Recipe Header -->
-                        <div class="bg-gradient-to-r from-green-500 to-teal-500 p-6 text-white">
+                        <!-- Recipe Header (Clickable) -->
+                        <div @click="toggleRecipe(recipe.name)"
+                             class="bg-gradient-to-r from-green-500 to-teal-500 p-6 text-white cursor-pointer hover:from-green-600 hover:to-teal-600 transition-colors">
                             <div class="flex items-start justify-between">
                                 <div class="flex-1">
                                     <h2 class="text-2xl font-bold mb-2" x-text="recipe.name"></h2>
                                     <p class="text-green-100 text-sm">From: <span x-text="recipe.protocol"></span> protocol</p>
                                 </div>
-                                <span :class="getCategoryColor(recipe.category)"
-                                      class="px-3 py-1 rounded-full text-xs font-semibold">
-                                    <span x-text="getCategoryName(recipe.category)"></span>
-                                </span>
+                                <div class="flex items-center gap-3">
+                                    <span :class="getCategoryColor(recipe.category)"
+                                          class="px-3 py-1 rounded-full text-xs font-semibold">
+                                        <span x-text="getCategoryName(recipe.category)"></span>
+                                    </span>
+                                    <!-- Expand/Collapse Icon -->
+                                    <svg class="w-6 h-6 transition-transform duration-200"
+                                         :class="{ 'rotate-180': isExpanded(recipe.name) }"
+                                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
                             </div>
                             <div class="mt-4 flex gap-4 text-sm">
                                 <div>
@@ -97,8 +106,15 @@
                             </div>
                         </div>
 
-                        <!-- Recipe Body -->
-                        <div class="p-6">
+                        <!-- Recipe Body (Collapsible) -->
+                        <div x-show="isExpanded(recipe.name)"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform -translate-y-2"
+                             x-transition:enter-end="opacity-100 transform translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 transform translate-y-0"
+                             x-transition:leave-end="opacity-0 transform -translate-y-2"
+                             class="p-6">
                             <!-- Ingredients Table -->
                             <div class="mb-6">
                                 <h3 class="text-lg font-bold text-gray-800 mb-3">Ingredients</h3>
@@ -177,6 +193,7 @@
                 searchQuery: '',
                 selectedCategory: 'all',
                 selectedProtocol: 'all',
+                expandedRecipes: [],
                 recipes: [
                     {
                         name: 'Base RIPA Buffer',
@@ -1004,6 +1021,16 @@
                 get uniqueProtocols() {
                     const protocols = [...new Set(this.recipes.map(recipe => recipe.protocol))];
                     return protocols.sort();
+                },
+                toggleRecipe(recipeName) {
+                    if (this.expandedRecipes.includes(recipeName)) {
+                        this.expandedRecipes = this.expandedRecipes.filter(name => name !== recipeName);
+                    } else {
+                        this.expandedRecipes.push(recipeName);
+                    }
+                },
+                isExpanded(recipeName) {
+                    return this.expandedRecipes.includes(recipeName);
                 },
                 getCategoryColor(category) {
                     const colors = {
