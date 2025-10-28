@@ -11,6 +11,7 @@
     <div x-data="{
         searchQuery: '',
         selectedCategory: 'all',
+        selectedProtocol: 'all',
         protocols: [
             {
                 title: 'RNA Isolation and cDNA Synthesis',
@@ -154,7 +155,8 @@
                                     protocol.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
                                     protocol.tags.some(tag => tag.toLowerCase().includes(this.searchQuery.toLowerCase()));
                 const matchesCategory = this.selectedCategory === 'all' || protocol.category === this.selectedCategory;
-                return matchesSearch && matchesCategory;
+                const matchesProtocol = this.selectedProtocol === 'all' || protocol.title === this.selectedProtocol;
+                return matchesSearch && matchesCategory && matchesProtocol;
             });
         },
         getCategoryColor(category) {
@@ -190,7 +192,7 @@
         <!-- Search and Filter Section -->
         <div class="container mx-auto px-4 py-8">
             <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                <div class="grid md:grid-cols-2 gap-4">
+                <div class="grid md:grid-cols-3 gap-4">
                     <!-- Search Bar -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Search Protocols</label>
@@ -210,6 +212,18 @@
                             <option value="protein">Protein Analysis</option>
                             <option value="cell">Cell Culture</option>
                             <option value="imaging">Imaging & Microscopy</option>
+                        </select>
+                    </div>
+
+                    <!-- Protocol Name Filter -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Filter by Protocol</label>
+                        <select x-model="selectedProtocol"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="all">All Protocols</option>
+                            <template x-for="protocol in protocols" :key="protocol.title">
+                                <option :value="protocol.title" x-text="protocol.title"></option>
+                            </template>
                         </select>
                     </div>
                 </div>
