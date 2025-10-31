@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seahorse XF Cell Mito Stress Test - Dasgupta Lab</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{
+        activeSection: 'overview',
+        completedSteps: [],
+        toggleStep(step) {
+            if (this.completedSteps.includes(step)) {
+                this.completedSteps = this.completedSteps.filter(s => s !== step);
+            } else {
+                this.completedSteps.push(step);
+            }
+        },
+        isCompleted(step) {
+            return this.completedSteps.includes(step);
+        }
+    }">
+        <!-- Header -->
+        <header class="bg-cyan-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold">Seahorse XF Cell Mito Stress Test</h1>
+                        <p class="text-cyan-100 mt-2">Mitochondrial Function Analysis for XFe96/XF Pro Analyzer</p>
+                    </div>
+                    <a href="index.html" class="bg-white text-cyan-600 px-6 py-3 rounded-lg font-semibold hover:bg-cyan-50 transition">
+                        ← All Protocols
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-white shadow-md sticky top-0 z-10">
+            <div class="container mx-auto px-4">
+                <div class="flex space-x-1 overflow-x-auto">
+                    <button @click="activeSection = 'overview'"
+                            :class="activeSection === 'overview' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Overview
+                    </button>
+                    <button @click="activeSection = 'dayprior'"
+                            :class="activeSection === 'dayprior' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Day Prior
+                    </button>
+                    <button @click="activeSection = 'dayof'"
+                            :class="activeSection === 'dayof' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Day of Assay
+                    </button>
+                    <button @click="activeSection = 'running'"
+                            :class="activeSection === 'running' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Running Assay
+                    </button>
+                    <button @click="activeSection = 'analysis'"
+                            :class="activeSection === 'analysis' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Data Analysis
+                    </button>
+                    <button @click="activeSection = 'troubleshooting'"
+                            :class="activeSection === 'troubleshooting' ? 'border-cyan-600 text-cyan-600' : 'border-transparent text-gray-600 hover:text-cyan-600'"
+                            class="px-4 py-3 border-b-2 font-medium whitespace-nowrap transition">
+                        Troubleshooting
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="container mx-auto px-4 py-8 max-w-4xl">
+
+            <!-- Overview Section -->
+            <div x-show="activeSection === 'overview'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Assay Overview</h2>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Purpose</h3>
+                    <p class="text-gray-600 mb-4">
+                        The Seahorse XF Cell Mito Stress Test measures key parameters of mitochondrial function by directly measuring
+                        the oxygen consumption rate (OCR) of live cells. This assay provides comprehensive information about:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 ml-4">
+                        <li>Basal respiration</li>
+                        <li>ATP production</li>
+                        <li>Proton leak</li>
+                        <li>Maximal respiration</li>
+                        <li>Spare respiratory capacity</li>
+                        <li>Non-mitochondrial respiration</li>
+                    </ul>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Assay Principle</h3>
+                    <p class="text-gray-600 mb-3">
+                        The assay uses sequential injection of mitochondrial inhibitors and uncouplers to reveal different aspects of mitochondrial function:
+                    </p>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-600 p-4 mb-3">
+                        <p class="text-sm"><strong class="text-cyan-800">Injection 1 - Oligomycin:</strong> Inhibits ATP synthase (Complex V), revealing ATP-linked respiration</p>
+                    </div>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-600 p-4 mb-3">
+                        <p class="text-sm"><strong class="text-cyan-800">Injection 2 - FCCP:</strong> Uncoupler that collapses proton gradient, revealing maximal respiration</p>
+                    </div>
+                    <div class="bg-cyan-50 border-l-4 border-cyan-600 p-4">
+                        <p class="text-sm"><strong class="text-cyan-800">Injection 3 - Rotenone/Antimycin A:</strong> Complex I & III inhibitors, revealing non-mitochondrial respiration</p>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Timeline</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-start">
+                            <span class="bg-cyan-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">1</span>
+                            <div>
+                                <p class="font-medium">Day Prior (Evening)</p>
+                                <p class="text-sm text-gray-600">Seed cells (10,000-20,000/well), hydrate sensor cartridge</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="bg-cyan-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">2</span>
+                            <div>
+                                <p class="font-medium">Day of Assay (Morning)</p>
+                                <p class="text-sm text-gray-600">Prepare media, wash cells, prepare compounds, load ports</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="bg-cyan-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 flex-shrink-0">3</span>
+                            <div>
+                                <p class="font-medium">Run Assay (~2-3 hours)</p>
+                                <p class="text-gray-600">Calibration (20-30 min) + Assay run (~90-120 min)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                    <p class="font-semibold text-yellow-800">Important Notes:</p>
+                    <ul class="list-disc list-inside text-sm text-yellow-700 mt-2 space-y-1">
+                        <li>Optimal cell density and FCCP concentration must be determined empirically for each cell type</li>
+                        <li>Never use vacuum aspirator when washing cells</li>
+                        <li>Do NOT seed cells in corner wells (A1, A12, H1, H12) - these are background wells</li>
+                        <li>Use compounds on the same day they are reconstituted</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Day Prior Section -->
+            <div x-show="activeSection === 'dayprior'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Day Prior to Assay</h2>
+
+                <div class="space-y-4">
+                    <!-- Step 1 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior1')"
+                                   :checked="isCompleted('prior1')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Turn on XF Analyzer</h3>
+                                <p class="text-gray-600 text-sm mt-1">Turn on the Agilent Seahorse XFe96/XF Pro Analyzer and let it warm up overnight (minimum 5 hours).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior2')"
+                                   :checked="isCompleted('prior2')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Prepare Cells for Seeding</h3>
+                                <p class="text-gray-600 text-sm mt-1">Harvest and resuspend cells to desired density (10,000-20,000 cells per well).</p>
+
+                                <div class="bg-gray-50 p-3 rounded mt-2">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">Cell Seeding Calculation:</p>
+                                    <div class="bg-white p-2 rounded border text-sm">
+                                        <p class="mb-1">For <strong>2.0 × 10⁴ cells/well</strong> in 80 µL:</p>
+                                        <p class="text-gray-600">• Required concentration: 2.5 × 10⁵ cells/mL</p>
+                                        <p class="text-gray-600">• Volume needed: ~8 mL for one plate</p>
+                                    </div>
+
+                                    <table class="w-full mt-3 text-xs">
+                                        <thead class="bg-cyan-100">
+                                            <tr>
+                                                <th class="p-2 text-left">Cells/Well</th>
+                                                <th class="p-2 text-left">Stock (1×10⁶/mL)</th>
+                                                <th class="p-2 text-left">Media</th>
+                                                <th class="p-2 text-left">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-gray-700">
+                                            <tr class="border-b">
+                                                <td class="p-2">0.5 × 10⁴</td>
+                                                <td class="p-2">0.5 mL</td>
+                                                <td class="p-2">7.5 mL</td>
+                                                <td class="p-2">8.0 mL</td>
+                                            </tr>
+                                            <tr class="border-b">
+                                                <td class="p-2">1.0 × 10⁴</td>
+                                                <td class="p-2">1.0 mL</td>
+                                                <td class="p-2">7.0 mL</td>
+                                                <td class="p-2">8.0 mL</td>
+                                            </tr>
+                                            <tr class="border-b bg-cyan-50">
+                                                <td class="p-2 font-medium">2.0 × 10⁴</td>
+                                                <td class="p-2 font-medium">2.0 mL</td>
+                                                <td class="p-2 font-medium">6.0 mL</td>
+                                                <td class="p-2 font-medium">8.0 mL</td>
+                                            </tr>
+                                            <tr class="border-b">
+                                                <td class="p-2">3.0 × 10⁴</td>
+                                                <td class="p-2">3.0 mL</td>
+                                                <td class="p-2">5.0 mL</td>
+                                                <td class="p-2">8.0 mL</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-3 space-y-2">
+                                    <p class="text-sm font-medium text-gray-700">Seeding Tips:</p>
+                                    <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">•</span>
+                                            <span>Ensure single-cell suspension (no aggregates)</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">•</span>
+                                            <span>Mix thoroughly before and during seeding</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">•</span>
+                                            <span>Use multichannel pipette (8- or 12-channel)</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior3')"
+                                   :checked="isCompleted('prior3')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Seed Cells in XF96 Cell Culture Microplate</h3>
+                                <p class="text-gray-600 text-sm mt-1">Dispense 80 µL of cell suspension per well.</p>
+
+                                <div class="bg-red-50 border-l-4 border-red-500 p-3 mt-2">
+                                    <p class="text-sm font-semibold text-red-800">CRITICAL: Do NOT seed cells in corner wells!</p>
+                                    <p class="text-sm text-red-700 mt-1">Wells A1, A12, H1, and H12 are background correction wells. Add 80 µL of medium ONLY (no cells).</p>
+                                </div>
+
+                                <div class="mt-3 space-y-2">
+                                    <p class="text-sm font-medium text-gray-700">Pipetting Technique:</p>
+                                    <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">1.</span>
+                                            <span>Hold pipette at ~45° angle, touch tip halfway down well wall</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">2.</span>
+                                            <span>Dispense slowly - tip should be slightly submerged after dispensing</span>
+                                        </li>
+                                        <li class="flex items-start">
+                                            <span class="text-cyan-600 mr-2">3.</span>
+                                            <span>Remix cells in reservoir every 8-12 wells to prevent settling</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior4')"
+                                   :checked="isCompleted('prior4')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Rest Plate at Room Temperature</h3>
+                                <p class="text-gray-600 text-sm mt-1 font-medium text-red-700">IMPORTANT: Let plate sit at room temperature for 30 minutes before transferring to incubator.</p>
+                                <p class="text-gray-600 text-sm mt-2">This prevents edge effects caused by rapid temperature changes.</p>
+
+                                <div class="bg-blue-50 p-3 rounded mt-2">
+                                    <p class="text-sm text-blue-800">💡 <strong>Tip:</strong> Place plate toward the back of the biosafety cabinet during the rest period.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior5')"
+                                   :checked="isCompleted('prior5')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Transfer to Incubator</h3>
+                                <p class="text-gray-600 text-sm mt-1">After 30-minute rest, transfer plate to properly humidified 37°C CO₂ incubator.</p>
+                                <p class="text-gray-600 text-sm mt-2">Incubate overnight (18-24 hours). Place plate toward back of incubator to minimize temperature fluctuations.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior6')"
+                                   :checked="isCompleted('prior6')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Hydrate Sensor Cartridge</h3>
+                                <p class="text-gray-600 text-sm mt-1">Add 200 µL of Seahorse XF Calibrant to each well of the sensor cartridge utility plate.</p>
+                                <p class="text-gray-600 text-sm mt-2">Incubate overnight at 37°C in a non-CO₂ incubator.</p>
+
+                                <div class="bg-yellow-50 p-3 rounded mt-2">
+                                    <p class="text-sm text-yellow-800"><strong>Note:</strong> Ensure sensor cartridge is properly seated on utility plate before adding calibrant.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7 -->
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('prior7')"
+                                   :checked="isCompleted('prior7')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Design Experiment in Wave Software</h3>
+                                <p class="text-gray-600 text-sm mt-1">Create assay template with proper plate layout and injection strategy.</p>
+                                <p class="text-gray-600 text-sm mt-2">Recommended protocol: 3 basal measurements, inject oligomycin, 3 measurements, inject FCCP, 3 measurements, inject Rot/AA, 3 measurements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day of Assay Section -->
+            <div x-show="activeSection === 'dayof'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Day of Assay</h2>
+
+                <div class="space-y-6">
+                    <!-- Part A: Assay Medium Preparation -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-700 mb-3">Part A: Assay Medium Preparation</h3>
+
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof1')"
+                                           :checked="isCompleted('dayof1')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Prepare XF Assay Medium (50 mL)</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Supplement Seahorse XF DMEM or RPMI medium (pH 7.4) with:</p>
+
+                                        <div class="bg-gray-50 p-3 rounded mt-2">
+                                            <table class="w-full text-sm">
+                                                <thead class="bg-cyan-100">
+                                                    <tr>
+                                                        <th class="p-2 text-left">Supplement</th>
+                                                        <th class="p-2 text-left">Stock Conc.</th>
+                                                        <th class="p-2 text-left">Final Conc.</th>
+                                                        <th class="p-2 text-left">Volume to Add</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-gray-700">
+                                                    <tr class="border-b">
+                                                        <td class="p-2">Glucose</td>
+                                                        <td class="p-2">1.0 M</td>
+                                                        <td class="p-2">5 mM</td>
+                                                        <td class="p-2 font-medium">250 µL</td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="p-2">L-Glutamine</td>
+                                                        <td class="p-2">200 mM</td>
+                                                        <td class="p-2">1 mM</td>
+                                                        <td class="p-2 font-medium">250 µL</td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="p-2">Sodium Pyruvate</td>
+                                                        <td class="p-2">100 mM</td>
+                                                        <td class="p-2">1 mM</td>
+                                                        <td class="p-2 font-medium">500 µL</td>
+                                                    </tr>
+                                                    <tr class="bg-cyan-50">
+                                                        <td class="p-2 font-medium" colspan="3">XF Base Medium</td>
+                                                        <td class="p-2 font-medium">49 mL</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                            <div class="mt-3 p-2 bg-white rounded border">
+                                                <p class="text-xs font-medium">📝 User's Custom Media (leave blank, will fill later):</p>
+                                                <div class="mt-1 text-xs text-gray-500 italic">
+                                                    User will add specific formulation here
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-blue-50 p-3 rounded mt-2">
+                                            <p class="text-sm text-blue-800">💡 <strong>Note:</strong> Medium composition can be adjusted based on cell type and experimental goals. pH adjustment is not necessary when using recommended concentrations.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof2')"
+                                           :checked="isCompleted('dayof2')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Warm Assay Medium</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Place assay medium in 37°C water bath until ready to use.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part B: Cell Washing -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-700 mb-3">Part B: Wash Cells</h3>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-3 mb-4">
+                            <p class="text-sm font-semibold text-red-800">⚠️ CRITICAL: Never use vacuum aspirator!</p>
+                            <p class="text-sm text-red-700 mt-1">Always use multichannel pipette to remove media. Vacuum aspiration will damage the cell monolayer.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof3')"
+                                           :checked="isCompleted('dayof3')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Check Cell Monolayer</h4>
+                                        <p class="text-gray-600 text-sm mt-1">View cells under microscope to confirm:</p>
+                                        <ul class="text-sm text-gray-600 mt-2 space-y-1 ml-4">
+                                            <li>• Healthy morphology</li>
+                                            <li>• Even distribution</li>
+                                            <li>• No contamination</li>
+                                            <li>• Background wells are empty</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof4')"
+                                           :checked="isCompleted('dayof4')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Remove Growth Medium</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Using multichannel pipette, remove all but 20 µL of growth medium from each well.</p>
+
+                                        <div class="bg-gray-50 p-3 rounded mt-2">
+                                            <p class="text-sm font-medium text-gray-700 mb-2">Proper Technique:</p>
+                                            <ul class="text-sm text-gray-600 space-y-1">
+                                                <li>1. Place plate on stable, flat surface</li>
+                                                <li>2. Slide pipette tips gently down well wall to bottom</li>
+                                                <li>3. Remove slowly (~60 µL from 80 µL starting volume)</li>
+                                                <li>4. Leave 20 µL minimum to prevent cells from drying</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof5')"
+                                           :checked="isCompleted('dayof5')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">First Wash</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Add 200 µL of warmed assay medium to each well.</p>
+                                        <p class="text-gray-600 text-sm mt-2">Dispense gently along upper well wall (not directly onto cells).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof6')"
+                                           :checked="isCompleted('dayof6')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Remove First Wash</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Remove all but 20 µL of wash medium.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof7')"
+                                           :checked="isCompleted('dayof7')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Second Wash</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Add 200 µL of assay medium to each well.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof8')"
+                                           :checked="isCompleted('dayof8')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Remove Second Wash and Add Final Volume</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Remove all but 20 µL, then add 160 µL of assay medium for final volume of 180 µL/well.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof9')"
+                                           :checked="isCompleted('dayof9')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Check Cells Post-Wash</h4>
+                                        <p class="text-gray-600 text-sm mt-1">View cells under microscope to ensure monolayer is intact.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof10')"
+                                           :checked="isCompleted('dayof10')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Incubate Cells</h4>
+                                        <p class="text-gray-600 text-sm mt-1 font-medium">Incubate at 37°C in non-CO₂ incubator for 60 minutes.</p>
+                                        <div class="bg-yellow-50 p-2 rounded mt-2">
+                                            <p class="text-sm text-yellow-800">This step is critical for CO₂ equilibration and accurate ECAR measurements!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part C: Compound Preparation -->
+                    <div>
+                        <h3 class="text-xl font-semibold text-cyan-700 mb-3">Part C: Prepare Compounds</h3>
+
+                        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 mb-4">
+                            <p class="text-sm font-semibold text-yellow-800">⚠️ Use compounds same day only!</p>
+                            <p class="text-sm text-yellow-700 mt-1">Do not refreeze reconstituted compounds. Discard any unused material.</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof11')"
+                                           :checked="isCompleted('dayof11')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Prepare Stock Solutions</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Open one foil pouch and reconstitute compounds with assay medium:</p>
+
+                                        <div class="bg-gray-50 p-3 rounded mt-2">
+                                            <table class="w-full text-sm">
+                                                <thead class="bg-cyan-100">
+                                                    <tr>
+                                                        <th class="p-2 text-left">Compound</th>
+                                                        <th class="p-2 text-left">Cap Color</th>
+                                                        <th class="p-2 text-left">Add Media</th>
+                                                        <th class="p-2 text-left">Stock Conc.</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="text-gray-700">
+                                                    <tr class="border-b">
+                                                        <td class="p-2">Oligomycin</td>
+                                                        <td class="p-2"><span class="bg-blue-500 text-white px-2 py-1 rounded text-xs">Blue</span></td>
+                                                        <td class="p-2 font-medium">630 µL</td>
+                                                        <td class="p-2">100 µM</td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="p-2">FCCP</td>
+                                                        <td class="p-2"><span class="bg-yellow-400 text-gray-800 px-2 py-1 rounded text-xs">Yellow</span></td>
+                                                        <td class="p-2 font-medium">720 µL</td>
+                                                        <td class="p-2">100 µM</td>
+                                                    </tr>
+                                                    <tr class="border-b">
+                                                        <td class="p-2">Rotenone/Antimycin A</td>
+                                                        <td class="p-2"><span class="bg-red-500 text-white px-2 py-1 rounded text-xs">Red</span></td>
+                                                        <td class="p-2 font-medium">540 µL</td>
+                                                        <td class="p-2">50 µM</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="mt-2 text-sm text-gray-600">
+                                            <p class="font-medium">Reconstitution technique:</p>
+                                            <ol class="ml-4 mt-1 space-y-1">
+                                                <li>1. Use decapper tool to remove caps</li>
+                                                <li>2. Use narrow p1000 tips for accurate pipetting</li>
+                                                <li>3. Pipette up and down ~10 times to dissolve</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof12')"
+                                           :checked="isCompleted('dayof12')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Prepare Working Solutions (User's Protocol)</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Dilute stock solutions to working concentrations in assay medium:</p>
+
+                                        <div class="bg-blue-50 p-3 rounded mt-2">
+                                            <p class="text-sm font-medium text-blue-900 mb-2">User's Specific Dilutions (for 3 mL each):</p>
+
+                                            <div class="space-y-3">
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="font-medium text-sm">Oligomycin (Port A): 30 µM working stock</p>
+                                                    <p class="text-xs text-gray-600 mt-1">• From 12 mM stock → 30 µM working</p>
+                                                    <p class="text-xs text-gray-600">• 7.5 µL stock + 3,000 µL assay media</p>
+                                                    <p class="text-xs text-gray-600">• Load 20 µL per well in Port A</p>
+                                                </div>
+
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="font-medium text-sm">FCCP (Port B): 15 µM working stock</p>
+                                                    <p class="text-xs text-gray-600 mt-1">• From 40 mM stock → 15 µM working</p>
+                                                    <p class="text-xs text-gray-600">• 1.125 µL stock + 3,000 µL assay media</p>
+                                                    <p class="text-xs text-gray-600">• Load 22 µL per well in Port B</p>
+                                                </div>
+
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="font-medium text-sm">Rotenone/Antimycin A (Port C): 60 µM working stock</p>
+                                                    <p class="text-xs text-gray-600 mt-1">• From 10 mM stock → 60 µM working</p>
+                                                    <p class="text-xs text-gray-600">• 18 µL stock + 3,000 µL assay media</p>
+                                                    <p class="text-xs text-gray-600">• Load 25 µL per well in Port C</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-yellow-50 p-2 rounded mt-2">
+                                            <p class="text-xs text-yellow-800"><strong>Note:</strong> These concentrations are user-specific. Standard protocol uses different concentrations (1.5 µM oligomycin, 0.5-1.0 µM FCCP, 0.5 µM Rot/AA).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-4">
+                                <div class="flex items-start">
+                                    <input type="checkbox"
+                                           @click="toggleStep('dayof13')"
+                                           :checked="isCompleted('dayof13')"
+                                           class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                                    <div class="flex-1">
+                                        <h4 class="font-semibold text-gray-800">Load Sensor Cartridge Ports</h4>
+                                        <p class="text-gray-600 text-sm mt-1">Using multichannel pipette, load compounds into injection ports:</p>
+
+                                        <div class="bg-gray-50 p-3 rounded mt-2">
+                                            <div class="grid grid-cols-3 gap-2 text-center mb-3">
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="text-xs font-medium">Port A</p>
+                                                    <p class="text-lg font-bold text-cyan-700">Oligo</p>
+                                                    <p class="text-xs text-gray-600">20 µL</p>
+                                                </div>
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="text-xs font-medium">Port B</p>
+                                                    <p class="text-lg font-bold text-cyan-700">FCCP</p>
+                                                    <p class="text-xs text-gray-600">22 µL</p>
+                                                </div>
+                                                <div class="bg-white p-2 rounded border">
+                                                    <p class="text-xs font-medium">Port C</p>
+                                                    <p class="text-lg font-bold text-cyan-700">Rot/AA</p>
+                                                    <p class="text-xs text-gray-600">25 µL</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="text-sm text-gray-600 space-y-1">
+                                                <p class="font-medium">Loading Tips:</p>
+                                                <ul class="ml-4 space-y-1">
+                                                    <li>• Load from left to right (A → B → C)</li>
+                                                    <li>• Pipette slowly to avoid bubbles</li>
+                                                    <li>• Ensure each port is completely filled</li>
+                                                    <li>• Check for bubbles - remove if present</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Running Assay Section -->
+            <div x-show="activeSection === 'running'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Running the Assay</h2>
+
+                <div class="space-y-4">
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run1')"
+                                   :checked="isCompleted('run1')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Open Wave Software</h3>
+                                <p class="text-gray-600 text-sm mt-1">Browse for and open your saved assay design file.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run2')"
+                                   :checked="isCompleted('run2')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Start Calibration</h3>
+                                <p class="text-gray-600 text-sm mt-1">Click "Run" or "Start Run" and follow prompts.</p>
+                                <p class="text-gray-600 text-sm mt-2">Place loaded sensor cartridge with calibrant plate into analyzer.</p>
+                                <div class="bg-yellow-50 p-2 rounded mt-2">
+                                    <p class="text-sm text-yellow-800">⏱️ Calibration takes 15-30 minutes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run3')"
+                                   :checked="isCompleted('run3')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Check Cell Plate</h3>
+                                <p class="text-gray-600 text-sm mt-1">During calibration, verify cells under microscope one final time.</p>
+                                <p class="text-gray-600 text-sm mt-2">Ensure no evaporation or contamination has occurred.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run4')"
+                                   :checked="isCompleted('run4')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Load Cell Plate</h3>
+                                <p class="text-gray-600 text-sm mt-1">When prompted after calibration, replace calibrant plate with cell culture microplate.</p>
+                                <p class="text-gray-600 text-sm mt-2">Click "Start" or "I'm ready" to begin assay.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run5')"
+                                   :checked="isCompleted('run5')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Monitor Assay Progress</h3>
+                                <p class="text-gray-600 text-sm mt-1">Assay typically runs 90-120 minutes.</p>
+                                <div class="bg-gray-50 p-3 rounded mt-2">
+                                    <p class="text-sm font-medium text-gray-700 mb-2">Expected Assay Timeline:</p>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Basal measurements: ~20 min</li>
+                                        <li>• Oligomycin response: ~20 min</li>
+                                        <li>• FCCP response: ~20 min</li>
+                                        <li>• Rotenone/Antimycin A response: ~20 min</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-l-4 border-cyan-600 pl-4">
+                        <div class="flex items-start">
+                            <input type="checkbox"
+                                   @click="toggleStep('run6')"
+                                   :checked="isCompleted('run6')"
+                                   class="mt-1 mr-3 h-5 w-5 text-cyan-600 cursor-pointer">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-gray-800">Collect Assay Data</h3>
+                                <p class="text-gray-600 text-sm mt-1">When assay completes, export data file from Wave software.</p>
+                                <p class="text-gray-600 text-sm mt-2">Save plate for normalization if needed (protein, DNA, or cell count).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-blue-50 p-4 rounded">
+                    <p class="font-semibold text-blue-900 mb-2">🔍 What to Expect:</p>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• <strong>Basal OCR:</strong> Steady oxygen consumption at baseline</li>
+                        <li>• <strong>After Oligomycin:</strong> OCR decreases (ATP-linked respiration blocked)</li>
+                        <li>• <strong>After FCCP:</strong> OCR increases to maximum (uncoupled respiration)</li>
+                        <li>• <strong>After Rot/AA:</strong> OCR drops to near zero (mitochondrial respiration shut down)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Data Analysis Section -->
+            <div x-show="activeSection === 'analysis'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Data Analysis</h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">Seahorse XF Mito Stress Test Report Generator</h3>
+                        <p class="text-gray-600 mb-3">
+                            The Seahorse XF Mito Stress Test Report Generator automatically calculates mitochondrial parameters from exported Wave data.
+                        </p>
+
+                        <div class="bg-gray-50 p-4 rounded">
+                            <p class="font-medium text-gray-700 mb-2">Steps:</p>
+                            <ol class="text-sm text-gray-600 space-y-2 ml-4">
+                                <li>1. Export assay data from Wave to Excel format</li>
+                                <li>2. Open Seahorse XF Mito Stress Test Report Generator</li>
+                                <li>3. Load exported Excel file</li>
+                                <li>4. Review automatically calculated parameters</li>
+                                <li>5. Export report (PDF or Excel)</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">Key Parameters Calculated</h3>
+
+                        <div class="space-y-3">
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">Basal Respiration</p>
+                                <p class="text-sm text-gray-600">Baseline oxygen consumption before any compound injection. Reflects cellular ATP demand under baseline conditions.</p>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">ATP Production</p>
+                                <p class="text-sm text-gray-600">Decrease in OCR after oligomycin injection. Represents respiration dedicated to ATP synthesis.</p>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">Proton Leak</p>
+                                <p class="text-sm text-gray-600">OCR remaining after oligomycin that is not coupled to ATP production. Can indicate mitochondrial damage.</p>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">Maximal Respiration</p>
+                                <p class="text-sm text-gray-600">Maximum OCR achieved after FCCP injection. Shows maximum capacity of electron transport chain.</p>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">Spare Respiratory Capacity</p>
+                                <p class="text-sm text-gray-600">Difference between maximal and basal respiration. Indicates ability to respond to increased energy demand.</p>
+                            </div>
+
+                            <div class="border-l-4 border-cyan-600 pl-3">
+                                <p class="font-semibold text-gray-800">Non-mitochondrial Respiration</p>
+                                <p class="text-sm text-gray-600">OCR remaining after rotenone/antimycin A. Represents oxygen consumption by non-mitochondrial enzymes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">Data Quality Checks</h3>
+
+                        <div class="bg-yellow-50 p-4 rounded">
+                            <p class="font-semibold text-yellow-900 mb-2">Review these quality metrics:</p>
+                            <ul class="text-sm text-yellow-800 space-y-1">
+                                <li>• <strong>Background wells:</strong> Should show minimal, consistent OCR</li>
+                                <li>• <strong>Coefficient of variation (CV):</strong> Should be &lt;15% for replicates</li>
+                                <li>• <strong>FCCP response:</strong> Should show clear increase in OCR</li>
+                                <li>• <strong>Rotenone/AA response:</strong> Should reduce OCR to near baseline</li>
+                                <li>• <strong>Edge effects:</strong> Check if edge wells differ significantly from center wells</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-3">Normalization</h3>
+                        <p class="text-gray-600 mb-3">
+                            To account for differences in cell number between wells, normalize OCR data to:
+                        </p>
+                        <ul class="text-sm text-gray-600 space-y-1 ml-4">
+                            <li>• Total protein content (BCA or Bradford assay)</li>
+                            <li>• DNA content (PicoGreen or similar)</li>
+                            <li>• Cell count (automated counting or manual)</li>
+                            <li>• Imaging-based cell quantification (e.g., BioTek Cytation)</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-blue-50 p-4 rounded">
+                        <p class="font-semibold text-blue-900 mb-2">📚 Resources:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• Agilent Cell Analysis Learning Center: <span class="text-xs">www.agilent.com/en/products/cell-analysis</span></li>
+                            <li>• Reference: Divakaruni et al. (2014) Methods in Enzymology, Vol 547, Chapter 16</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting Section -->
+            <div x-show="activeSection === 'troubleshooting'" class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Troubleshooting</h2>
+
+                <div class="space-y-4">
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: High variability between replicates (CV &gt;20%)</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Uneven cell seeding:</strong> Ensure cells are thoroughly mixed before and during seeding. Remix cell suspension every 8-12 wells.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Cell damage during washing:</strong> Use gentle technique, never vacuum aspirator. Leave 20 µL minimum between washes.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Edge effects:</strong> Ensure 30-min room temp rest after seeding. Use properly humidified incubator.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: No response to FCCP</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>FCCP concentration too low:</strong> Perform FCCP titration (0.125-2.0 µM) to find optimal concentration for your cell type.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>FCCP concentration too high:</strong> Excessive FCCP can inhibit respiration. Try lower concentration.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Degraded FCCP:</strong> Prepare fresh working solution. Do not reuse reconstituted compounds.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: High background OCR in empty wells</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Cells in background wells:</strong> Verify background wells (A1, A12, H1, H12) contain no cells under microscope.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Contaminated medium:</strong> Use fresh, sterile assay medium. Filter if necessary.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: Low or no basal respiration</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Too few cells:</strong> Increase seeding density. Optimal range is typically 10,000-20,000 cells/well.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Unhealthy cells:</strong> Check cell viability and morphology before seeding. Use cells at optimal passage number.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Insufficient substrate:</strong> Verify assay medium contains glucose, glutamine, and pyruvate at recommended concentrations.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: Incomplete inhibition by rotenone/antimycin A</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>High non-mitochondrial respiration:</strong> This is normal for some cell types. Remaining OCR represents non-mitochondrial oxygen consumption.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Insufficient compound delivery:</strong> Verify ports loaded correctly and compounds diluted properly.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-lg overflow-hidden">
+                        <div class="bg-red-50 px-4 py-3 border-b border-red-200">
+                            <p class="font-semibold text-red-900">Problem: Cells detached during washing</p>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-sm font-medium text-gray-700 mb-2">Possible Causes & Solutions:</p>
+                            <ul class="text-sm text-gray-600 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Aggressive pipetting:</strong> Dispense media gently along well wall, never directly onto cells.
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Weakly adherent cells:</strong> Use "gentle washing" method with smaller volumes (see protocol for details).
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-600 mr-2 flex-shrink-0">•</span>
+                                    <div>
+                                        <strong>Cells not fully adhered:</strong> Allow longer incubation time after seeding (up to 48 hours for some cell types).
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-blue-50 p-4 rounded">
+                    <p class="font-semibold text-blue-900 mb-2">💡 Additional Resources:</p>
+                    <ul class="text-sm text-blue-800 space-y-1">
+                        <li>• Agilent Cell Analysis Technical Support: Contact for specific troubleshooting</li>
+                        <li>• Cell Line Reference Database: Check optimal conditions for your cell type</li>
+                        <li>• Agilent Learning Center: Basic procedures and best practices guides</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white mt-12 py-6">
+            <div class="container mx-auto px-4 text-center">
+                <p class="text-sm">Dasgupta lab protocols; compiled and adapted by Roman</p>
+                <p class="text-xs text-gray-400 mt-2">Emory University</p>
+                <div class="mt-4">
+                    <a href="index.html" class="text-cyan-400 hover:text-cyan-300 text-sm">← Back to Protocol Index</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
