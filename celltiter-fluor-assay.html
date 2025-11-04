@@ -69,6 +69,11 @@
                             class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
                         Plate Preparation
                     </button>
+                    <button @click="activeSection = 'dose-response'"
+                            :class="activeSection === 'dose-response' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
+                            class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
+                        IC50/Dose-Response
+                    </button>
                     <button @click="activeSection = 'protocol'"
                             :class="activeSection === 'protocol' ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700'"
                             class="px-4 py-2 rounded-lg whitespace-nowrap hover:bg-indigo-500 hover:text-white transition">
@@ -515,6 +520,454 @@
                                     <p>• Columns 6-11: Compound treatments (serial dilutions or different compounds)</p>
                                     <p>• Include media-only wells for background subtraction</p>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IC50/Dose-Response Section -->
+            <div x-show="activeSection === 'dose-response'" class="space-y-6">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">IC50 Determination & Dose-Response Protocol</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        This protocol describes how to perform drug dose-response experiments using the CellTiter-Fluor™ assay
+                        to determine IC50 values (half-maximal inhibitory concentration). The example shown uses SCD inhibitor
+                        but is applicable to any compound.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="font-semibold text-blue-900 mb-2">Experiment Timeline:</p>
+                        <ul class="text-sm text-blue-800 space-y-1">
+                            <li>• <strong>Day 0:</strong> Plate 2,000 cells/well in 100 µL media (24h attachment)</li>
+                            <li>• <strong>Day 1 (+24h):</strong> Add/replace with inhibitor-containing media (21h treatment)</li>
+                            <li>• <strong>Day 2 (+45h total):</strong> CellTiter-Fluor™ assay readout</li>
+                        </ul>
+                    </div>
+
+                    <!-- Plate Layout -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Recommended Plate Layout for IC50 Experiments</h3>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-gray-900 mb-3 text-center">Dose-Response Plate Configuration</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-xs border-collapse">
+                                    <thead>
+                                        <tr class="bg-gray-200">
+                                            <th class="border border-gray-400 px-2 py-1"></th>
+                                            <th class="border border-gray-400 px-2 py-1">1</th>
+                                            <th class="border border-gray-400 px-2 py-1">2</th>
+                                            <th class="border border-gray-400 px-2 py-1">3</th>
+                                            <th class="border border-gray-400 px-2 py-1">4</th>
+                                            <th class="border border-gray-400 px-2 py-1">5</th>
+                                            <th class="border border-gray-400 px-2 py-1">6</th>
+                                            <th class="border border-gray-400 px-2 py-1">7</th>
+                                            <th class="border border-gray-400 px-2 py-1">8</th>
+                                            <th class="border border-gray-400 px-2 py-1">9</th>
+                                            <th class="border border-gray-400 px-2 py-1">10</th>
+                                            <th class="border border-gray-400 px-2 py-1">11</th>
+                                            <th class="border border-gray-400 px-2 py-1">12</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">A</td>
+                                            <td colspan="12" class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS (200 µL)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">B</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-yellow-100 text-center">0</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">1.56</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">3.13</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">6.25</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">12.5</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">25</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">50</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">100</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">200</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">400</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">C</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                            <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">6 replicates per concentration →</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">D-F</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                            <td colspan="10" class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">Same pattern (rows B-G)</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">G</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-yellow-100 text-center">0</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">1.56</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">3.13</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center text-xs">6.25</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">12.5</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">25</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">50</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">100</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">200</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-green-100 text-center">400</td>
+                                            <td class="border border-gray-400 px-2 py-2 bg-blue-200 text-center">PBS</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-gray-400 px-2 py-2 font-bold bg-gray-200">H</td>
+                                            <td colspan="12" class="border border-gray-400 px-2 py-2 bg-blue-200 text-center font-semibold">PBS (200 µL)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-3 grid md:grid-cols-3 gap-2 text-xs">
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-blue-200 border border-gray-400 mr-2"></div>
+                                    <span>PBS (perimeter)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-yellow-100 border border-gray-400 mr-2"></div>
+                                    <span>Vehicle control (0 µM)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-4 h-4 bg-green-100 border border-gray-400 mr-2"></div>
+                                    <span>Inhibitor concentrations</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <p class="font-semibold text-indigo-900 mb-2">Design Features:</p>
+                            <ul class="text-sm text-indigo-800 space-y-1">
+                                <li>• <strong>10 concentrations:</strong> 0 (vehicle), 1.5625, 3.125, 6.25, 12.5, 25, 50, 100, 200, 400 µM</li>
+                                <li>• <strong>2-fold serial dilutions:</strong> 256-fold concentration range</li>
+                                <li>• <strong>6 technical replicates:</strong> Per concentration (robust statistics)</li>
+                                <li>• <strong>60 experimental wells:</strong> One complete dose-response curve per plate</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- CRITICAL: DMSO Concentration -->
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">⚠️ CRITICAL: DMSO Concentration Management</h3>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
+                            <p class="font-semibold text-red-800 mb-2">Vehicle Matching is Essential!</p>
+                            <p class="text-sm text-red-700">
+                                <strong>ALL wells must have the SAME DMSO concentration</strong>, including the vehicle control (0 µM inhibitor).
+                                Unmatched DMSO will introduce cytotoxicity artifacts and invalidate your IC50 determination.
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                            <p class="font-semibold text-gray-900 mb-3">Example: SCD Inhibitor Stock at 1 mM in DMSO</p>
+
+                            <table class="w-full text-sm mb-3">
+                                <thead class="bg-gray-200">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Method</th>
+                                        <th class="px-3 py-2 text-left">Highest Conc Needed</th>
+                                        <th class="px-3 py-2 text-left">Dilution from 1 mM</th>
+                                        <th class="px-3 py-2 text-left">Final DMSO %</th>
+                                        <th class="px-3 py-2 text-left">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y">
+                                    <tr>
+                                        <td class="px-3 py-2">1X stocks (replacement)</td>
+                                        <td class="px-3 py-2">400 µM</td>
+                                        <td class="px-3 py-2">1:2.5</td>
+                                        <td class="px-3 py-2"><strong>0.4%</strong></td>
+                                        <td class="px-3 py-2 text-green-700">✓ Safe</td>
+                                    </tr>
+                                    <tr class="bg-red-50">
+                                        <td class="px-3 py-2">2X stocks (addition)</td>
+                                        <td class="px-3 py-2">800 µM</td>
+                                        <td class="px-3 py-2">1:1.25</td>
+                                        <td class="px-3 py-2"><strong>0.8%</strong></td>
+                                        <td class="px-3 py-2 text-red-700">⚠ Exceeds 0.5% limit!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="bg-yellow-50 border-2 border-yellow-400 p-3 rounded">
+                                <p class="font-semibold text-yellow-900 mb-2">Solution: Make 2 mM Stock</p>
+                                <p class="text-sm text-yellow-800">
+                                    If preparing 2 mM stock in DMSO instead of 1 mM, then 800 µM = 1:2.5 dilution → 0.4% DMSO (safe for both methods)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="font-semibold text-blue-900 mb-2">DMSO Guidelines:</p>
+                            <ul class="text-sm text-blue-800 space-y-1">
+                                <li>• Keep final DMSO ≤ <strong>0.5%</strong> to avoid toxicity</li>
+                                <li>• Match DMSO in vehicle control to highest treatment concentration</li>
+                                <li>• Test vehicle control separately first to verify no DMSO toxicity</li>
+                                <li>• If &gt;0.5% DMSO needed, prepare more concentrated inhibitor stock</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Day-by-Day Protocol -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-semibold text-gray-800">Complete 3-Day Protocol</h3>
+
+                        <!-- Day 0 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-lg font-semibold text-gray-800">Day 0: Cell Plating (2,000 cells/well)</h4>
+                                <button @click="toggleStep('dr-day0')"
+                                        :class="isCompleted('dr-day0') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('dr-day0') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Fill perimeter wells with 200 µL PBS (rows A, H, columns 1, 12)</li>
+                                <li>Prepare cell suspension at 20,000 cells/mL in appropriate media:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Use serum-containing media if cells normally grow in serum</li>
+                                        <li>Use serum-free media if cells normally grow serum-free</li>
+                                    </ul>
+                                </li>
+                                <li>Add <strong>100 µL cell suspension</strong> (2,000 cells) to working wells (rows B-G, columns 2-11)</li>
+                                <li>Gently tap plate to distribute cells evenly</li>
+                                <li>Incubate at 37°C, 5% CO₂ for <strong>24 hours</strong> (allow attachment)</li>
+                            </ol>
+
+                            <div class="bg-blue-50 p-3 rounded-lg mt-3">
+                                <p class="text-sm font-semibold text-blue-900">Note on Cell Density:</p>
+                                <p class="text-xs text-blue-800 mt-1">
+                                    2,000 cells/well in 100 µL is typical for fast-growing adherent cells. After 45h total (24h + 21h),
+                                    cells should be in log phase (~50-70% confluent). Adjust if needed for your cell line.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Day 1 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-lg font-semibold text-gray-800">Day 1: Inhibitor Treatment (+24h from plating)</h4>
+                                <button @click="toggleStep('dr-day1')"
+                                        :class="isCompleted('dr-day1') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('dr-day1') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <div class="bg-purple-50 border-2 border-purple-300 p-4 rounded-lg mb-4">
+                                <p class="font-semibold text-purple-900 mb-2">Key Principle: Treatment in Serum-FREE Media</p>
+                                <p class="text-sm text-purple-800">
+                                    <strong>All inhibitor treatments are performed in serum-FREE media</strong>, regardless of whether cells
+                                    were initially grown in serum or serum-free conditions. This prevents serum protein interference with drug activity.
+                                </p>
+                            </div>
+
+                            <div class="mb-4">
+                                <p class="font-semibold text-gray-900 mb-2">Choose Method Based on Initial Growth Conditions:</p>
+                            </div>
+
+                            <!-- Method A: Serum cells -->
+                            <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                                <p class="font-semibold text-gray-900 mb-2">Method A: Cells Initially Grown in SERUM Media (Replacement)</p>
+                                <p class="text-sm text-gray-700 mb-3">Remove serum media and replace with serum-FREE media containing inhibitor</p>
+
+                                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                    <li>Prepare 1X inhibitor stocks in serum-FREE media (1,500 µL per concentration)
+                                        <ul class="list-disc list-inside ml-5 mt-1">
+                                            <li>10 tubes: 0, 1.5625, 3.125, 6.25, 12.5, 25, 50, 100, 200, 400 µM</li>
+                                            <li>Ensure all have matched DMSO (e.g., 0.4%)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Remove all serum media from experimental wells using multichannel pipette or aspirator</li>
+                                    <li>Immediately add <strong>200 µL</strong> of serum-free media with 1X inhibitor to each well:
+                                        <ul class="list-disc list-inside ml-5 mt-1">
+                                            <li>Column 2: 0 µM (vehicle control with DMSO)</li>
+                                            <li>Columns 3-11: Serial dilutions (1.5625 → 400 µM)</li>
+                                        </ul>
+                                    </li>
+                                    <li>Gently tap plate to mix</li>
+                                    <li>Incubate at 37°C, 5% CO₂ for <strong>21 hours</strong></li>
+                                </ol>
+
+                                <div class="bg-blue-100 p-2 rounded mt-2">
+                                    <p class="text-xs text-blue-900"><strong>Final volume:</strong> 200 µL at 1X concentration in serum-FREE media</p>
+                                </div>
+                            </div>
+
+                            <!-- Method B: Serum-free cells -->
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="font-semibold text-gray-900 mb-2">Method B: Cells Initially Grown in SERUM-FREE Media (Addition)</p>
+                                <p class="text-sm text-gray-700 mb-3">Add inhibitor to existing serum-free media (dilutes 1:2)</p>
+
+                                <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                    <li>Prepare 2X inhibitor stocks in serum-free media (750 µL per concentration)
+                                        <ul class="list-disc list-inside ml-5 mt-1">
+                                            <li>10 tubes: 0, 3.125, 6.25, 12.5, 25, 50, 100, 200, 400, 800 µM (2X final)</li>
+                                            <li>Ensure all have matched DMSO</li>
+                                        </ul>
+                                    </li>
+                                    <li>Add <strong>100 µL</strong> of 2X inhibitor stock to existing 100 µL in each well:
+                                        <ul class="list-disc list-inside ml-5 mt-1">
+                                            <li>Column 2: 0 µM (vehicle control with DMSO)</li>
+                                            <li>Columns 3-11: Serial dilutions</li>
+                                        </ul>
+                                    </li>
+                                    <li>Gently tap plate to mix (inhibitor dilutes 1:2 to final 1X concentration)</li>
+                                    <li>Incubate at 37°C, 5% CO₂ for <strong>21 hours</strong></li>
+                                </ol>
+
+                                <div class="bg-blue-100 p-2 rounded mt-2">
+                                    <p class="text-xs text-blue-900"><strong>Final volume:</strong> 200 µL at 1X concentration in serum-free media</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day 2 -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-lg font-semibold text-gray-800">Day 2: CellTiter-Fluor™ Assay (+21h treatment, +45h total)</h4>
+                                <button @click="toggleStep('dr-day2')"
+                                        :class="isCompleted('dr-day2') ? 'bg-green-500' : 'bg-gray-300'"
+                                        class="px-3 py-1 rounded text-white text-sm">
+                                    <span x-text="isCompleted('dr-day2') ? '✓ Done' : 'Mark Done'"></span>
+                                </button>
+                            </div>
+
+                            <ol class="list-decimal list-inside space-y-2 text-sm text-gray-700">
+                                <li>Remove plate from incubator</li>
+                                <li>Check cells under microscope (optional):
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Should see dose-dependent cell death</li>
+                                        <li>Vehicle control (column 2) should show healthy cells</li>
+                                        <li>High concentrations (columns 10-11) should show cell rounding/death</li>
+                                    </ul>
+                                </li>
+                                <li>Prepare CellTiter-Fluor™ reagent (1:1000 dilution): 1.65 µL substrate + 1.65 mL buffer</li>
+                                <li>Add <strong>25 µL</strong> CellTiter-Fluor™ reagent to each well (including PBS perimeter)</li>
+                                <li>Mix gently by tapping plate</li>
+                                <li>Cover with foil and incubate at 37°C for <strong>1.5-2 hours</strong></li>
+                                <li>Read fluorescence:
+                                    <ul class="list-disc list-inside ml-5 mt-1">
+                                        <li>Excitation: 380-400 nm</li>
+                                        <li>Emission: 505 nm</li>
+                                        <li>Record raw fluorescence values</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Data Analysis for IC50 -->
+                    <div class="mt-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Data Analysis & IC50 Calculation</h3>
+
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="font-semibold text-gray-900 mb-2">Step 1: Calculate Percent Viability</p>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                                    <li>For each concentration, calculate mean fluorescence of 6 replicates</li>
+                                    <li>Calculate % Viability = (Mean RFU at concentration / Mean RFU of vehicle control) × 100</li>
+                                    <li>Calculate standard deviation (SD) and standard error (SEM) for each concentration</li>
+                                </ol>
+                                <div class="bg-white p-2 rounded border border-gray-300 mt-2">
+                                    <p class="text-xs font-mono">Example: If vehicle control = 50,000 RFU and 25 µM = 25,000 RFU → 50% viability</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="font-semibold text-gray-900 mb-2">Step 2: Generate Dose-Response Curve</p>
+                                <p class="text-sm text-gray-700 mb-2">Plot log(concentration) vs. % viability and fit 4-parameter logistic curve:</p>
+                                <div class="bg-white p-3 rounded border border-gray-300">
+                                    <p class="text-xs text-gray-800 mb-2">4PL Equation:</p>
+                                    <p class="font-mono text-xs">Y = Bottom + (Top - Bottom) / [1 + 10^((LogIC50 - X) × HillSlope)]</p>
+                                </div>
+                                <ul class="text-sm text-gray-700 mt-2 space-y-1">
+                                    <li>• <strong>Top:</strong> Maximum viability (should be ~100%)</li>
+                                    <li>• <strong>Bottom:</strong> Minimum viability (baseline cell death)</li>
+                                    <li>• <strong>IC50:</strong> Concentration giving 50% viability</li>
+                                    <li>• <strong>Hill Slope:</strong> Steepness of curve</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <p class="font-semibold text-gray-900 mb-2">Step 3: Software Options for IC50 Calculation</p>
+                                <div class="grid md:grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <p class="font-semibold text-gray-800">GraphPad Prism (Recommended):</p>
+                                        <ul class="list-disc list-inside text-gray-700 ml-2 text-xs">
+                                            <li>XY analysis → Nonlinear regression</li>
+                                            <li>Choose: "log(inhibitor) vs. response"</li>
+                                            <li>Variable slope (4 parameters)</li>
+                                            <li>Automatically calculates IC50 with 95% CI</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800">R (drc package):</p>
+                                        <div class="bg-white p-2 rounded border border-gray-300 mt-1">
+                                            <pre class="text-xs font-mono text-gray-800">library(drc)
+model &lt;- drm(viability ~ conc,
+             fct = LL.4())
+ED(model, 50) # IC50</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <p class="font-semibold text-green-900 mb-2">Quality Control for IC50 Experiments:</p>
+                                <ul class="text-sm text-green-800 space-y-1">
+                                    <li>✓ <strong>CV% &lt; 10%</strong> for vehicle control replicates</li>
+                                    <li>✓ <strong>Sigmoid curve shape</strong> (not flat or irregular)</li>
+                                    <li>✓ <strong>R² &gt; 0.95</strong> for curve fit</li>
+                                    <li>✓ <strong>Vehicle control = 100%</strong> viability (±10%)</li>
+                                    <li>✓ <strong>Highest concentration</strong> shows near-complete death (&lt;20% viability)</li>
+                                    <li>✓ <strong>IC50 within tested range</strong> (not extrapolated)</li>
+                                    <li>✓ <strong>Hill slope = 1-2</strong> (typical range)</li>
+                                </ul>
+                            </div>
+
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+                                <p class="font-semibold text-yellow-900 mb-2">Interpreting IC50 Values:</p>
+                                <table class="w-full text-sm text-yellow-800">
+                                    <tr><td class="py-1"><strong>IC50 &lt; 1 µM:</strong></td><td>Highly potent inhibitor</td></tr>
+                                    <tr><td class="py-1"><strong>IC50 1-10 µM:</strong></td><td>Potent (good drug candidate)</td></tr>
+                                    <tr><td class="py-1"><strong>IC50 10-50 µM:</strong></td><td>Moderate activity</td></tr>
+                                    <tr><td class="py-1"><strong>IC50 &gt; 50 µM:</strong></td><td>Weak activity</td></tr>
+                                    <tr><td class="py-1"><strong>No plateau:</strong></td><td>Test higher concentrations or longer timepoint</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tips and Optimization -->
+                    <div class="bg-indigo-50 p-4 rounded-lg mt-6">
+                        <h3 class="text-lg font-semibold text-indigo-900 mb-3">Tips for Successful IC50 Experiments</h3>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm text-indigo-800">
+                            <div>
+                                <p class="font-semibold mb-2">Before First Experiment:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Test DMSO tolerance (vehicle-only wells)</li>
+                                    <li>Verify cell density gives ~50-70% confluence at readout</li>
+                                    <li>Choose concentration range based on literature</li>
+                                    <li>Test multiple timepoints if kinetics unknown (6h, 24h, 48h, 72h)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-2">For Refinement:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>After determining approximate IC50, narrow concentration range</li>
+                                    <li>Use 1.5-fold dilutions around IC50 for better resolution</li>
+                                    <li>Perform biological replicates (3+ independent experiments)</li>
+                                    <li>Report IC50 as mean ± SD from multiple experiments</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
